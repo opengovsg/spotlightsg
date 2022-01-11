@@ -15,7 +15,12 @@ import { HealthModule } from './health/health.module'
     OtpModule,
     MailerModule,
     SequelizeModule.forRoot({
-      dialect: 'sqlite', // TO-DO: change to production database dialect
+      dialect: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'jason',
+      password: '',
+      database: 'spotlight_db',
       autoLoadModels: true, // TO-DO: remove in production
       synchronize: true, // TO-DO: remove in production
     }),
