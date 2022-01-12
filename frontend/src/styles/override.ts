@@ -4,7 +4,6 @@ import {
   Theme,
   ThemeComponents,
 } from '@chakra-ui/react'
-import _ from 'lodash'
 
 // Copy palette from figma as needed
 const colors = {
