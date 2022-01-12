@@ -1,3 +1,3 @@
-export type OtpResponse = {
+export type MessageResponse = {
   message: string
 }

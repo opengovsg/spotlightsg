@@ -4,6 +4,7 @@ import { LOGGED_IN_KEY, useLocalStorage } from '~features/localStorage'
 
 type AuthContextProps = {
   isAuthenticated?: boolean
+  setIsAuthenticated: (isAuthenticated: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -31,10 +32,12 @@ export const useAuth = (): AuthContextProps => {
 
 // Provider hook that creates auth object and handles state
 const useProvideAuth = () => {
-  const [isAuthenticated] = useLocalStorage<boolean>(LOGGED_IN_KEY)
+  const [isAuthenticated, setIsAuthenticated] =
+    useLocalStorage<boolean>(LOGGED_IN_KEY)
 
   // Return the user object and auth methods
   return {
     isAuthenticated,
+    setIsAuthenticated,
   }
 }

@@ -2,7 +2,12 @@
 import { useState } from 'react'
 import { Button, Center, Input, VStack } from '@chakra-ui/react'
 
-import { requestOtpByEmail } from '~/services/SpotlightApi'
+import {
+  requestOtpByEmail,
+  veryfyOtpByEmail as verifyOtpByEmail,
+} from '~/services/SpotlightApi'
+
+import { useAuth } from '~features/auth'
 
 // Login has 2 phases
 const PHASES = {
@@ -10,17 +15,16 @@ const PHASES = {
   ENTER_OTP: 'enter_otp',
 }
 
-const Login: React.FC<Record<string, never>> = () => {
+const Login: React.FC = () => {
+  const { setIsAuthenticated } = useAuth()
   const [phase, setPhase] = useState(PHASES.ENTER_EMAIL)
   const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
 
   const onEmailSubmit = async () => {
     try {
-      //   await requestOtpByEmail({ email })
-      requestOtpByEmail({ email })
-      const aaa = await setPhase(PHASES.ENTER_OTP)
-      console.log(aaa)
+      await requestOtpByEmail({ email })
+      setPhase(PHASES.ENTER_OTP)
     } catch (error) {
       //   toastError(error)
     }
@@ -28,8 +32,8 @@ const Login: React.FC<Record<string, never>> = () => {
 
   const onOtpSubmit = async () => {
     try {
-      //   const credentials = await verifyOtpAndEmailForCredentials({ otp, email })
-      //   setAuthStateWithUser({ ...credentials.user, token: credentials.token })
+      await verifyOtpByEmail({ email, token: otp })
+      setIsAuthenticated(true)
     } catch (error) {
       // TODO: Reconsider this part as the error message is already shown under the otp input box
     }
@@ -46,9 +50,14 @@ const Login: React.FC<Record<string, never>> = () => {
     >
       <label>
         Enter your email
-        <Input />
+        <Input
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
       </label>
-      <Button colorScheme="primary">Login</Button>
+      <Button colorScheme="primary" type="submit">
+        Login
+      </Button>
     </form>
   )
 
@@ -61,9 +70,11 @@ const Login: React.FC<Record<string, never>> = () => {
     >
       <label>
         Enter your OTP
-        <Input />
+        <Input value={otp} onChange={(event) => setOtp(event.target.value)} />
       </label>
-      <Button colorScheme="primary">Submit</Button>
+      <Button colorScheme="primary" type="submit">
+        Submit
+      </Button>
     </form>
   )
 
