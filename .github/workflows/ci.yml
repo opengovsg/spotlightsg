@@ -37,8 +37,8 @@ jobs:
       postgres:
         image: postgres:12
         env:
-          POSTGRES_DB: ts_template_test
-          POSTGRES_USER: test
+          POSTGRES_DB: spotlight_db_test
+          POSTGRES_USER: spotlight_db_test_user
           POSTGRES_PASSWORD: test
         # Set health checks to wait until postgres has started
         options: >-
@@ -67,11 +67,11 @@ jobs:
       - name: Run tests and generate coverage
         run: npm run coverage
         env:
-          POSTGRES_DB: ts_template_test
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
+          DB_DATABASE: spotlight_db_test
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USERNAME: spotlight_db_test_user
+          DB_PASSWORD: test
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
