@@ -105,7 +105,7 @@ export const schema: Schema<ConfigSchema> = {
     },
     port: {
       doc: 'Database host',
-      env: 'DB_HOST',
+      env: 'DB_PORT',
       default: 5432,
       format: 'int',
     },

@@ -8,21 +8,25 @@ import { OtpModule } from 'otp/otp.module'
 import { MailerModule } from 'mailer/mailer.module'
 import { TerminusModule } from '@nestjs/terminus'
 import { HealthModule } from './health/health.module'
+import { ConfigService } from 'config/config.service'
 
 @Module({
   imports: [
     ConfigModule,
     OtpModule,
     MailerModule,
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'jason',
-      password: '',
-      database: 'spotlight_db',
-      autoLoadModels: true, // TO-DO: remove in production
-      synchronize: true, // TO-DO: remove in production
+    SequelizeModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        dialect: 'postgres',
+        host: config.get('db.host'),
+        port: config.get('db.port'),
+        username: config.get('db.username'),
+        password: config.get('db.password'),
+        database: config.get('db.database'),
+        autoLoadModels: true, // TO-DO: remove in production
+        synchronize: true, // TO-DO: remove in production
+      }),
     }),
     AuthModule,
     TerminusModule,
