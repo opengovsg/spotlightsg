@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
-import { Button, Center, Input, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Heading, Input, VStack } from '@chakra-ui/react'
 
 import {
   requestOtpByEmail,
@@ -48,16 +48,19 @@ const Login: React.FC = () => {
         onEmailSubmit()
       }}
     >
-      <label>
-        Enter your email
-        <Input
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-      </label>
-      <Button colorScheme="primary" type="submit">
-        Login
-      </Button>
+      <VStack align="start">
+        <label>
+          Enter your email
+          <Input
+            value={email}
+            type="email"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </label>
+        <Button colorScheme="primary" type="submit">
+          Login
+        </Button>
+      </VStack>
     </form>
   )
 
@@ -68,19 +71,26 @@ const Login: React.FC = () => {
         onOtpSubmit()
       }}
     >
-      <label>
-        Enter your OTP
-        <Input value={otp} onChange={(event) => setOtp(event.target.value)} />
-      </label>
-      <Button colorScheme="primary" type="submit">
-        Submit
-      </Button>
+      <VStack align="start">
+        <label>
+          Enter your OTP
+          <Input
+            value={otp}
+            type="number"
+            onChange={(event) => setOtp(event.target.value)}
+          />
+        </label>
+        <Button colorScheme="primary" type="submit">
+          Submit
+        </Button>
+      </VStack>
     </form>
   )
 
   return (
-    <Center>
+    <Center minH="80vh">
       <VStack align="start">
+        <Heading>Spotlight</Heading>
         {phase === PHASES.ENTER_EMAIL && emailForm}
         {phase === PHASES.ENTER_OTP && otpForm}
       </VStack>
