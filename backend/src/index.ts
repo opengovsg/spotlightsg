@@ -6,7 +6,7 @@ import { ConfigService } from 'config/config.service'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
-
+  app.enableCors()
   app.setGlobalPrefix('/api')
 
   const config = app.get(ConfigService)
