@@ -60,7 +60,7 @@ export const schema: Schema<ConfigSchema> = {
     doc: 'The AWS region for SES. Optional, logs mail to console if absent',
     env: 'AWS_REGION',
     format: '*',
-    default: '',
+    default: 'ap-southeast-1',
   },
   session: {
     name: {
