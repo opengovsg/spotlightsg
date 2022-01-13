@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 
 import baseConfig from './baseConfig'
-import { MessageResponse } from './types'
+import { MessageResponse, VerifyOtpByEmailResponse } from './types'
 
 export function requestOtpByEmail({
   email,
@@ -16,6 +16,6 @@ export function requestOtpByEmail({
 export function veryfyOtpByEmail(params: {
   email: string
   token: string
-}): Promise<AxiosResponse<MessageResponse>> {
-  return baseConfig.post<MessageResponse>('/auth/verify', params)
+}): Promise<AxiosResponse<VerifyOtpByEmailResponse>> {
+  return baseConfig.post<VerifyOtpByEmailResponse>('/auth/verify', params)
 }

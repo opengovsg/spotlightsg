@@ -19,7 +19,7 @@ export const PublicRoute = ({
   strict = true,
   ...rest
 }: PublicRouteProps): JSX.Element => {
-  const { isAuthenticated } = useAuth()
+  const { auth } = useAuth()
 
   const { state } = useLocation<{ from: Location | undefined }>()
 
@@ -27,7 +27,7 @@ export const PublicRoute = ({
     <Route
       {...rest}
       render={({ location }) =>
-        !!isAuthenticated && strict ? (
+        !!auth && strict ? (
           <Redirect
             to={{
               pathname: state?.from?.pathname ?? ROOT_ROUTE,

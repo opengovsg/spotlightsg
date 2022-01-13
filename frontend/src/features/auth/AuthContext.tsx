@@ -2,9 +2,11 @@ import { createContext, FC, useContext } from 'react'
 
 import { LOGGED_IN_KEY, useLocalStorage } from '~features/localStorage'
 
+import { Auth } from './types'
+
 type AuthContextProps = {
-  isAuthenticated?: boolean
-  setIsAuthenticated: (isAuthenticated: boolean) => void
+  auth?: Auth | null
+  setAuth: (auth: Auth | null) => void
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined)
@@ -32,12 +34,11 @@ export const useAuth = (): AuthContextProps => {
 
 // Provider hook that creates auth object and handles state
 const useProvideAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] =
-    useLocalStorage<boolean>(LOGGED_IN_KEY)
+  const [auth, setAuth] = useLocalStorage<Auth | null>(LOGGED_IN_KEY)
 
   // Return the user object and auth methods
   return {
-    isAuthenticated,
-    setIsAuthenticated,
+    auth,
+    setAuth,
   }
 }

@@ -40,7 +40,8 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('verify')
   async login(@Req() req: Request) {
-    return this.authService.login(req.user!)
+    const token = await this.authService.login(req.user!)
+    return { user: req.user, token }
   }
 
   @Get('test')

@@ -16,7 +16,7 @@ const PHASES = {
 }
 
 const Login: React.FC = () => {
-  const { setIsAuthenticated } = useAuth()
+  const { setAuth } = useAuth()
   const [phase, setPhase] = useState(PHASES.ENTER_EMAIL)
   const [email, setEmail] = useState('')
   const [otp, setOtp] = useState('')
@@ -32,8 +32,8 @@ const Login: React.FC = () => {
 
   const onOtpSubmit = async () => {
     try {
-      await verifyOtpByEmail({ email, token: otp })
-      setIsAuthenticated(true)
+      const auth = await verifyOtpByEmail({ email, token: otp })
+      setAuth(auth.data)
     } catch (error) {
       // TODO: Reconsider this part as the error message is already shown under the otp input box
     }

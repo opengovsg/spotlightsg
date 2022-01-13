@@ -1,20 +1,19 @@
-import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, ButtonGroup, Flex } from '@chakra-ui/react'
 
-import { LOGGED_IN_KEY, useLocalStorage } from '~features/localStorage'
+import { useAuth } from '~features/auth'
 
 const DashboardPage = (): JSX.Element => {
-  const [, setIsAuthenticated] = useLocalStorage<boolean>(LOGGED_IN_KEY)
+  const { auth, setAuth } = useAuth()
 
-  const logout = useCallback(() => {
-    setIsAuthenticated(undefined)
-  }, [setIsAuthenticated])
+  const logout = () => {
+    setAuth(null)
+  }
 
   return (
     <Flex flexDir="column">
-      YOU ARE NOW AUTHENTICATED. Replace this page with the root page of your
-      application.
+      YOU ARE NOW AUTHENTICATED as {auth?.user.email}. Replace this page with
+      the root page of your application.
       <ButtonGroup>
         <Button onClick={logout}>Logout</Button>
         <Button>
