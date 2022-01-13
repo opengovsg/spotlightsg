@@ -9,6 +9,9 @@ import { MailerModule } from 'mailer/mailer.module'
 import { TerminusModule } from '@nestjs/terminus'
 import { HealthModule } from './health/health.module'
 import { ConfigService } from 'config/config.service'
+import { JwtAuthGuard } from 'auth/jwt-auth.guard'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtStrategy } from 'auth/jwt.strategy'
 
 @Module({
   imports: [
@@ -31,6 +34,13 @@ import { ConfigService } from 'config/config.service'
     AuthModule,
     TerminusModule,
     HealthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    JwtStrategy,
   ],
 })
 export class AppModule implements NestModule {

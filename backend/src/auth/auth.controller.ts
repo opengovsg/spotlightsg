@@ -9,17 +9,17 @@ import {
   UseGuards,
   Get,
 } from '@nestjs/common'
-import { User } from 'database/models'
 import { Request, Response } from 'express'
+import { Public } from 'helper'
 import { AuthService } from './auth.service'
 import { GenerateOtpDto } from './dto'
-import { JwtAuthGuard } from './jwt-auth.guard'
 import { LocalAuthGuard } from './local-auth.guard'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post()
   async generateOtp(
     @Res() res: Response,
@@ -36,13 +36,13 @@ export class AuthController {
     }
   }
 
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('verify')
   async login(@Req() req: Request) {
-    return this.authService.login(req.user as User)
+    return this.authService.login(req.user!)
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('test')
   testLogin(@Req() req: Request) {
     return req.user
