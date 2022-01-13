@@ -1,17 +1,19 @@
 import { Injectable } from '@nestjs/common'
-import { GenerateOtpDto, VerifyOtpDto } from './dto/index'
+import { GenerateOtpDto } from './dto/index'
 import { User } from '../database/models'
 import { Logger } from '@nestjs/common'
 import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
 import { UsersService } from 'users/users.service'
+import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
   constructor(
     private otpService: OtpService,
     private mailerService: MailerService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private jwtService: JwtService
   ) {}
 
   async generateOtp(generateOtpDto: GenerateOtpDto): Promise<void> {
@@ -34,11 +36,17 @@ export class AuthService {
     return this.mailerService.sendMail(mail)
   }
 
-  async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<User | undefined> {
-    const { email, token } = verifyOtpDto
+  async verifyOtp(email: string, token: string): Promise<User | undefined> {
     const isVerified = this.otpService.verifyOtp(email, token)
     const user = isVerified ? this.usersService.findOrCreate(email) : undefined
 
     return user
+  }
+
+  async login(user: User) {
+    const payload = { username: user.email, sub: user.id }
+    return {
+      access_token: this.jwtService.sign(payload),
+    }
   }
 }
