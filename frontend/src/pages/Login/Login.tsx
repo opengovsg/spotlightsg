@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
-import { Box, Button, Center, Heading, Input, VStack } from '@chakra-ui/react'
+import { Button, Center, Heading, Input, VStack } from '@chakra-ui/react'
 
+import { useAuth } from '~/auth'
 import {
   requestOtpByEmail,
   veryfyOtpByEmail as verifyOtpByEmail,
 } from '~/services/SpotlightApi'
-
-import { useAuth } from '~features/auth'
 
 // Login has 2 phases
 const PHASES = {

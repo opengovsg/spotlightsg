@@ -1,6 +1,6 @@
 import { createContext, FC, useContext } from 'react'
 
-import { LOGGED_IN_KEY, useLocalStorage } from '~features/localStorage'
+import { LOGGED_IN_KEY, useLocalStorage } from '~/localStorage'
 
 import { Auth } from './types'
 

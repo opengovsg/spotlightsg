@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Button, ButtonGroup, Flex } from '@chakra-ui/react'
 
-import { useAuth } from '~features/auth'
+import { useAuth } from '~/auth'
 
 const DashboardPage = (): JSX.Element => {
   const { auth, setAuth } = useAuth()

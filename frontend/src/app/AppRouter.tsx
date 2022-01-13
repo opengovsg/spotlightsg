@@ -1,9 +1,9 @@
 import { Route, Switch } from 'react-router-dom'
 
-import DashboardPage from '~/features/dashboard/DashboardPage'
-import Login from '~/routes/Login/'
-
 import { LOGIN_ROUTE, ROOT_ROUTE } from '~constants/routes'
+
+import Dashboard from '~pages/Dashboard'
+import Login from '~pages/Login'
 
 import { PrivateRoute } from './PrivateRoute'
 import { PublicRoute } from './PublicRoute'
@@ -15,7 +15,7 @@ export const AppRouter = (): JSX.Element => {
         <Login />
       </PublicRoute>
       <PrivateRoute exact path={ROOT_ROUTE}>
-        <DashboardPage />
+        <Dashboard />
       </PrivateRoute>
       <Route path="*">
         <div>404</div>

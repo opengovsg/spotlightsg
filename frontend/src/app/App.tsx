@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 
-import { AuthProvider } from '~/features/auth'
+import { AuthProvider } from '~/auth'
 import override from '~/styles/override'
 
 import { AppRouter } from './AppRouter'

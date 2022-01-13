@@ -1,8 +1,8 @@
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
-import { LOGIN_ROUTE } from '~constants/routes'
+import { useAuth } from '~/auth'
 
-import { useAuth } from '~features/auth'
+import { LOGIN_ROUTE } from '~constants/routes'
 
 export const PrivateRoute = ({
   children,
