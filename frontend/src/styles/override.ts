@@ -5,6 +5,7 @@ import {
   Theme,
   ThemeComponents,
 } from '@chakra-ui/react'
+import { StyleFunctionProps } from '@chakra-ui/theme-tools'
 
 // Copy palette from figma as needed
 const colors = {
@@ -220,7 +221,7 @@ const styles = {
 
 const components: DeepPartial<ThemeComponents> = {
   Avatar: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       container: {
         bg: `${props.colorScheme}.500`,
         color: 'white',
@@ -270,7 +271,7 @@ const components: DeepPartial<ThemeComponents> = {
     },
   },
   Checkbox: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       control: {
         borderRadius: '4px',
         borderColor: `${props.colorScheme}.500`,
@@ -327,7 +328,7 @@ const components: DeepPartial<ThemeComponents> = {
     },
   },
   Modal: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       header: {
         background: `${props.colorScheme}.500`,
         color: 'white',
@@ -382,7 +383,7 @@ const components: DeepPartial<ThemeComponents> = {
     },
   },
   Switch: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       track: {
         _disabled: {
           _checked: {
@@ -393,7 +394,7 @@ const components: DeepPartial<ThemeComponents> = {
       },
     }),
     variants: {
-      coloredThumb: (props: Record<string, any>) => ({
+      coloredThumb: (props: StyleFunctionProps) => ({
         thumb: {
           background: `${props.colorScheme}.200`,
         },
@@ -424,7 +425,7 @@ const components: DeepPartial<ThemeComponents> = {
       },
     },
     variants: {
-      line: (props: Record<string, any>) => ({
+      line: (props: StyleFunctionProps) => ({
         tablist: {
           paddingBottom: '2px',
           borderColor: 'neutral.300',
@@ -486,7 +487,7 @@ const components: DeepPartial<ThemeComponents> = {
     },
   },
   Progress: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       filledTrack: {
         bgColor: `${props.colorScheme}.300`,
       },
@@ -496,7 +497,7 @@ const components: DeepPartial<ThemeComponents> = {
     }),
   },
   Radio: {
-    baseStyle: (props: Record<string, any>) => ({
+    baseStyle: (props: StyleFunctionProps) => ({
       label: {
         color: 'neutral.900',
       },

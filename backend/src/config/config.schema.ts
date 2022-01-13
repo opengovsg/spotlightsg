@@ -1,4 +1,4 @@
-import { Schema } from 'convict'
+import convict, { Schema } from 'convict'
 
 export interface ConfigSchema {
   port: number
@@ -11,8 +11,37 @@ export interface ConfigSchema {
     numValidPastWindows: number
     numValidFutureWindows: number
   }
+  db: {
+    host: string
+    username: string
+    password: string
+    port: number
+    database: string
+  }
   health: { heapSizeThreshold: number; rssThreshold: number }
 }
+
+/**
+ * To require an env var without setting a default,
+ * use
+ *    default: '',
+ *    format: 'required-string',
+ */
+convict.addFormats({
+  'required-string': {
+    validate: (val: any): void => {
+      if (val === '') {
+        throw new Error('Required value cannot be empty')
+      }
+    },
+    coerce: (val: any): any => {
+      if (val === null) {
+        return undefined
+      }
+      return val
+    },
+  },
+})
 
 export const schema: Schema<ConfigSchema> = {
   port: {
@@ -31,13 +60,13 @@ export const schema: Schema<ConfigSchema> = {
     doc: 'The AWS region for SES. Optional, logs mail to console if absent',
     env: 'AWS_REGION',
     format: '*',
-    default: '',
+    default: 'ap-southeast-1',
   },
   session: {
     name: {
       doc: 'Name of session ID cookie to set in response',
       env: 'SESSION_NAME',
-      default: 'ts-template',
+      default: 'sgspotlight',
       format: String,
     },
     secret: {
@@ -53,6 +82,38 @@ export const schema: Schema<ConfigSchema> = {
         format: 'int',
         default: 24 * 60 * 60 * 1000, // 24 hours
       },
+    },
+  },
+  db: {
+    host: {
+      doc: 'Database hostname',
+      env: 'DB_HOST',
+      default: 'localhost',
+      format: String,
+    },
+    username: {
+      doc: 'Database username',
+      env: 'DB_USERNAME',
+      default: '',
+      format: 'required-string',
+    },
+    password: {
+      doc: 'Database password',
+      env: 'DB_PASSWORD',
+      default: '',
+      format: String,
+    },
+    port: {
+      doc: 'Database host',
+      env: 'DB_PORT',
+      default: 5432,
+      format: 'int',
+    },
+    database: {
+      doc: 'Database host',
+      env: 'DB_HOST',
+      default: 'spotlight_db',
+      format: String,
     },
   },
   otp: {
