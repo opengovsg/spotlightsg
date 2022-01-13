@@ -1,21 +1,24 @@
-import { SearchIcon } from '@chakra-ui/icons'
+import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import {
+  Button,
   Container,
+  HStack,
   Input,
   InputGroup,
   InputLeftElement,
   VStack,
 } from '@chakra-ui/react'
 
+import { NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import Post from '~components/Post'
 
-const DashboardPage = (): JSX.Element => {
+const Dashboard = (): JSX.Element => {
   return (
     <>
       <AppHeader />
       <Container>
-        <VStack flexDir="column" py="30px">
+        <VStack align="start" py="30px">
           <InputGroup>
             <InputLeftElement
               pointerEvents="none"
@@ -23,6 +26,18 @@ const DashboardPage = (): JSX.Element => {
             />
             <Input type="tel" placeholder="Search..." />
           </InputGroup>
+          <HStack>
+            <Button
+              leftIcon={<AddIcon />}
+              colorScheme="primary"
+              variant="solid"
+              size="sm"
+              as="a"
+              href={NEW_POST_ROUTE}
+            >
+              New Post
+            </Button>
+          </HStack>
           <VStack align="stretch" w="full">
             <Post />
             <Post />
@@ -34,5 +49,4 @@ const DashboardPage = (): JSX.Element => {
   )
 }
 
-// Required to be default due to using dynamic import for lazy loading.
-export default DashboardPage
+export default Dashboard

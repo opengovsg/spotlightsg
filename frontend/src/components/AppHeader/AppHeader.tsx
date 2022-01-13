@@ -3,6 +3,8 @@ import { Button, HStack, Text } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
 
+import { ROOT_ROUTE } from '~constants/routes'
+
 const AppHeader: React.FC = () => {
   const { auth, setAuth } = useAuth()
 
@@ -20,7 +22,9 @@ const AppHeader: React.FC = () => {
       justify="space-between"
       align="center"
     >
-      <Text>Spotlight logo here</Text>
+      <Text as="a" href={ROOT_ROUTE}>
+        Spotlight logo here
+      </Text>
       <HStack align="center" spacing="16px" paddingRight="16px">
         <Text textStyle="subhead1" color="neutral.700">
           {auth?.user.email}
