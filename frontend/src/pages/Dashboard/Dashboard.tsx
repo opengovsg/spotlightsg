@@ -40,7 +40,7 @@ const Dashboard = (): JSX.Element => {
     <>
       <AppHeader />
       <Container>
-        <Modal isOpen={isPostOpen} onClose={onClosePost}>
+        <Modal isOpen={isPostOpen} onClose={onClosePost} size="xl">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Modal Title</ModalHeader>
