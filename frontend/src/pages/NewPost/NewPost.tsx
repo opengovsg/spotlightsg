@@ -27,18 +27,24 @@ const NewPost = (): JSX.Element => {
       <AppHeader />
       <Container>
         <VStack align="stretch" py="30px">
-          <Text textStyle="h4">Create a new post</Text>
+          <Text textStyle="display2" color="primary.400">
+            Describe your problem
+          </Text>
           <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <VStack align="stretch" spacing="10px">
+              <VStack align="stretch" spacing="10px" mt="20px">
                 <Controller
                   name="painpoint"
                   control={control}
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
-                    <FormLabel>
-                      Pain Point
-                      <Textarea value={value} onChange={onChange} />
+                    <FormLabel mr="0">
+                      How would you describe your problem?
+                      <Textarea
+                        value={value}
+                        onChange={onChange}
+                        background="white"
+                      />
                     </FormLabel>
                   )}
                 />
@@ -48,22 +54,13 @@ const NewPost = (): JSX.Element => {
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
                     <FormLabel>
-                      What have you tried to tackle this problem?
-                      <Textarea value={value} onChange={onChange} />
+                      What are some ways you have tried to tackle this problem?
+                      <Textarea
+                        value={value}
+                        onChange={onChange}
+                        background="white"
+                      />
                     </FormLabel>
-                  )}
-                />
-                <Controller
-                  name="anon"
-                  control={control}
-                  defaultValue="anon"
-                  render={({ field: { value, onChange } }) => (
-                    <RadioGroup value={value} onChange={onChange}>
-                      <HStack spacing="20px">
-                        <Radio value="anon">Remain anonymous</Radio>
-                        <Radio value="showname">Show name</Radio>
-                      </HStack>
-                    </RadioGroup>
                   )}
                 />
                 <Box>
