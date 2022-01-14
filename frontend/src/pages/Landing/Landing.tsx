@@ -1,9 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Button, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  SimpleGrid,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
 
 import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
+
+import { ReactComponent as Lighthouse } from '../../img/lighthouse.svg'
 
 const Landing = (): JSX.Element => {
   return (
@@ -38,7 +48,9 @@ const Landing = (): JSX.Element => {
             Find help for your problems
           </Button>
         </VStack>
-        <Box p="56px">Lighthouse here</Box>
+        <Box p="56px">
+          <Image as={Lighthouse} height="300px" />
+        </Box>
       </SimpleGrid>
     </>
   )
