@@ -13,7 +13,7 @@ import {
 import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 
-import { ReactComponent as Lighthouse } from '../../img/lighthouse.svg'
+import aa from '../../img/lighthouse.png'
 
 const Landing = (): JSX.Element => {
   return (
@@ -49,7 +49,7 @@ const Landing = (): JSX.Element => {
           </Button>
         </VStack>
         <Box p="56px">
-          <Image as={Lighthouse} height="300px" />
+          <Image src={aa} width="400px" />
         </Box>
       </SimpleGrid>
     </>
