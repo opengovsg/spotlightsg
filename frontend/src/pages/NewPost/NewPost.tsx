@@ -1,11 +1,12 @@
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import {
+  Box,
   Button,
   Container,
-  FormControl,
-  FormErrorMessage,
   FormLabel,
-  Input,
+  HStack,
+  Radio,
+  RadioGroup,
   Text,
   Textarea,
   VStack,
@@ -15,11 +16,7 @@ import AppHeader from '~components/AppHeader'
 
 const NewPost = (): JSX.Element => {
   const formMethods = useForm({ mode: 'onTouched' })
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-  } = formMethods
+  const { control, handleSubmit } = formMethods
 
   const onSubmit = (data: any) => {
     console.log(data)
@@ -29,29 +26,51 @@ const NewPost = (): JSX.Element => {
     <>
       <AppHeader />
       <Container>
-        <VStack align="start" py="30px">
-          <Text>New Post</Text>
+        <VStack align="stretch" py="30px">
+          <Text textStyle="h4">Create a new post</Text>
           <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <VStack align="start" spacing="10px">
+              <VStack align="stretch" spacing="10px">
                 <Controller
                   name="painpoint"
                   control={control}
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
                     <FormLabel>
-                      Pain Points
-                      <Input
-                        name="painpoint"
-                        value={value}
-                        onChange={onChange}
-                      />
+                      Pain Point
+                      <Textarea value={value} onChange={onChange} />
                     </FormLabel>
                   )}
                 />
-                <Button type="submit" colorScheme="primary">
-                  Submit
-                </Button>
+                <Controller
+                  name="tried"
+                  control={control}
+                  defaultValue=""
+                  render={({ field: { value, onChange } }) => (
+                    <FormLabel>
+                      What have you tried to tackle this problem?
+                      <Textarea value={value} onChange={onChange} />
+                    </FormLabel>
+                  )}
+                />
+                <Controller
+                  name="anon"
+                  control={control}
+                  defaultValue="anon"
+                  render={({ field: { value, onChange } }) => (
+                    <RadioGroup value={value} onChange={onChange}>
+                      <HStack spacing="20px">
+                        <Radio value="anon">Remain anonymous</Radio>
+                        <Radio value="showname">Show name</Radio>
+                      </HStack>
+                    </RadioGroup>
+                  )}
+                />
+                <Box>
+                  <Button type="submit" colorScheme="primary">
+                    Submit
+                  </Button>
+                </Box>
               </VStack>
             </form>
           </FormProvider>
