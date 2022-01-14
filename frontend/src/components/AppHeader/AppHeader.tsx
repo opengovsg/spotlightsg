@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Button, HStack, Text } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
@@ -22,7 +23,7 @@ const AppHeader: React.FC = () => {
       justify="space-between"
       align="center"
     >
-      <Text as="a" href={ROOT_ROUTE}>
+      <Text as={Link} to={ROOT_ROUTE}>
         Spotlight logo here
       </Text>
       <HStack align="center" spacing="16px" paddingRight="16px">

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { AddIcon, SearchIcon } from '@chakra-ui/icons'
 import {
   Button,
@@ -32,8 +33,8 @@ const Dashboard = (): JSX.Element => {
               colorScheme="primary"
               variant="solid"
               size="sm"
-              as="a"
-              href={NEW_POST_ROUTE}
+              as={Link}
+              to={NEW_POST_ROUTE}
             >
               New Post
             </Button>
