@@ -4,7 +4,7 @@ import { Button, HStack, Text } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
 
-import { ROOT_ROUTE } from '~constants/routes'
+import { LOGIN_ROUTE, ROOT_ROUTE } from '~constants/routes'
 
 const AppHeader: React.FC = () => {
   const { auth, setAuth } = useAuth()
@@ -23,16 +23,23 @@ const AppHeader: React.FC = () => {
       justify="space-between"
       align="center"
     >
-      <Text as={Link} to={ROOT_ROUTE}>
-        Spotlight logo here
+      <Text as={Link} to={ROOT_ROUTE} textStyle="h2" color="primary.700">
+        SpotlightSG
       </Text>
       <HStack align="center" spacing="16px" paddingRight="16px">
         <Text textStyle="subhead1" color="neutral.700">
           {auth?.user.email}
         </Text>
-        <Button variant="outline" onClick={onLogout}>
-          Logout
-        </Button>
+        {auth && (
+          <Button onClick={onLogout} colorScheme="primary">
+            Logout
+          </Button>
+        )}
+        {!auth && (
+          <Button as={Link} to={LOGIN_ROUTE} colorScheme="primary">
+            Login
+          </Button>
+        )}
       </HStack>
     </HStack>
   )

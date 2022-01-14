@@ -18,7 +18,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-import { NEW_POST_ROUTE, ROOT_ROUTE } from '~constants/routes'
+import { DASHBOARD_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import Post from '~components/Post'
 import PostCard from '~components/PostCard'
@@ -33,7 +33,7 @@ const Dashboard = (): JSX.Element => {
   }, [params])
 
   const onClosePost = () => {
-    history.push(ROOT_ROUTE)
+    history.push(DASHBOARD_ROUTE)
   }
 
   return (

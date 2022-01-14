@@ -1,4 +1,5 @@
 export const ROOT_ROUTE = '/'
+export const DASHBOARD_ROUTE = '/dashboard'
 export const LOGIN_ROUTE = '/login'
 export const POST_ROUTE = '/post'
 export const NEW_POST_ROUTE = '/newpost'

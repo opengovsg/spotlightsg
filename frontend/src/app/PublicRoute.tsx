@@ -3,7 +3,7 @@ import { Location } from 'history'
 
 import { useAuth } from '~/auth'
 
-import { ROOT_ROUTE } from '~constants/routes'
+import { DASHBOARD_ROUTE } from '~constants/routes'
 
 export interface PublicRouteProps extends Omit<RouteProps, 'render'> {
   // If `strict` is true, only non-authed users can access the route.
@@ -30,7 +30,7 @@ export const PublicRoute = ({
         !!auth && strict ? (
           <Redirect
             to={{
-              pathname: state?.from?.pathname ?? ROOT_ROUTE,
+              pathname: state?.from?.pathname ?? DASHBOARD_ROUTE,
               state: { from: location },
             }}
           />
