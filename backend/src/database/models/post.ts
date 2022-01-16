@@ -2,10 +2,12 @@ import {
   Column,
   CreatedAt,
   DataType,
+  HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript'
+import { Comment } from '.'
 
 @Table({ tableName: 'posts' })
 export class Post extends Model {
@@ -33,6 +35,9 @@ export class Post extends Model {
     allowNull: false,
   })
   actionsTaken!: string
+
+  @HasMany(() => Comment)
+  comments!: Comment[]
 
   @CreatedAt
   createdAt!: Date

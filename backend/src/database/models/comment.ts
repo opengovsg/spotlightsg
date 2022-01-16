@@ -5,7 +5,10 @@ import {
   Model,
   Table,
   UpdatedAt,
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript'
+import { Post } from '.'
 
 @Table({ tableName: 'comments' })
 export class Comment extends Model {
@@ -16,11 +19,15 @@ export class Comment extends Model {
   })
   id!: number
 
+  @ForeignKey(() => Post)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   postId!: number
+
+  @BelongsTo(() => Post)
+  post!: Post
 
   @Column({
     type: DataType.INTEGER,
