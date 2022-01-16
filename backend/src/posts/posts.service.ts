@@ -13,6 +13,10 @@ export class PostsService {
     return this.postModel.findAll()
   }
 
+  async getUsingPostId(postId: number): Promise<Post | null> {
+    return this.postModel.findOne({ where: { id: postId } })
+  }
+
   async create(
     userId: number,
     issue: string,

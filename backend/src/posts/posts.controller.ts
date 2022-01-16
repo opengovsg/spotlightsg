@@ -7,19 +7,35 @@ import {
   HttpStatus,
   Logger,
   Res,
+  Param,
+  NotFoundException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
-import { Post as PostSchema } from '../database/models/post'
+import { Post as PostSchema, Comment } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
+import { CommentsService } from '../comments/comments.service'
 
 @Controller('post')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    private readonly commentsService: CommentsService
+  ) {}
 
   @Get()
   async getAll(): Promise<PostSchema[]> {
     return this.postsService.getAll()
+  }
+
+  @Get(':id')
+  async getWithComments(
+    @Param('id') postId: number
+  ): Promise<{ post: PostSchema; comments: Comment[] }> {
+    const post = await this.postsService.getUsingPostId(postId)
+    if (!post) throw new NotFoundException()
+    const comments = await this.commentsService.getUsingPostId(postId)
+    return { post, comments }
   }
 
   @Post()
