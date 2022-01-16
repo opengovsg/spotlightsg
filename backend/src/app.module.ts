@@ -13,6 +13,7 @@ import { JwtAuthGuard } from 'auth/jwt-auth.guard'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
 import { PostsModule } from 'posts/posts.module'
+import { CommentsModule } from 'comments/comments.module'
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PostsModule } from 'posts/posts.module'
     TerminusModule,
     HealthModule,
     PostsModule,
+    CommentsModule,
   ],
   providers: [
     {
