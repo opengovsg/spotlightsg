@@ -6,8 +6,10 @@ import {
   Model,
   Table,
   UpdatedAt,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript'
-import { Comment } from '.'
+import { User, Comment } from '.'
 
 @Table({ tableName: 'posts' })
 export class Post extends Model {
@@ -18,6 +20,7 @@ export class Post extends Model {
   })
   id!: number
 
+  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
@@ -35,6 +38,9 @@ export class Post extends Model {
     allowNull: false,
   })
   actionsTaken!: string
+
+  @BelongsTo(() => User)
+  user!: User
 
   @HasMany(() => Comment)
   comments!: Comment[]
