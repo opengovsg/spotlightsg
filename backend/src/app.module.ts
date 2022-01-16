@@ -12,6 +12,7 @@ import { ConfigService } from 'config/config.service'
 import { JwtAuthGuard } from 'auth/jwt-auth.guard'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
+import { PostsModule } from 'posts/posts.module'
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { JwtStrategy } from 'auth/jwt.strategy'
     AuthModule,
     TerminusModule,
     HealthModule,
+    PostsModule,
   ],
   providers: [
     {

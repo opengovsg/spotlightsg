@@ -17,8 +17,7 @@ export class Post extends Model {
   id!: number
 
   @Column({
-    type: DataType.TEXT,
-    unique: true,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   userId!: number
