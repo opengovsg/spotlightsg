@@ -4,7 +4,7 @@ import { Box, Text, VStack } from '@chakra-ui/react'
 import Comment from '~components/Comment'
 import NewComment from '~components/NewComment'
 
-const PostCard: React.FC = () => {
+const Post: React.FC = () => {
   return (
     <Box>
       <Box whiteSpace="pre-line">
@@ -57,4 +57,4 @@ const PostCard: React.FC = () => {
   )
 }
 
-export default PostCard
+export default Post
