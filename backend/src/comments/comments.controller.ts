@@ -30,9 +30,12 @@ export class CommentsController {
       res.status(HttpStatus.CREATED).json(comment)
     } catch (error: any) {
       Logger.error(error)
-      res
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message })
+      if (error.name === 'SequelizeForeignKeyConstraintError') {
+        res.status(HttpStatus.BAD_REQUEST)
+      } else {
+        res.status(HttpStatus.INTERNAL_SERVER_ERROR)
+      }
+      res.json({ message: error.message })
     }
   }
 }
