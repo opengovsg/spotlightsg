@@ -1,14 +1,20 @@
-version: '3'
-
+version: '3.7'
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile.development
-    ports:
-      - '3000:3000'
-      - '8080:8080'
+  postgres:
+    image: postgres:11
+    restart: always
+    container_name: spotlight_postgres
     environment:
-      - NODE_ENV=development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=spotlight_db
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    ports:
+      - '5432:5432'
     volumes:
-      - ./:/usr/src/app
+      - spotlight_db_data:/var/lib/postgresql/data
+volumes:
+  spotlight_db_data:
