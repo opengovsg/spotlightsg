@@ -51,7 +51,7 @@ const Login: React.FC = () => {
   const onOtpSubmit = async () => {
     try {
       const auth = await verifyOtpByEmail({ email, token: otp })
-      setAuth(auth.data)
+      setAuth(auth)
     } catch (error) {
       toast({
         title: 'invalid OTP',

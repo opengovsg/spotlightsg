@@ -3,6 +3,8 @@ import { Link, useHistory, useParams } from 'react-router-dom'
 import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
 import { BROWSE_ROUTE, HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
+import { getAllPosts } from '~services/SpotlightApi'
+import { GetAllPostsResponse } from '~services/types'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
@@ -10,8 +12,17 @@ import Search from '~components/Search'
 
 const Landing = (): JSX.Element => {
   const history = useHistory()
+  const [posts, setPosts] = useState<GetAllPostsResponse>([])
   const params = useParams<{ postId: string | undefined }>()
   const [isPostOpen, setIsPostOpen] = useState<boolean>(!!params.postId)
+
+  async function initPosts() {
+    const posts = await getAllPosts()
+    setPosts(posts)
+  }
+  useEffect(() => {
+    initPosts()
+  }, [])
 
   useEffect(() => {
     setIsPostOpen(!!params.postId)
@@ -39,11 +50,13 @@ const Landing = (): JSX.Element => {
           <Search onSearch={(v) => console.log(v)} />
         </VStack>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
-          <PostCard id="a" route="/home/posts/a" />
-          <PostCard id="b" route="/home/posts/b" />
-          <PostCard id="c" route="/home/posts/c" />
-          <PostCard id="d" route="/home/posts/d" />
-          <PostCard id="e" route="/home/posts/e" />
+          {posts.map((post) => (
+            <PostCard
+              id={post.id}
+              route={`/home/posts/${post.id}`}
+              previewText={post.issue}
+            />
+          ))}
         </SimpleGrid>
         <VStack p="32px">
           <Text textStyle="display2" pb="32px" color="primary.400">

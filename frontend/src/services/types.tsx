@@ -9,3 +9,9 @@ export type VerifyOtpByEmailResponse = {
   }
   token: string
 }
+
+export type GetAllPostsResponse = {
+  id: number
+  issue: string
+  actionsTaken: string
+}[]

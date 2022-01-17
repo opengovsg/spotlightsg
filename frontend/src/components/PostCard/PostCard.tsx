@@ -1,14 +1,15 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { ChatIcon } from '@chakra-ui/icons'
-import { Box, HStack, Text, VStack } from '@chakra-ui/react'
+import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 
 type PostCardProps = {
-  id: string
+  id: number
   route: string
+  previewText: string
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, route }) => {
+const PostCard: React.FC<PostCardProps> = ({ id, route, previewText }) => {
   const history = useHistory()
   const onClick = () => {
     history.push(route)
@@ -21,23 +22,25 @@ const PostCard: React.FC<PostCardProps> = ({ id, route }) => {
       background="white"
       onClick={onClick}
       cursor="pointer"
+      id={id.toString()}
     >
-      <VStack align="start">
-        <Text textStyle="subhead2">someone@open.gov.sg</Text>
-        <Text textStyle="subhead2" noOfLines={3}>
-          The current grants
-          application-assessment-approval-disbursement-tracking systems is not
-          standardized and across many different platforms eg. application is on
-          Our SG Grants portal / assessment is conducted offline at meetings
-          using Microsoft Excel files / approval is on our agency's filing
-          system (Kris) / disbursement is by our finance via ACE / tracking is
-          via agency's shared point
-        </Text>
+      <Flex
+        align="start"
+        flexDir="column"
+        justify="space-between"
+        height="100%"
+      >
+        <Box>
+          <Text textStyle="subhead2">someone@open.gov.sg</Text>
+          <Text textStyle="subhead2" noOfLines={3}>
+            {previewText}
+          </Text>
+        </Box>
         <HStack textStyle="subhead2">
           <Text>5 comments</Text>
           <ChatIcon />
         </HStack>
-      </VStack>
+      </Flex>
     </Box>
   )
 }

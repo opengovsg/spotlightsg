@@ -46,9 +46,9 @@ const Browse = (): JSX.Element => {
             </Button>
           </HStack>
           <VStack align="stretch" w="full">
-            <PostCard id="a" route="/browse/posts/a" />
-            <PostCard id="b" route="/browse/posts/b" />
-            <PostCard id="c" route="/browse/posts/c" />
+            <PostCard id={1} route="/browse/posts/1" previewText="aaa" />
+            <PostCard id={2} route="/browse/posts/2" previewText="aaa" />
+            <PostCard id={3} route="/browse/posts/3" previewText="aaa" />
           </VStack>
         </VStack>
       </Container>
