@@ -1,15 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { Button, Flex, Input, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
-import { BROWSE_ROUTE } from '~constants/routes'
+import { BROWSE_ROUTE, HOMEPAGE_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
+import PostModal from '~components/PostModal'
 
 const Landing = (): JSX.Element => {
+  const history = useHistory()
+  const params = useParams<{ postId: string | undefined }>()
+  const [isPostOpen, setIsPostOpen] = useState<boolean>(!!params.postId)
+
+  useEffect(() => {
+    setIsPostOpen(!!params.postId)
+  }, [params])
+
+  const onClosePost = () => {
+    history.push(HOMEPAGE_ROUTE)
+  }
+
   return (
     <>
       <AppHeader />
+      <PostModal isOpen={isPostOpen} onClose={onClosePost} id={params.postId} />
       <VStack p="50px" align="stretch">
         <Flex justify="space-between" align="flex-start">
           <Text textStyle="display1" color="primary.400">

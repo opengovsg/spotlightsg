@@ -8,13 +8,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   VStack,
 } from '@chakra-ui/react'
 
@@ -22,6 +15,7 @@ import { BROWSE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import Post from '~components/Post'
 import PostCard from '~components/PostCard'
+import PostModal from '~components/PostModal'
 
 const Browse = (): JSX.Element => {
   const history = useHistory()
@@ -40,22 +34,11 @@ const Browse = (): JSX.Element => {
     <>
       <AppHeader />
       <Container>
-        <Modal isOpen={isPostOpen} onClose={onClosePost} size="xl">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Modal Title</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Post />
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="primary" mr={3} onClick={onClosePost}>
-                Close
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        <PostModal
+          isOpen={isPostOpen}
+          onClose={onClosePost}
+          id={params.postId}
+        />
         <VStack align="start" py="30px">
           <InputGroup>
             <InputLeftElement

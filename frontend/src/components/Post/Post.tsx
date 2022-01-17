@@ -4,18 +4,23 @@ import { Box, Text, VStack } from '@chakra-ui/react'
 import Comment from '~components/Comment'
 import NewComment from '~components/NewComment'
 
-const Post: React.FC = () => {
+type PostProps = {
+  id: string | undefined
+}
+
+const Post: React.FC<PostProps> = ({ id }) => {
   return (
     <Box>
       <Box whiteSpace="pre-line">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-        vestibulum purus ac ullamcorper laoreet. Nulla in luctus sapien, in
-        laoreet nisi. Aliquam sed dui a ligula consectetur varius. Sed nec
-        fringilla enim. Phasellus non velit euismod, egestas erat sed, facilisis
-        urna. Nunc eu tortor nec augue dictum gravida in eu lacus. Vivamus ac
-        nulla gravida, placerat diam interdum, convallis libero. Sed mollis arcu
-        vitae ante mollis, quis iaculis sem venenatis. In non vulputate purus,
-        in vehicula purus. Donec ultrices erat vitae dolor dictum egestas.
+        This post has id {id}. Lorem ipsum dolor sit amet, consectetur
+        adipiscing elit. Quisque vestibulum purus ac ullamcorper laoreet. Nulla
+        in luctus sapien, in laoreet nisi. Aliquam sed dui a ligula consectetur
+        varius. Sed nec fringilla enim. Phasellus non velit euismod, egestas
+        erat sed, facilisis urna. Nunc eu tortor nec augue dictum gravida in eu
+        lacus. Vivamus ac nulla gravida, placerat diam interdum, convallis
+        libero. Sed mollis arcu vitae ante mollis, quis iaculis sem venenatis.
+        In non vulputate purus, in vehicula purus. Donec ultrices erat vitae
+        dolor dictum egestas.
         {'\n\n'}
         Donec ultricies ullamcorper dui, ut elementum sapien auctor in. Morbi
         placerat neque et iaculis pulvinar. Quisque rutrum commodo arcu. Ut
