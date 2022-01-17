@@ -48,7 +48,7 @@ export class PostsController {
       const post = await this.postsService.create(
         req.user!.id,
         createPostDto.issue,
-        createPostDto.actionTaken
+        createPostDto.actionsTaken
       )
       res.status(HttpStatus.CREATED).json(post)
     } catch (error: any) {
