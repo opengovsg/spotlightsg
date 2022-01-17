@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -7,6 +8,7 @@ import {
   Input,
   SimpleGrid,
   Text,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 
@@ -25,6 +27,7 @@ const PHASES = {
 }
 
 const Login: React.FC = () => {
+  const toast = useToast()
   const { setAuth } = useAuth()
   const [phase, setPhase] = useState(PHASES.ENTER_EMAIL)
   const [email, setEmail] = useState('')
@@ -32,10 +35,16 @@ const Login: React.FC = () => {
 
   const onEmailSubmit = async () => {
     try {
+      if (!email.endsWith('.gov.sg')) {
+        throw Error('email must end in .gov.sg')
+      }
       await requestOtpByEmail({ email })
       setPhase(PHASES.ENTER_OTP)
     } catch (error) {
-      //   toastError(error)
+      toast({
+        title: String(error),
+        status: 'error',
+      })
     }
   }
 
@@ -44,7 +53,10 @@ const Login: React.FC = () => {
       const auth = await verifyOtpByEmail({ email, token: otp })
       setAuth(auth.data)
     } catch (error) {
-      // TODO: Reconsider this part as the error message is already shown under the otp input box
+      toast({
+        title: 'invalid OTP',
+        status: 'error',
+      })
     }
   }
 
@@ -57,9 +69,18 @@ const Login: React.FC = () => {
       }}
     >
       <VStack align="stretch">
+        <Text textStyle="h5" color="primary.700">
+          Verify that you are a public officer
+        </Text>
+        <Text textStyle="caption2" color="primary.500" pb="10px">
+          Submissions made on this platform are completely anonymous with only
+          your agency revealed. Your email is used solely to verify your public
+          officer identity and is not tagged to your submissons.
+        </Text>
         <label>
           <Text textStyle="subhead1">Email</Text>
           <Input
+            required
             value={email}
             placeholder="e.g jane@data.gov.sg"
             type="email"
@@ -83,9 +104,23 @@ const Login: React.FC = () => {
       }}
     >
       <VStack align="stretch">
+        <Box>
+          <Button
+            variant="link"
+            colorScheme="primary"
+            onClick={() => setPhase(PHASES.ENTER_EMAIL)}
+          >
+            <Text textStyle="caption2">
+              <ArrowBackIcon />
+              Back
+            </Text>
+          </Button>
+        </Box>
         <label>
-          <Text textStyle="subhead1">OTP</Text>
-          <Text textStyle="caption2">
+          <Text textStyle="h5" color="primary.700">
+            Verify your OTP
+          </Text>
+          <Text textStyle="caption2" color="primary.500" pb="10px">
             Your OTP should have been sent to your inbox
           </Text>
           <Input
@@ -108,20 +143,10 @@ const Login: React.FC = () => {
       <Center p="30px">
         <Image src={security} />
       </Center>
-      <Center background="white" padding="30px">
-        <VStack align="stretch">
-          <Text textStyle="h5" color="primary.700">
-            Verify that you are a public officer
-          </Text>
-          <Text textStyle="caption2" color="primary.500" pb="10px">
-            Submissions made on this platform are completely anonymous with only
-            your agency revealed. Your email is used solely to verify your
-            public officer identity and is not tagged to your submissons
-          </Text>
-          {phase === PHASES.ENTER_EMAIL && emailForm}
-          {phase === PHASES.ENTER_OTP && otpForm}
-        </VStack>
-      </Center>
+      <VStack align="stretch" p="30px" justify="center" background="white">
+        {phase === PHASES.ENTER_EMAIL && emailForm}
+        {phase === PHASES.ENTER_OTP && otpForm}
+      </VStack>
     </SimpleGrid>
   )
 }

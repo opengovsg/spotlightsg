@@ -4,9 +4,6 @@ import {
   Button,
   Container,
   FormLabel,
-  HStack,
-  Radio,
-  RadioGroup,
   Text,
   Textarea,
   VStack,
@@ -15,10 +12,10 @@ import {
 import AppHeader from '~components/AppHeader'
 
 const NewPost = (): JSX.Element => {
-  const formMethods = useForm({ mode: 'onTouched' })
+  const formMethods = useForm()
   const { control, handleSubmit } = formMethods
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: unknown) => {
     console.log(data)
   }
 
