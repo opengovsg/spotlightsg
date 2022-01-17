@@ -16,7 +16,7 @@ import { Post as PostSchema, Comment } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CommentsService } from '../comments/comments.service'
 
-@Controller('post')
+@Controller('posts')
 export class PostsController {
   constructor(
     private readonly postsService: PostsService,

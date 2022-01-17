@@ -11,7 +11,7 @@ import { Request, Response } from 'express'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
 
-@Controller('comment')
+@Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
