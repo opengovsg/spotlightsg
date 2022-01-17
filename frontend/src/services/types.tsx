@@ -10,8 +10,11 @@ export type VerifyOtpByEmailResponse = {
   token: string
 }
 
-export type GetAllPostsResponse = {
+type Post = {
   id: number
   issue: string
   actionsTaken: string
-}[]
+}
+
+export type GetAllPostsResponse = Post[]
+export type CreatePostResponse = Post

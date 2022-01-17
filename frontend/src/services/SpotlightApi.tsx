@@ -1,5 +1,6 @@
 import baseConfig, { getAuthorizationHeader } from './baseConfig'
 import {
+  CreatePostResponse,
   GetAllPostsResponse,
   MessageResponse,
   VerifyOtpByEmailResponse,
@@ -30,5 +31,15 @@ export function getAllPosts(): Promise<GetAllPostsResponse> {
   const headers = getAuthorizationHeader()
   return baseConfig
     .get<GetAllPostsResponse>('posts', { headers })
+    .then((res) => res.data)
+}
+
+export function createPost(params: {
+  issue: string
+  actionsTaken: string
+}): Promise<CreatePostResponse> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .post<CreatePostResponse>('posts', params, { headers })
     .then((res) => res.data)
 }

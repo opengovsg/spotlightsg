@@ -22,7 +22,6 @@ const PostCard: React.FC<PostCardProps> = ({ id, route, previewText }) => {
       background="white"
       onClick={onClick}
       cursor="pointer"
-      id={id.toString()}
     >
       <Flex
         align="start"

@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -9,14 +11,25 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
+import { HOMEPAGE_ROUTE, POST_ROUTE } from '~constants/routes'
+import { createPost } from '~services/SpotlightApi'
 import AppHeader from '~components/AppHeader'
 
-const NewPost = (): JSX.Element => {
-  const formMethods = useForm()
-  const { control, handleSubmit } = formMethods
+type FormValues = {
+  issue: string
+  actionsTaken: string
+}
 
-  const onSubmit = (data: unknown) => {
-    console.log(data)
+const NewPost = (): JSX.Element => {
+  const history = useHistory()
+  const formMethods = useForm<FormValues>()
+  const { control, handleSubmit } = formMethods
+  const [isLoading, setIsLoading] = useState(false)
+
+  const onSubmit = async (data: FormValues) => {
+    setIsLoading(true)
+    const post = await createPost(data)
+    history.push(`${HOMEPAGE_ROUTE}${POST_ROUTE}/${post.id}`)
   }
 
   return (
@@ -31,7 +44,7 @@ const NewPost = (): JSX.Element => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <VStack align="stretch" spacing="10px" mt="20px">
                 <Controller
-                  name="painpoint"
+                  name="issue"
                   control={control}
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
@@ -41,12 +54,13 @@ const NewPost = (): JSX.Element => {
                         value={value}
                         onChange={onChange}
                         background="white"
+                        required
                       />
                     </FormLabel>
                   )}
                 />
                 <Controller
-                  name="tried"
+                  name="actionsTaken"
                   control={control}
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
@@ -56,12 +70,17 @@ const NewPost = (): JSX.Element => {
                         value={value}
                         onChange={onChange}
                         background="white"
+                        required
                       />
                     </FormLabel>
                   )}
                 />
                 <Box>
-                  <Button type="submit" colorScheme="primary">
+                  <Button
+                    type="submit"
+                    colorScheme="primary"
+                    isLoading={isLoading}
+                  >
                     Submit
                   </Button>
                 </Box>

@@ -53,6 +53,7 @@ const Landing = (): JSX.Element => {
           {posts.map((post) => (
             <PostCard
               id={post.id}
+              key={post.id}
               route={`/home/posts/${post.id}`}
               previewText={post.issue}
             />
