@@ -1,14 +1,14 @@
 import { Route, Switch } from 'react-router-dom'
 
 import {
-  DASHBOARD_ROUTE,
+  BROWSE_ROUTE,
   LOGIN_ROUTE,
   NEW_POST_ROUTE,
   POST_ROUTE,
   ROOT_ROUTE,
 } from '~constants/routes'
 
-import Dashboard from '~pages/Dashboard'
+import Browse from '~pages/Browse'
 import Landing from '~pages/Landing'
 import Login from '~pages/Login'
 import NewPost from '~pages/NewPost'
@@ -25,11 +25,11 @@ export const AppRouter = (): JSX.Element => {
       <PublicRoute exact path={LOGIN_ROUTE}>
         <Login />
       </PublicRoute>
-      <PrivateRoute exact path={DASHBOARD_ROUTE}>
-        <Dashboard />
+      <PrivateRoute exact path={BROWSE_ROUTE}>
+        <Browse />
       </PrivateRoute>
-      <PrivateRoute path={`${POST_ROUTE}/:postId`}>
-        <Dashboard />
+      <PrivateRoute path={`${BROWSE_ROUTE}${POST_ROUTE}/:postId`}>
+        <Browse />
       </PrivateRoute>
       <PrivateRoute exact path={NEW_POST_ROUTE}>
         <NewPost />

@@ -18,12 +18,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-import { DASHBOARD_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
+import { BROWSE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import Post from '~components/Post'
 import PostCard from '~components/PostCard'
 
-const Dashboard = (): JSX.Element => {
+const Browse = (): JSX.Element => {
   const history = useHistory()
   const params = useParams<{ postId: string | undefined }>()
   const [isPostOpen, setIsPostOpen] = useState<boolean>(!!params.postId)
@@ -33,7 +33,7 @@ const Dashboard = (): JSX.Element => {
   }, [params])
 
   const onClosePost = () => {
-    history.push(DASHBOARD_ROUTE)
+    history.push(BROWSE_ROUTE)
   }
 
   return (
@@ -77,9 +77,9 @@ const Dashboard = (): JSX.Element => {
             </Button>
           </HStack>
           <VStack align="stretch" w="full">
-            <PostCard id="a" />
-            <PostCard id="b" />
-            <PostCard id="c" />
+            <PostCard id="a" route="/browse/posts/a" />
+            <PostCard id="b" route="/browse/posts/b" />
+            <PostCard id="c" route="/browse/posts/c" />
           </VStack>
         </VStack>
       </Container>
@@ -87,4 +87,4 @@ const Dashboard = (): JSX.Element => {
   )
 }
 
-export default Dashboard
+export default Browse

@@ -5,12 +5,13 @@ import { Box, HStack, Text, VStack } from '@chakra-ui/react'
 
 type PostCardProps = {
   id: string
+  route: string
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id }) => {
+const PostCard: React.FC<PostCardProps> = ({ id, route }) => {
   const history = useHistory()
   const onClick = () => {
-    history.push(`/post/${id}`)
+    history.push(route)
   }
   return (
     <Box
