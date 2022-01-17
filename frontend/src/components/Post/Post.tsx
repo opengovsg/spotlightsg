@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Text, VStack } from '@chakra-ui/react'
 
 import Comment from '~components/Comment'
+import NewComment from '~components/NewComment'
 
 const PostCard: React.FC = () => {
   return (
@@ -47,6 +48,10 @@ const PostCard: React.FC = () => {
           <Comment />
           <Comment />
         </VStack>
+      </Box>
+      <Box mt="30px">
+        <Text textStyle="h4">Add your reply</Text>
+        <NewComment />
       </Box>
     </Box>
   )
