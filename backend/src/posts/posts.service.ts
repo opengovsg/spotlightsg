@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post } from 'database/models'
+import { Post, User, Comment } from 'database/models'
 
 @Injectable()
 export class PostsService {
@@ -10,11 +10,35 @@ export class PostsService {
   ) {}
 
   async getAll(): Promise<Post[]> {
-    return this.postModel.findAll()
+    return this.postModel.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['email'],
+        },
+      ],
+    })
   }
 
   async getUsingPostId(postId: number): Promise<Post | null> {
-    return this.postModel.findOne({ where: { id: postId } })
+    return this.postModel.findOne({
+      where: { id: postId },
+      include: [
+        {
+          model: User,
+          attributes: ['email'],
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['email'],
+            },
+          ],
+        },
+      ],
+    })
   }
 
   async create(
