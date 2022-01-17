@@ -16,5 +16,14 @@ type Post = {
   actionsTaken: string
 }
 
+type Comment = {
+  content: string
+}
+
 export type GetAllPostsResponse = Post[]
 export type CreatePostResponse = Post
+
+export type GetPostWithCommentResponse = {
+  post: Post
+  comments: Comment[]
+}

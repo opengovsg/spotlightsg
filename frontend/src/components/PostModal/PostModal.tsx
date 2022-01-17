@@ -26,7 +26,7 @@ const PostModal: React.FC<PostModalProps> = ({ id, isOpen, onClose }) => {
         <ModalHeader>Modal Title</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Post id={id} />
+          <Post id={id ? parseInt(id) : undefined} />
         </ModalBody>
 
         <ModalFooter>

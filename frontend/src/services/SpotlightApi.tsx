@@ -2,6 +2,7 @@ import baseConfig, { getAuthorizationHeader } from './baseConfig'
 import {
   CreatePostResponse,
   GetAllPostsResponse,
+  GetPostWithCommentResponse,
   MessageResponse,
   VerifyOtpByEmailResponse,
 } from './types'
@@ -31,6 +32,17 @@ export function getAllPosts(): Promise<GetAllPostsResponse> {
   const headers = getAuthorizationHeader()
   return baseConfig
     .get<GetAllPostsResponse>('posts', { headers })
+    .then((res) => res.data)
+}
+
+export function getPostWithComments({
+  id,
+}: {
+  id: number
+}): Promise<GetPostWithCommentResponse> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .get<GetPostWithCommentResponse>(`posts/${id}`, { headers })
     .then((res) => res.data)
 }
 
