@@ -17,6 +17,7 @@ type Post = {
 }
 
 type Comment = {
+  id: number
   content: string
 }
 

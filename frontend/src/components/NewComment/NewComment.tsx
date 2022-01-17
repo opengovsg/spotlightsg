@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Textarea, VStack } from '@chakra-ui/react'
 
-const NewComment: React.FC = () => {
-  const onSubmit = () => {
-    console.log('submitted')
+import { createComment } from '~services/SpotlightApi'
+
+type NewCommentProps = {
+  postId: number | undefined
+  commentAddedCallback: () => void
+}
+
+const NewComment: React.FC<NewCommentProps> = ({
+  postId,
+  commentAddedCallback,
+}) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [content, setContent] = useState('')
+  const onSubmit = async () => {
+    if (!postId) return
+    setIsLoading(true)
+    await createComment({ postId, content })
+    setContent('')
+    setIsLoading(false)
+    commentAddedCallback()
   }
   return (
     <form
@@ -14,9 +31,14 @@ const NewComment: React.FC = () => {
       }}
     >
       <VStack align="stretch" spacing="10px">
-        <Textarea></Textarea>
+        <Textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
         <Box>
-          <Button type="submit">Reply</Button>
+          <Button type="submit" isLoading={isLoading}>
+            Reply
+          </Button>
         </Box>
       </VStack>
     </form>

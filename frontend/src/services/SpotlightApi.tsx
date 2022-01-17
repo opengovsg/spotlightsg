@@ -55,3 +55,13 @@ export function createPost(params: {
     .post<CreatePostResponse>('posts', params, { headers })
     .then((res) => res.data)
 }
+
+export function createComment(params: {
+  postId: number
+  content: string
+}): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .post<void>('comments', params, { headers })
+    .then((res) => res.data)
+}

@@ -11,6 +11,9 @@ type PostProps = {
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
+  // hack: change this variable to trigger a refetch
+  const [toRefetch, setToRefetch] = useState(0)
+
   const [postWithComments, setPostWithComments] = useState<
     GetPostWithCommentResponse | undefined
   >()
@@ -25,22 +28,30 @@ const Post: React.FC<PostProps> = ({ id }) => {
   }
   useEffect(() => {
     refreshPost(id)
-  }, [id])
+  }, [id, toRefetch])
+
+  const comments = postWithComments?.comments || []
   return (
     <Box>
       <Box whiteSpace="pre-line">{postWithComments?.post.issue}</Box>
       <Box mt="30px">
         <Text textStyle="h4">Comments</Text>
         <VStack spacing="10px" align="stretch">
-          <Comment />
-          <Comment />
-          <Comment />
-          <Comment />
+          {comments.length ? (
+            comments.map((comment) => (
+              <Comment key={comment.id} content={comment.content} />
+            ))
+          ) : (
+            <Text>No Comments Found</Text>
+          )}
         </VStack>
       </Box>
       <Box mt="30px">
         <Text textStyle="h4">Add your reply</Text>
-        <NewComment />
+        <NewComment
+          postId={id}
+          commentAddedCallback={() => setToRefetch(toRefetch + 1)}
+        />
       </Box>
     </Box>
   )
