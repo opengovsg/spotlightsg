@@ -1,21 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
-import { AddIcon, SearchIcon } from '@chakra-ui/icons'
-import {
-  Button,
-  Container,
-  HStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  VStack,
-} from '@chakra-ui/react'
+import { AddIcon } from '@chakra-ui/icons'
+import { Button, Container, HStack, VStack } from '@chakra-ui/react'
 
 import { BROWSE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
-import Post from '~components/Post'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
+import Search from '~components/Search'
 
 const Browse = (): JSX.Element => {
   const history = useHistory()
@@ -40,13 +32,7 @@ const Browse = (): JSX.Element => {
           id={params.postId}
         />
         <VStack align="start" py="30px">
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents="none"
-              children={<SearchIcon color="gray.300" />}
-            />
-            <Input type="tel" placeholder="Search..." />
-          </InputGroup>
+          <Search onSearch={(x) => console.log(x)} />
           <HStack>
             <Button
               leftIcon={<AddIcon />}

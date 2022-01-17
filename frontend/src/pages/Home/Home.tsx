@@ -6,6 +6,7 @@ import { BROWSE_ROUTE, HOMEPAGE_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
+import Search from '~components/Search'
 
 const Landing = (): JSX.Element => {
   const history = useHistory()
@@ -35,7 +36,7 @@ const Landing = (): JSX.Element => {
         </Flex>
         <VStack align="start" pt="50px">
           <Text>How would you describe your issue with a few keywords?</Text>
-          <Input />
+          <Search onSearch={(v) => console.log(v)} />
         </VStack>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           <PostCard id="a" route="/home/posts/a" />
