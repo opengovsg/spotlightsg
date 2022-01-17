@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
-import { Button, Flex, Input, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
-import { BROWSE_ROUTE, HOMEPAGE_ROUTE } from '~constants/routes'
+import { BROWSE_ROUTE, HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
@@ -45,6 +45,14 @@ const Landing = (): JSX.Element => {
           <PostCard id="d" route="/home/posts/d" />
           <PostCard id="e" route="/home/posts/e" />
         </SimpleGrid>
+        <VStack p="32px">
+          <Text textStyle="display2" pb="32px" color="primary.400">
+            Can't find your issue?
+          </Text>
+          <Button as={Link} to={NEW_POST_ROUTE} colorScheme="primary">
+            Submit Your Detailed Issue
+          </Button>
+        </VStack>
       </VStack>
     </>
   )
