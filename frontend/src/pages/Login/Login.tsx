@@ -121,7 +121,7 @@ const Login: React.FC = () => {
             Verify your OTP
           </Text>
           <Text textStyle="caption2" color="primary.500" pb="10px">
-            Your OTP should have been sent to your inbox
+            OTP sent to {email}
           </Text>
           <Input
             value={otp}
