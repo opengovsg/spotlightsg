@@ -14,24 +14,20 @@ import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
-import { CommentsService } from '../comments/comments.service'
 import _ from 'lodash'
 
 @Controller('posts')
 export class PostsController {
-  constructor(
-    private readonly postsService: PostsService,
-    private readonly commentsService: CommentsService
-  ) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @Get()
   async getAll(): Promise<PostSchema[]> {
-    return this.postsService.getAll()
+    return this.postsService.getAllAndMaskEmail()
   }
 
   @Get(':id')
   async getWithComments(@Param('id') postId: number): Promise<PostSchema> {
-    const post = await this.postsService.getUsingPostId(postId)
+    const post = await this.postsService.getUsingPostIdAndMaskEmail(postId)
     if (!post) throw new NotFoundException()
     return post
   }
