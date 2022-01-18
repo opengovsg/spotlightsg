@@ -30,9 +30,12 @@ export function veryfyOtpByEmail(params: {
 
 export function getAllPosts(): Promise<GetAllPostsResponse> {
   const headers = getAuthorizationHeader()
-  return baseConfig
-    .get<GetAllPostsResponse>('posts', { headers })
-    .then((res) => res.data)
+  return baseConfig.get<GetAllPostsResponse>('posts', { headers }).then((res) =>
+    // sort by time, latest post at index 0
+    res.data.sort((post1, post2) =>
+      post2.createdAt.localeCompare(post1.createdAt),
+    ),
+  )
 }
 
 export function getPostWithComments({

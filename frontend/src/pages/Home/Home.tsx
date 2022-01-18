@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
+import { AddIcon } from '@chakra-ui/icons'
 import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
 import { filterPosts } from '~/helpers'
 
-import { BROWSE_ROUTE, HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
+import { HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
 import { Post } from '~services/types'
 import AppHeader from '~components/AppHeader'
@@ -49,12 +50,16 @@ const Landing = (): JSX.Element => {
           <Text textStyle="display1" color="primary.400">
             Have a problem?
           </Text>
-          <Button as={Link} to={BROWSE_ROUTE} colorScheme="primary">
-            Browse Submitted Problems
+          <Button
+            as={Link}
+            to={NEW_POST_ROUTE}
+            colorScheme="primary"
+            leftIcon={<AddIcon />}
+          >
+            Submit your problem
           </Button>
         </Flex>
         <VStack align="start" pt="50px">
-          <Text>How would you describe your issue with a few keywords?</Text>
           <Search onSearch={onSearch} />
         </VStack>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
@@ -67,14 +72,6 @@ const Landing = (): JSX.Element => {
             />
           ))}
         </SimpleGrid>
-        <VStack p="32px">
-          <Text textStyle="display2" pb="32px" color="primary.400">
-            Can't find your issue?
-          </Text>
-          <Button as={Link} to={NEW_POST_ROUTE} colorScheme="primary">
-            Submit Your Detailed Issue
-          </Button>
-        </VStack>
       </VStack>
     </>
   )

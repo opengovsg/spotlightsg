@@ -14,6 +14,7 @@ export type Post = {
   id: number
   issue: string
   actionsTaken: string
+  createdAt: string
 }
 
 type Comment = {

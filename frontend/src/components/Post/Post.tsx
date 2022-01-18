@@ -35,9 +35,18 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box>
       {postWithComments ? (
         <>
+          <Text textStyle="h4" color="primary.500">
+            Issue
+          </Text>
           <Box whiteSpace="pre-line">{postWithComments.post.issue}</Box>
+          <Text textStyle="h4" color="primary.500" mt="30px">
+            Actions Taken
+          </Text>
+          <Box whiteSpace="pre-line">{postWithComments.post.actionsTaken}</Box>
           <Box mt="30px">
-            <Text textStyle="h4">Comments</Text>
+            <Text textStyle="h4" color="primary.500">
+              Comments
+            </Text>
             <VStack spacing="10px" align="stretch">
               {comments.length ? (
                 comments.map((comment) => (
@@ -53,7 +62,9 @@ const Post: React.FC<PostProps> = ({ id }) => {
         <Spinner />
       )}
       <Box mt="30px">
-        <Text textStyle="h4">Add your reply</Text>
+        <Text textStyle="h4" color="primary.500">
+          Add your reply
+        </Text>
         <NewComment
           postId={id}
           commentAddedCallback={() => setToRefetch(toRefetch + 1)}
