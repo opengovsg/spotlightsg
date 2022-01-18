@@ -6,6 +6,7 @@ import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
 import { UsersService } from '../users/users.service'
 import { User } from '../database/models'
+import { JwtService } from '@nestjs/jwt'
 
 describe('AuthService', () => {
   let service: AuthService
@@ -19,6 +20,7 @@ describe('AuthService', () => {
         ConfigService,
         OtpService,
         MailerService,
+        JwtService,
         {
           provide: getModelToken(User),
           useValue: mockModel,

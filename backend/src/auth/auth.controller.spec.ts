@@ -6,6 +6,7 @@ import { ConfigModule } from '../config/config.module'
 import { OtpModule } from '../otp/otp.module'
 import { MailerModule } from '../mailer/mailer.module'
 import { User } from '../database/models'
+import { UsersModule } from '../users/users.module'
 
 describe('AuthController', () => {
   let controller: AuthController
@@ -13,7 +14,7 @@ describe('AuthController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule, OtpModule, MailerModule],
+      imports: [ConfigModule, OtpModule, MailerModule, UsersModule],
       controllers: [AuthController],
       providers: [
         AuthService,
