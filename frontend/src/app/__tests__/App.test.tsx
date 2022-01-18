@@ -5,7 +5,9 @@ import { App } from '../App'
 test('renders page', async () => {
   render(<App />)
 
-  await waitFor(() =>
-    expect(screen.getByText('This is a mock login page')).toBeInTheDocument(),
+  await waitFor(async () =>
+    expect(
+      await screen.findByText('This is a mock login page'),
+    ).toBeInTheDocument(),
   )
 })
