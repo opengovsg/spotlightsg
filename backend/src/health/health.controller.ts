@@ -6,9 +6,11 @@ import {
   SequelizeHealthIndicator,
   MemoryHealthIndicator,
 } from '@nestjs/terminus'
+import { Public } from 'helper'
 import { ConfigService } from '../config/config.service'
 
 @Controller('health')
+@Public()
 export class HealthController {
   constructor(
     private health: HealthCheckService,

@@ -72,8 +72,8 @@ jobs:
 
         # Force hooks to run even during config deployment
         # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-linux-extend.html
-      - name: Copy platform hooks into confighooks
-        run: mkdir .platform/confighooks && cp -r .platform/hooks/. .platform/confighooks
+      #- name: Copy platform hooks into confighooks
+      #  run: mkdir .platform/confighooks && cp -r .platform/hooks/. .platform/confighooks
 
       - name: Upload deployment files
         uses: actions/upload-artifact@v2
