@@ -23,7 +23,7 @@ const PostModal: React.FC<PostModalProps> = ({ id, isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader></ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Post id={id ? parseInt(id) : undefined} />

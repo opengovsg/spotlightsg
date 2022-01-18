@@ -37,12 +37,6 @@ const Landing = (): JSX.Element => {
               </Text>
               <Text textStyle="h4">Replies From Other Public Officers</Text>
             </HStack>
-            <HStack>
-              <Text textStyle="h3" color="primary.500">
-                20
-              </Text>
-              <Text textStyle="h4">Problems Resolved</Text>
-            </HStack>
           </VStack>
           <Button as={Link} to={LOGIN_ROUTE} colorScheme="primary">
             Find help for your problems

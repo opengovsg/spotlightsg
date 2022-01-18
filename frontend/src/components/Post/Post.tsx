@@ -5,6 +5,7 @@ import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
 import Comment from '~components/Comment'
 import NewComment from '~components/NewComment'
+import PostBody from '~components/PostBody'
 
 type PostProps = {
   id: number | undefined
@@ -35,14 +36,11 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box>
       {postWithComments ? (
         <>
-          <Text textStyle="h4" color="primary.500">
-            Issue
-          </Text>
-          <Box whiteSpace="pre-line">{postWithComments.issue}</Box>
-          <Text textStyle="h4" color="primary.500" mt="30px">
-            Actions Taken
-          </Text>
-          <Box whiteSpace="pre-line">{postWithComments.actionsTaken}</Box>
+          <PostBody
+            user="someone from Agency ABC"
+            issue={postWithComments.issue}
+            actionsTaken={postWithComments.actionsTaken}
+          />
           <Box mt="30px">
             <Text textStyle="h4" color="primary.500">
               Comments

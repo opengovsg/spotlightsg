@@ -63,7 +63,7 @@ const NewPost = (): JSX.Element => {
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
                     <FormLabel mr="0">
-                      Tell us more about the problem that you’re facing to help
+                      Tell us more about the problem that you're facing to help
                       others understand and suggest potential solutions.
                       <Textarea
                         value={value}
