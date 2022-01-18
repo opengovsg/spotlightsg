@@ -8,7 +8,7 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript'
-import { Post } from '.'
+import { Post, User } from '.'
 
 @Table({ tableName: 'comments' })
 export class Comment extends Model {
@@ -29,11 +29,15 @@ export class Comment extends Model {
   @BelongsTo(() => Post)
   post!: Post
 
+  @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
   userId!: number
+
+  @BelongsTo(() => User)
+  user!: User
 
   @Column({
     type: DataType.TEXT,

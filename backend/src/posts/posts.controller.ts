@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
-import { Post as PostSchema, Comment } from '../database/models'
+import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CommentsService } from '../comments/comments.service'
 
@@ -29,13 +29,10 @@ export class PostsController {
   }
 
   @Get(':id')
-  async getWithComments(
-    @Param('id') postId: number
-  ): Promise<{ post: PostSchema; comments: Comment[] }> {
+  async getWithComments(@Param('id') postId: number): Promise<PostSchema> {
     const post = await this.postsService.getUsingPostId(postId)
     if (!post) throw new NotFoundException()
-    const comments = await this.commentsService.getUsingPostId(postId)
-    return { post, comments }
+    return post
   }
 
   @Post()
@@ -48,7 +45,7 @@ export class PostsController {
       const post = await this.postsService.create(
         req.user!.id,
         createPostDto.issue,
-        createPostDto.actionTaken
+        createPostDto.actionsTaken
       )
       res.status(HttpStatus.CREATED).json(post)
     } catch (error: any) {

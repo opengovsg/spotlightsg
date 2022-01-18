@@ -9,10 +9,6 @@ export class CommentsService {
     private readonly commentModel: typeof Comment
   ) {}
 
-  async getUsingPostId(postId: number): Promise<Comment[]> {
-    return this.commentModel.findAll({ where: { postId } })
-  }
-
   async create(
     postId: number,
     userId: number,
