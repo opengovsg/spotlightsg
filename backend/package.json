@@ -32,7 +32,7 @@
     "@nestjs/terminus": "^8.0.3",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
-    "aws-sdk": "^2.1052.0",
+    "aws-sdk": "^2.1058.0",
     "convict": "^6.2.1",
     "express-session": "^1.17.2",
     "helmet": "^5.0.1",
