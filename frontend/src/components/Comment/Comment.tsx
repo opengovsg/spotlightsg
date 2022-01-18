@@ -8,7 +8,7 @@ type CommentProps = {
 const Comment: React.FC<CommentProps> = ({ content }) => {
   return (
     <Box borderWidth="1px" borderRadius="md" p="10px" background="white">
-      <Text>someone@a.gov.sg</Text>
+      <Text fontWeight="bold">someone from OGP</Text>
       <Box whiteSpace="pre-line" mt="5px">
         {content}
       </Box>

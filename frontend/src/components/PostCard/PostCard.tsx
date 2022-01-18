@@ -30,7 +30,9 @@ const PostCard: React.FC<PostCardProps> = ({ id, route, previewText }) => {
         height="100%"
       >
         <Box>
-          <Text textStyle="subhead2">someone@open.gov.sg</Text>
+          <Text textStyle="subhead2" fontWeight="bold">
+            someone from Agency ABC
+          </Text>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
           </Text>

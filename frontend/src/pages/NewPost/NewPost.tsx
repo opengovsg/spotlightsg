@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -37,7 +38,20 @@ const NewPost = (): JSX.Element => {
       <AppHeader />
       <Container>
         <VStack align="stretch" py="30px">
-          <Text textStyle="display2" color="primary.400">
+          <Box>
+            <Button
+              variant="link"
+              colorScheme="primary"
+              as={Link}
+              to={HOMEPAGE_ROUTE}
+            >
+              <Text textStyle="caption2">
+                <ArrowBackIcon />
+                Back to main page
+              </Text>
+            </Button>
+          </Box>
+          <Text textStyle="display2" color="primary.500">
             Describe your problem
           </Text>
           <FormProvider {...formMethods}>
@@ -49,7 +63,8 @@ const NewPost = (): JSX.Element => {
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
                     <FormLabel mr="0">
-                      How would you describe your problem?
+                      Tell us more about the problem that you’re facing to help
+                      others understand and suggest potential solutions.
                       <Textarea
                         value={value}
                         onChange={onChange}
@@ -65,7 +80,7 @@ const NewPost = (): JSX.Element => {
                   defaultValue=""
                   render={({ field: { value, onChange } }) => (
                     <FormLabel>
-                      What are some ways you have tried to tackle this problem?
+                      What have you done so far to tackle this problem?
                       <Textarea
                         value={value}
                         onChange={onChange}
@@ -83,6 +98,12 @@ const NewPost = (): JSX.Element => {
                   >
                     Submit
                   </Button>
+                </Box>
+                <Box>
+                  <Text textStyle="caption2">
+                    Your identity will be kept anoymous when your problem is
+                    published.
+                  </Text>
                 </Box>
               </VStack>
             </form>
