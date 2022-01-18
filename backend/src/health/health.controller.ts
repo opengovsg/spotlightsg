@@ -6,7 +6,7 @@ import {
   SequelizeHealthIndicator,
   MemoryHealthIndicator,
 } from '@nestjs/terminus'
-import { Public } from 'helper'
+import { Public } from '../helper'
 import { ConfigService } from '../config/config.service'
 
 @Controller('health')
