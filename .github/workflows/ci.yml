@@ -9,10 +9,28 @@ env:
   PRODUCTION_BRANCH: refs/heads/develop
   EB_APPLICATION: 'production-spotlightsg'
   EB_PRODUCTION_ENVIRONMENT: 'production-spotlightsg'
+  DB_USERNAME: spotlight_db_test_user
+  DB_DATABASE: spotlight_db_test
+  DB_PASSWORD: test
 jobs:
   test:
     name: Lint and test
     runs-on: ubuntu-latest
+     services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: spotlight_db_test
+          POSTGRES_USER: spotlight_db_test_user
+          POSTGRES_PASSWORD: test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
 
