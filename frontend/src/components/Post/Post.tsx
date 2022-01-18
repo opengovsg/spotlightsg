@@ -38,11 +38,11 @@ const Post: React.FC<PostProps> = ({ id }) => {
           <Text textStyle="h4" color="primary.500">
             Issue
           </Text>
-          <Box whiteSpace="pre-line">{postWithComments.post.issue}</Box>
+          <Box whiteSpace="pre-line">{postWithComments.issue}</Box>
           <Text textStyle="h4" color="primary.500" mt="30px">
             Actions Taken
           </Text>
-          <Box whiteSpace="pre-line">{postWithComments.post.actionsTaken}</Box>
+          <Box whiteSpace="pre-line">{postWithComments.actionsTaken}</Box>
           <Box mt="30px">
             <Text textStyle="h4" color="primary.500">
               Comments

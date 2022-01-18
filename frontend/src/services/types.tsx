@@ -25,7 +25,6 @@ type Comment = {
 export type GetAllPostsResponse = Post[]
 export type CreatePostResponse = Post
 
-export type GetPostWithCommentResponse = {
-  post: Post
+export type GetPostWithCommentResponse = Post & {
   comments: Comment[]
 }
