@@ -29,7 +29,7 @@
     "@nestjs/platform-express": "^8.2.4",
     "@nestjs/sequelize": "^8.0.0",
     "@nestjs/serve-static": "^2.2.2",
-    "@nestjs/terminus": "^8.0.3",
+    "@nestjs/terminus": "^8.0.4",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
     "aws-sdk": "^2.1052.0",
