@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   // TODO update to not use any
-  validate(payload: any): Express.User {
+  validate(payload: { sub: number; email: string }): Express.User {
     return { id: payload.sub, email: payload.email }
   }
 }

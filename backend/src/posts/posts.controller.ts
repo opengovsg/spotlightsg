@@ -15,6 +15,7 @@ import { PostsService } from './posts.service'
 import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CommentsService } from '../comments/comments.service'
+import _ from 'lodash'
 
 @Controller('posts')
 export class PostsController {
@@ -55,7 +56,7 @@ export class PostsController {
       } else {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR)
       }
-      res.json({ message: error.message })
+      res.json(_.pick(error, 'message'))
     }
   }
 }

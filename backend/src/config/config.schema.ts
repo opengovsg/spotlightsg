@@ -29,12 +29,12 @@ export interface ConfigSchema {
  */
 convict.addFormats({
   'required-string': {
-    validate: (val: any): void => {
+    validate: (val: string): void => {
       if (val === '') {
         throw new Error('Required value cannot be empty')
       }
     },
-    coerce: (val: any): any => {
+    coerce: (val: string | null): string | undefined => {
       if (val === null) {
         return undefined
       }
