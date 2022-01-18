@@ -12,6 +12,7 @@ env:
   DB_USERNAME: spotlight_db_test_user
   DB_DATABASE: spotlight_db_test
   DB_PASSWORD: test
+  REACT_APP_BACKEND_URL: https://spotlight.hack.gov.sg/api
 jobs:
   test:
     name: Lint and test
