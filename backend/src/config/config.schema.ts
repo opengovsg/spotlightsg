@@ -111,7 +111,7 @@ export const schema: Schema<ConfigSchema> = {
     },
     database: {
       doc: 'Database host',
-      env: 'DB_HOST',
+      env: 'DB_DATABASE',
       default: 'spotlight_db',
       format: String,
     },
