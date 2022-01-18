@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Text, VStack } from '@chakra-ui/react'
+import { Box, Spinner, Text, VStack } from '@chakra-ui/react'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
@@ -20,9 +20,9 @@ const Post: React.FC<PostProps> = ({ id }) => {
 
   const refreshPost = async (id: number | undefined) => {
     if (!id) {
-      setPostWithComments(undefined)
       return
     }
+    setPostWithComments(undefined)
     const postWithComments = await getPostWithComments({ id })
     setPostWithComments(postWithComments)
   }
@@ -33,19 +33,25 @@ const Post: React.FC<PostProps> = ({ id }) => {
   const comments = postWithComments?.comments || []
   return (
     <Box>
-      <Box whiteSpace="pre-line">{postWithComments?.post.issue}</Box>
-      <Box mt="30px">
-        <Text textStyle="h4">Comments</Text>
-        <VStack spacing="10px" align="stretch">
-          {comments.length ? (
-            comments.map((comment) => (
-              <Comment key={comment.id} content={comment.content} />
-            ))
-          ) : (
-            <Text>No Comments Found</Text>
-          )}
-        </VStack>
-      </Box>
+      {postWithComments ? (
+        <>
+          <Box whiteSpace="pre-line">{postWithComments.post.issue}</Box>
+          <Box mt="30px">
+            <Text textStyle="h4">Comments</Text>
+            <VStack spacing="10px" align="stretch">
+              {comments.length ? (
+                comments.map((comment) => (
+                  <Comment key={comment.id} content={comment.content} />
+                ))
+              ) : (
+                <Text>No Comments Found</Text>
+              )}
+            </VStack>
+          </Box>
+        </>
+      ) : (
+        <Spinner />
+      )}
       <Box mt="30px">
         <Text textStyle="h4">Add your reply</Text>
         <NewComment
