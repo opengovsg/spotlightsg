@@ -37,7 +37,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
       {postWithComments ? (
         <>
           <PostBody
-            user="someone from Agency ABC"
+            email={postWithComments.user.email}
             issue={postWithComments.issue}
             actionsTaken={postWithComments.actionsTaken}
           />
@@ -48,7 +48,11 @@ const Post: React.FC<PostProps> = ({ id }) => {
             <VStack spacing="10px" align="stretch">
               {comments.length ? (
                 comments.map((comment) => (
-                  <Comment key={comment.id} content={comment.content} />
+                  <Comment
+                    key={comment.id}
+                    content={comment.content}
+                    email={postWithComments.user.email}
+                  />
                 ))
               ) : (
                 <Text>No Comments Found</Text>

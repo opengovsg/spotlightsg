@@ -3,13 +3,15 @@ import { useHistory } from 'react-router-dom'
 import { ChatIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 
+import { prettifyEmail } from '~/helpers'
+
 type PostCardProps = {
-  id: number
   route: string
   previewText: string
+  email: string
 }
 
-const PostCard: React.FC<PostCardProps> = ({ id, route, previewText }) => {
+const PostCard: React.FC<PostCardProps> = ({ route, previewText, email }) => {
   const history = useHistory()
   const onClick = () => {
     history.push(route)
@@ -31,7 +33,7 @@ const PostCard: React.FC<PostCardProps> = ({ id, route, previewText }) => {
       >
         <Box>
           <Text textStyle="subhead2" fontWeight="bold">
-            someone from Agency ABC
+            {prettifyEmail(email)}
           </Text>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}

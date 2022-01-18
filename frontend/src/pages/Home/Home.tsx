@@ -65,10 +65,10 @@ const Landing = (): JSX.Element => {
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (
             <PostCard
-              id={post.id}
               key={post.id}
               route={`/home/posts/${post.id}`}
               previewText={post.issue}
+              email={post.user.email}
             />
           ))}
         </SimpleGrid>
