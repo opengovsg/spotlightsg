@@ -10,7 +10,7 @@ import {
   Get,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { Public } from 'helper'
+import { Public } from '../helper'
 import _ from 'lodash'
 import { AuthService } from './auth.service'
 import { GenerateOtpDto } from './dto'

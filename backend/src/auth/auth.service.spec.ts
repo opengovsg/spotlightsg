@@ -4,6 +4,7 @@ import { AuthService } from './auth.service'
 import { ConfigService } from '../config/config.service'
 import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
+import { UsersService } from '../users/users.service'
 import { User } from '../database/models'
 
 describe('AuthService', () => {
@@ -14,6 +15,7 @@ describe('AuthService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
+        UsersService,
         ConfigService,
         OtpService,
         MailerService,

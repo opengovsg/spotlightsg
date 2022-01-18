@@ -4,7 +4,7 @@ import { User } from '../database/models'
 import { Logger } from '@nestjs/common'
 import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
-import { UsersService } from 'users/users.service'
+import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
