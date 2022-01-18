@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Comment } from 'database/models'
+import { Comment } from '../database/models'
 
 @Injectable()
 export class CommentsService {
