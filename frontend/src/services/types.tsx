@@ -10,7 +10,7 @@ export type VerifyOtpByEmailResponse = {
   token: string
 }
 
-type Post = {
+export type Post = {
   id: number
   issue: string
   actionsTaken: string

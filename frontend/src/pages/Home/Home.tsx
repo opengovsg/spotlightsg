@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
+import { filterPosts } from '~/helpers'
+
 import { BROWSE_ROUTE, HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
-import { GetAllPostsResponse } from '~services/types'
+import { Post } from '~services/types'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
@@ -12,13 +14,15 @@ import Search from '~components/Search'
 
 const Landing = (): JSX.Element => {
   const history = useHistory()
-  const [posts, setPosts] = useState<GetAllPostsResponse>([])
+  const [posts, setPosts] = useState<Post[]>([])
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([])
   const params = useParams<{ postId: string | undefined }>()
   const [isPostOpen, setIsPostOpen] = useState<boolean>(!!params.postId)
 
   async function initPosts() {
     const posts = await getAllPosts()
     setPosts(posts)
+    setDisplayedPosts(posts)
   }
   useEffect(() => {
     initPosts()
@@ -30,6 +34,10 @@ const Landing = (): JSX.Element => {
 
   const onClosePost = () => {
     history.push(HOMEPAGE_ROUTE)
+  }
+
+  const onSearch = (search: string) => {
+    setDisplayedPosts(filterPosts(search, posts))
   }
 
   return (
@@ -47,10 +55,10 @@ const Landing = (): JSX.Element => {
         </Flex>
         <VStack align="start" pt="50px">
           <Text>How would you describe your issue with a few keywords?</Text>
-          <Search onSearch={(v) => console.log(v)} />
+          <Search onSearch={onSearch} />
         </VStack>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
-          {posts.map((post) => (
+          {displayedPosts.map((post) => (
             <PostCard
               id={post.id}
               key={post.id}
