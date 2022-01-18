@@ -10,7 +10,8 @@ import {
   Get,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
-import { Public } from 'helper'
+import { Public } from '../helper'
+import _ from 'lodash'
 import { AuthService } from './auth.service'
 import { GenerateOtpDto } from './dto'
 import { LocalAuthGuard } from './local-auth.guard'
@@ -28,11 +29,11 @@ export class AuthController {
     try {
       await this.authService.generateOtp(generateOtpDto)
       res.status(HttpStatus.OK).json({ message: 'OTP sent' })
-    } catch (error: any) {
+    } catch (error: unknown) {
       Logger.error(error)
       res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error.message })
+        .json(_.pick(error, 'message'))
     }
   }
 

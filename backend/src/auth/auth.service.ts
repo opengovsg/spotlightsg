@@ -4,7 +4,7 @@ import { User } from '../database/models'
 import { Logger } from '@nestjs/common'
 import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
-import { UsersService } from 'users/users.service'
+import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
 
 @Injectable()
@@ -27,8 +27,8 @@ export class AuthService {
     // TODO: Replace the `from` and `subject` fields with content specific to your application
     const mail = {
       to: email,
-      from: 'Starter Kit <donotreply@mail.open.gov.sg>',
-      subject: 'One-Time Password (OTP) for Starter Kit',
+      from: 'Spotlight <donotreply@spotlight.hack.gov.sg>',
+      subject: 'One-Time Password (OTP) for Spotlight',
       html,
     }
 

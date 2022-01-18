@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment } from 'database/models'
+import { Post, User, Comment } from '../database/models'
 
 @Injectable()
 export class PostsService {

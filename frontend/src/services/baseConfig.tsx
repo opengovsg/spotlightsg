@@ -3,7 +3,8 @@ import axios from 'axios'
 import { Auth } from '~/auth/types'
 import { LOGGED_IN_KEY } from '~/localStorage'
 
-const BACKEND_URL = 'http://localhost:8080/api'
+const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080/api'
 
 const baseConfiguration = {
   // Configure base url

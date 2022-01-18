@@ -15,6 +15,7 @@ import { PostsService } from './posts.service'
 import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CommentsService } from '../comments/comments.service'
+import _ from 'lodash'
 
 @Controller('posts')
 export class PostsController {
@@ -48,14 +49,14 @@ export class PostsController {
         createPostDto.actionsTaken
       )
       res.status(HttpStatus.CREATED).json(post)
-    } catch (error: any) {
+    } catch (error: unknown) {
       Logger.error(error)
-      if (error.name === 'SequelizeForeignKeyConstraintError') {
+      if (_.get(error, 'name') === 'SequelizeForeignKeyConstraintError') {
         res.status(HttpStatus.BAD_REQUEST)
       } else {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR)
       }
-      res.json({ message: error.message })
+      res.json(_.pick(error, 'message'))
     }
   }
 }

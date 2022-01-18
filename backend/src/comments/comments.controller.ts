@@ -10,6 +10,7 @@ import {
 import { Request, Response } from 'express'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
+import _ from 'lodash'
 
 @Controller('comments')
 export class CommentsController {
@@ -28,14 +29,14 @@ export class CommentsController {
         createCommentDto.content
       )
       res.status(HttpStatus.CREATED).json(comment)
-    } catch (error: any) {
+    } catch (error: unknown) {
       Logger.error(error)
-      if (error.name === 'SequelizeForeignKeyConstraintError') {
+      if (_.get(error, 'name') === 'SequelizeForeignKeyConstraintError') {
         res.status(HttpStatus.BAD_REQUEST)
       } else {
         res.status(HttpStatus.INTERNAL_SERVER_ERROR)
       }
-      res.json({ message: error.message })
+      res.json(_.pick(error, 'message'))
     }
   }
 }

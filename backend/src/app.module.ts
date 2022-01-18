@@ -1,43 +1,31 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common'
-import { SequelizeModule } from '@nestjs/sequelize'
 import { HelmetMiddleware } from 'middlewares/helmet.middleware'
 import { SessionMiddleware } from 'middlewares/session.middleware'
-import { ConfigModule } from 'config/config.module'
-import { AuthModule } from 'auth/auth.module'
-import { OtpModule } from 'otp/otp.module'
-import { MailerModule } from 'mailer/mailer.module'
-import { TerminusModule } from '@nestjs/terminus'
-import { HealthModule } from './health/health.module'
-import { ConfigService } from 'config/config.service'
+import { ServeStaticModule } from '@nestjs/serve-static'
 import { JwtAuthGuard } from 'auth/jwt-auth.guard'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
-import { PostsModule } from 'posts/posts.module'
-import { CommentsModule } from 'comments/comments.module'
+import { join } from 'path'
+import { ApiModule } from './api.module'
 
 @Module({
   imports: [
-    ConfigModule,
-    OtpModule,
-    MailerModule,
-    SequelizeModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        dialect: 'postgres',
-        host: config.get('db.host'),
-        port: config.get('db.port'),
-        username: config.get('db.username'),
-        password: config.get('db.password'),
-        database: config.get('db.database'),
-        autoLoadModels: true, // TO-DO: remove in production
-        synchronize: true, // TO-DO: remove in production
-      }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'frontend', 'build'),
+      serveStaticOptions: {
+        maxAge: 2 * 60 * 60 * 1000, // 2 hours, same as cloudflare
+        setHeaders: function (res, path) {
+          // set maxAge to 0 for root index.html
+          if (
+            path ===
+            join(__dirname, '..', '..', 'frontend', 'build', 'index.html')
+          ) {
+            res.setHeader('Cache-control', 'public, max-age=0')
+          }
+        },
+      },
     }),
-    AuthModule,
-    TerminusModule,
-    HealthModule,
-    PostsModule,
-    CommentsModule,
+    ApiModule,
   ],
   providers: [
     {
@@ -50,6 +38,6 @@ import { CommentsModule } from 'comments/comments.module'
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     // Apply global middlewares
-    consumer.apply(HelmetMiddleware, SessionMiddleware).forRoutes('*')
+    consumer.apply(HelmetMiddleware, SessionMiddleware).forRoutes('/api/*')
   }
 }

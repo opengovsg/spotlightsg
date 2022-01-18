@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { Comment } from 'database/models'
+import { Comment } from '../database/models'
 import { CommentsController } from './comments.controller'
 import { CommentsService } from './comments.service'
 
