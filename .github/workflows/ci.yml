@@ -126,7 +126,6 @@ jobs:
       - name: Generate deployment package
         run: |
           cd deploy
-          chmod -R +x .platform/hooks .platform/confighooks
           zip -r ../deploy.zip .
       - name: Set branch specific env vars
         run: |
