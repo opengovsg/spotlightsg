@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { GenerateOtpDto } from './dto/index'
 import { User } from '../database/models'
 import { Logger } from '@nestjs/common'
@@ -6,7 +6,6 @@ import { OtpService } from '../otp/otp.service'
 import { MailerService } from '../mailer/mailer.service'
 import { UsersService } from '../users/users.service'
 import { JwtService } from '@nestjs/jwt'
-import validator from 'validator'
 
 @Injectable()
 export class AuthService {
@@ -19,9 +18,6 @@ export class AuthService {
 
   async generateOtp(generateOtpDto: GenerateOtpDto): Promise<void> {
     const { email } = generateOtpDto
-    if (!validator.isEmail(email) || !email.endsWith('.gov.sg')) {
-      throw new HttpException('Invalid email', HttpStatus.FORBIDDEN)
-    }
     const { token, timeLeft } = this.otpService.generateOtp(email)
 
     const html = `Your OTP is <b>${token}</b>. It will expire in ${timeLeft} minutes.
