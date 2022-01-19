@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { DeleteIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
+  Button,
   IconButton,
   Menu,
   MenuButton,
@@ -9,6 +17,7 @@ import {
   MenuList,
   Spinner,
   Text,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react'
 
@@ -26,6 +35,13 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ id }) => {
   const { auth } = useAuth()
+  const {
+    isOpen: deleteIsOpen,
+    onClose: deleteOnClose,
+    onOpen: deleteOnOpen,
+  } = useDisclosure()
+  const deleteCancelRef = React.useRef<HTMLButtonElement>(null)
+
   // hack: change this variable to trigger a refetch
   const [toRefetch, setToRefetch] = useState(0)
 
@@ -51,21 +67,52 @@ const Post: React.FC<PostProps> = ({ id }) => {
       {postWithComments ? (
         <>
           {auth?.user.email === postWithComments.user.email && (
-            <Menu>
-              <MenuButton
-                top="0"
-                right="0"
-                position="absolute"
-                as={IconButton}
-                icon={<HamburgerIcon />}
-                variant="ghost"
-                size="lg"
-              />
-              <MenuList>
-                <MenuItem icon={<EditIcon />}>Edit</MenuItem>
-                <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
-              </MenuList>
-            </Menu>
+            <>
+              <Menu>
+                <MenuButton
+                  top="0"
+                  right="0"
+                  position="absolute"
+                  as={IconButton}
+                  icon={<HamburgerIcon />}
+                  variant="ghost"
+                  size="lg"
+                />
+                <MenuList>
+                  <MenuItem icon={<EditIcon />}>Edit</MenuItem>
+                  <MenuItem icon={<DeleteIcon />} onClick={deleteOnOpen}>
+                    Delete
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+              <AlertDialog
+                motionPreset="slideInBottom"
+                leastDestructiveRef={deleteCancelRef}
+                onClose={deleteOnClose}
+                isOpen={deleteIsOpen}
+                isCentered
+              >
+                <AlertDialogOverlay />
+
+                <AlertDialogContent>
+                  <AlertDialogHeader color="black">
+                    Delete post?
+                  </AlertDialogHeader>
+                  <AlertDialogCloseButton />
+                  <AlertDialogBody>
+                    Are you sure you want to delete the post permanently?
+                  </AlertDialogBody>
+                  <AlertDialogFooter>
+                    <Button ref={deleteCancelRef} onClick={deleteOnClose}>
+                      No
+                    </Button>
+                    <Button colorScheme="red" ml={3}>
+                      Yes
+                    </Button>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
           )}
           <PostBody
             email={postWithComments.user.email}
