@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Spinner, Text, VStack } from '@chakra-ui/react'
+import { DeleteIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
+
+import { useAuth } from '~/auth'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
@@ -12,6 +25,7 @@ type PostProps = {
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
+  const { auth } = useAuth()
   // hack: change this variable to trigger a refetch
   const [toRefetch, setToRefetch] = useState(0)
 
@@ -33,9 +47,26 @@ const Post: React.FC<PostProps> = ({ id }) => {
 
   const comments = postWithComments?.comments || []
   return (
-    <Box>
+    <Box position="relative">
       {postWithComments ? (
         <>
+          {auth?.user.email === postWithComments.user.email && (
+            <Menu>
+              <MenuButton
+                top="0"
+                right="0"
+                position="absolute"
+                as={IconButton}
+                icon={<HamburgerIcon />}
+                variant="ghost"
+                size="lg"
+              />
+              <MenuList>
+                <MenuItem icon={<EditIcon />}>Edit</MenuItem>
+                <MenuItem icon={<DeleteIcon />}>Delete</MenuItem>
+              </MenuList>
+            </Menu>
+          )}
           <PostBody
             email={postWithComments.user.email}
             issue={postWithComments.issue}
