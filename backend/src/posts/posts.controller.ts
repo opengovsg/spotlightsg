@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
-import { Post as PostSchema } from '../database/models'
+import { PostModified } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import _ from 'lodash'
 
@@ -21,12 +21,12 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAll(): Promise<PostSchema[]> {
+  async getAll(): Promise<PostModified[]> {
     return this.postsService.getAllAndMaskEmail()
   }
 
   @Get(':id')
-  async getWithComments(@Param('id') postId: number): Promise<PostSchema> {
+  async getWithComments(@Param('id') postId: number): Promise<PostModified> {
     const post = await this.postsService.getUsingPostIdAndMaskEmail(postId)
     if (!post) throw new NotFoundException()
     return post

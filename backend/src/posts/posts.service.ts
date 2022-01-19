@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment } from '../database/models'
+import {
+  Post,
+  User,
+  Comment,
+  UserModified,
+  PostModified,
+  CommentModified,
+} from '../database/models'
 import _ from 'lodash'
 
 @Injectable()
@@ -11,9 +18,11 @@ export class PostsService {
   ) {}
 
   // TODO: to shift method to utils module should there be other modules that require masking of emails
-  maskEmail(userField: User): void {
+  maskEmail(userField: User): UserModified {
+    const userModified: UserModified = {} as UserModified
     const split = userField.email.split('@')
-    userField.email = _.last(split)!
+    userModified.emailDomain = _.last(split)!
+    return userModified
   }
 
   async getAll(): Promise<Post[]> {
@@ -27,10 +36,18 @@ export class PostsService {
     })
   }
 
-  async getAllAndMaskEmail(): Promise<Post[]> {
+  async getAllAndMaskEmail(): Promise<PostModified[]> {
     const allPosts = await this.getAll()
-    allPosts.forEach((post) => this.maskEmail(post.user))
-    return allPosts
+    return allPosts.map((post) => {
+      return {
+        id: post.id,
+        issue: post.issue,
+        actionsTaken: post.actionsTaken,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        user: this.maskEmail(post.user),
+      } as PostModified
+    })
   }
 
   async getUsingPostId(postId: number): Promise<Post | null> {
@@ -54,11 +71,28 @@ export class PostsService {
     })
   }
 
-  async getUsingPostIdAndMaskEmail(postId: number): Promise<Post | null> {
+  async getUsingPostIdAndMaskEmail(
+    postId: number
+  ): Promise<PostModified | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
-      this.maskEmail(post.user)
-      post.comments.forEach((comment) => this.maskEmail(comment.user))
+      return {
+        id: post.id,
+        issue: post.issue,
+        actionsTaken: post.actionsTaken,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+        user: this.maskEmail(post.user),
+        comments: post.comments.map((comment) => {
+          return {
+            id: comment.id,
+            user: this.maskEmail(comment.user),
+            content: comment.content,
+            createdAt: comment.createdAt,
+            updatedAt: comment.updatedAt,
+          } as CommentModified
+        }),
+      } as PostModified
     }
     return post
   }
