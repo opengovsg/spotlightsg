@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
+import { Sequelize } from 'sequelize-typescript'
 import { Post, User, Comment } from '../database/models'
 
 @Injectable()
@@ -16,7 +17,17 @@ export class PostsService {
           model: User,
           attributes: ['email'],
         },
+        {
+          model: Comment,
+          attributes: [],
+        },
       ],
+      attributes: {
+        include: [
+          [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentsCount'],
+        ],
+      },
+      group: ['Post.id', 'user.id'],
     })
   }
 
