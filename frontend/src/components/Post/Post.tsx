@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DeleteIcon, EditIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,11 +10,7 @@ import {
   AlertDialogOverlay,
   Box,
   Button,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  HStack,
   Spinner,
   Text,
   useDisclosure,
@@ -22,10 +18,12 @@ import {
 } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
+import { prettifyEmail } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
 import Comment from '~components/Comment'
+import EditPostBody from '~components/EditPostBody'
 import NewComment from '~components/NewComment'
 import PostBody from '~components/PostBody'
 
@@ -41,6 +39,8 @@ const Post: React.FC<PostProps> = ({ id }) => {
     onOpen: deleteOnOpen,
   } = useDisclosure()
   const deleteCancelRef = React.useRef<HTMLButtonElement>(null)
+
+  const [isEditing, setIsEditing] = useState(false)
 
   // hack: change this variable to trigger a refetch
   const [toRefetch, setToRefetch] = useState(0)
@@ -66,25 +66,28 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box position="relative">
       {postWithComments ? (
         <>
+          <Text fontWeight="bold">
+            {prettifyEmail(postWithComments.user.email)}
+          </Text>
           {auth?.user.email === postWithComments.user.email && (
             <>
-              <Menu>
-                <MenuButton
-                  top="0"
-                  right="0"
-                  position="absolute"
-                  as={IconButton}
-                  icon={<HamburgerIcon />}
-                  variant="ghost"
-                  size="lg"
-                />
-                <MenuList>
-                  <MenuItem icon={<EditIcon />}>Edit</MenuItem>
-                  <MenuItem icon={<DeleteIcon />} onClick={deleteOnOpen}>
-                    Delete
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+              <HStack pt="20px">
+                <Button
+                  leftIcon={<EditIcon />}
+                  size="sm"
+                  onClick={() => setIsEditing(true)}
+                  disabled={isEditing}
+                >
+                  Edit
+                </Button>
+                <Button
+                  leftIcon={<DeleteIcon />}
+                  size="sm"
+                  onClick={deleteOnOpen}
+                >
+                  Delete
+                </Button>
+              </HStack>
               <AlertDialog
                 motionPreset="slideInBottom"
                 leastDestructiveRef={deleteCancelRef}
@@ -114,42 +117,51 @@ const Post: React.FC<PostProps> = ({ id }) => {
               </AlertDialog>
             </>
           )}
-          <PostBody
-            email={postWithComments.user.email}
-            issue={postWithComments.issue}
-            actionsTaken={postWithComments.actionsTaken}
-          />
-          <Box mt="30px">
-            <Text textStyle="h4" color="primary.500">
-              Comments
-            </Text>
-            <VStack spacing="10px" align="stretch">
-              {comments.length ? (
-                comments.map((comment) => (
-                  <Comment
-                    key={comment.id}
-                    content={comment.content}
-                    email={postWithComments.user.email}
+          {isEditing ? (
+            <EditPostBody
+              defaultIssue={postWithComments.issue}
+              defaultActionsTaken={postWithComments.actionsTaken}
+              onCancel={() => setIsEditing(false)}
+            />
+          ) : (
+            <>
+              <PostBody
+                issue={postWithComments.issue}
+                actionsTaken={postWithComments.actionsTaken}
+              />
+              <Box mt="30px">
+                <Text textStyle="h4" color="primary.500">
+                  Comments
+                </Text>
+                <VStack spacing="10px" align="stretch">
+                  {comments.length ? (
+                    comments.map((comment) => (
+                      <Comment
+                        key={comment.id}
+                        content={comment.content}
+                        email={postWithComments.user.email}
+                      />
+                    ))
+                  ) : (
+                    <Text>No Comments Found</Text>
+                  )}
+                </VStack>
+                <Box mt="30px">
+                  <Text textStyle="h4" color="primary.500">
+                    Add your reply
+                  </Text>
+                  <NewComment
+                    postId={id}
+                    commentAddedCallback={() => setToRefetch(toRefetch + 1)}
                   />
-                ))
-              ) : (
-                <Text>No Comments Found</Text>
-              )}
-            </VStack>
-          </Box>
+                </Box>
+              </Box>
+            </>
+          )}
         </>
       ) : (
         <Spinner />
       )}
-      <Box mt="30px">
-        <Text textStyle="h4" color="primary.500">
-          Add your reply
-        </Text>
-        <NewComment
-          postId={id}
-          commentAddedCallback={() => setToRefetch(toRefetch + 1)}
-        />
-      </Box>
     </Box>
   )
 }
