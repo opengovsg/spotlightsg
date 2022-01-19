@@ -46,11 +46,10 @@ export class PostsService {
     issue: string,
     actionsTaken: string
   ): Promise<Post> {
-    const post = await this.postModel.create({
+    return this.postModel.create({
       userId,
       issue,
       actionsTaken,
     })
-    return post
   }
 }

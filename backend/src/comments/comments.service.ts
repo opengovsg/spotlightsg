@@ -14,11 +14,10 @@ export class CommentsService {
     userId: number,
     content: string
   ): Promise<Comment> {
-    const comment = await this.commentModel.create({
+    return this.commentModel.create({
       postId,
       userId,
       content,
     })
-    return comment
   }
 }
