@@ -19,10 +19,11 @@ export class PostsService {
 
   // TODO: to shift method to utils module should there be other modules that require masking of emails
   maskEmail(userField: User): UserModified {
-    const userModified: UserModified = {} as UserModified
     const split = userField.email.split('@')
-    userModified.emailDomain = _.last(split)!
-    return userModified
+    const emailDomain = _.last(split)!
+    return {
+      emailDomain,
+    }
   }
 
   async getAll(): Promise<Post[]> {
