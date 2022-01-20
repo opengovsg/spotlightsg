@@ -7,7 +7,7 @@ import { filterPosts } from '~/helpers'
 
 import { HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
-import { Post } from '~services/types'
+import { PostWithCommentsCount } from '~services/types'
 import AppHeader from '~components/AppHeader'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
@@ -15,8 +15,10 @@ import Search from '~components/Search'
 
 const Landing = (): JSX.Element => {
   const history = useHistory()
-  const [posts, setPosts] = useState<Post[]>([])
-  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<PostWithCommentsCount[]>([])
+  const [displayedPosts, setDisplayedPosts] = useState<PostWithCommentsCount[]>(
+    [],
+  )
   const params = useParams<{ postId: string | undefined }>()
   const [isPostOpen, setIsPostOpen] = useState<boolean>(!!params.postId)
 
@@ -69,6 +71,7 @@ const Landing = (): JSX.Element => {
               route={`/home/posts/${post.id}`}
               previewText={post.issue}
               email={post.user.email}
+              commentsCount={post.commentsCount}
             />
           ))}
         </SimpleGrid>

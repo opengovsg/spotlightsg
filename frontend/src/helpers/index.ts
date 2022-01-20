@@ -1,6 +1,6 @@
 import { Post } from '~services/types'
 
-export function filterPosts(search: string, posts: Post[]): Post[] {
+export function filterPosts<T extends Post>(search: string, posts: T[]): T[] {
   // split search into words and filter by non-empty string
   const words = search
     .split(/\s/)
