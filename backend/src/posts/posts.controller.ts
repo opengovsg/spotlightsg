@@ -5,25 +5,20 @@ import {
   Get,
   Body,
   HttpStatus,
-  Logger,
   Res,
   Param,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
-import { CommentsService } from '../comments/comments.service'
-import _ from 'lodash'
 import { AllPostsResponseDto } from './dto/all-posts-response.dto'
 
 @Controller('posts')
 export class PostsController {
-  constructor(
-    private readonly postsService: PostsService,
-    private readonly commentsService: CommentsService
-  ) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @Get()
   async getAll(): Promise<AllPostsResponseDto> {
@@ -32,6 +27,7 @@ export class PostsController {
 
   @Get(':id')
   async getWithComments(@Param('id') postId: number): Promise<PostSchema> {
+    if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
     const post = await this.postsService.getUsingPostId(postId)
     if (!post) throw new NotFoundException()
     return post
@@ -43,21 +39,11 @@ export class PostsController {
     @Res() res: Response,
     @Body() createPostDto: CreatePostDto
   ): Promise<void> {
-    try {
-      const post = await this.postsService.create(
-        req.user!.id,
-        createPostDto.issue,
-        createPostDto.actionsTaken
-      )
-      res.status(HttpStatus.CREATED).json(post)
-    } catch (error: unknown) {
-      Logger.error(error)
-      if (_.get(error, 'name') === 'SequelizeForeignKeyConstraintError') {
-        res.status(HttpStatus.BAD_REQUEST)
-      } else {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR)
-      }
-      res.json(_.pick(error, 'message'))
-    }
+    const post = await this.postsService.create(
+      req.user!.id,
+      createPostDto.issue,
+      createPostDto.actionsTaken
+    )
+    res.status(HttpStatus.CREATED).json(post)
   }
 }
