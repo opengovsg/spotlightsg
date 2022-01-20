@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   HStack,
@@ -23,7 +16,9 @@ import { prettifyEmail } from '~/helpers'
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
 import Comment from '~components/Comment'
+import DeletePostAlert from '~components/DeletePostAlert'
 import EditPostBody from '~components/EditPostBody'
+import FollowButton from '~components/FollowButton'
 import NewComment from '~components/NewComment'
 import PostBody from '~components/PostBody'
 
@@ -38,8 +33,6 @@ const Post: React.FC<PostProps> = ({ id }) => {
     onClose: deleteOnClose,
     onOpen: deleteOnOpen,
   } = useDisclosure()
-  const deleteCancelRef = React.useRef<HTMLButtonElement>(null)
-
   const [isEditing, setIsEditing] = useState(false)
 
   // hack: change this variable to trigger a refetch
@@ -69,6 +62,9 @@ const Post: React.FC<PostProps> = ({ id }) => {
           <Text fontWeight="bold">
             {prettifyEmail(postWithComments.user.email)}
           </Text>
+          <Box pt="20px">
+            <FollowButton isFollowing={false} />
+          </Box>
           {auth?.user.email === postWithComments.user.email && (
             <>
               <HStack pt="20px">
@@ -88,33 +84,11 @@ const Post: React.FC<PostProps> = ({ id }) => {
                   Delete
                 </Button>
               </HStack>
-              <AlertDialog
-                motionPreset="slideInBottom"
-                leastDestructiveRef={deleteCancelRef}
+              <DeletePostAlert
                 onClose={deleteOnClose}
                 isOpen={deleteIsOpen}
-                isCentered
-              >
-                <AlertDialogOverlay />
-
-                <AlertDialogContent>
-                  <AlertDialogHeader color="black">
-                    Delete post?
-                  </AlertDialogHeader>
-                  <AlertDialogCloseButton />
-                  <AlertDialogBody>
-                    Are you sure you want to delete the post permanently?
-                  </AlertDialogBody>
-                  <AlertDialogFooter>
-                    <Button ref={deleteCancelRef} onClick={deleteOnClose}>
-                      No
-                    </Button>
-                    <Button colorScheme="red" ml={3}>
-                      Yes
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                onDelete={() => console.log('delete post button clicked')}
+              />
             </>
           )}
           {isEditing ? (
