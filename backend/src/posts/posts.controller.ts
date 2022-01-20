@@ -16,6 +16,7 @@ import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { CommentsService } from '../comments/comments.service'
 import _ from 'lodash'
+import { AllPostsResponseDto } from './dto/all-posts-response.dto'
 
 @Controller('posts')
 export class PostsController {
@@ -25,7 +26,7 @@ export class PostsController {
   ) {}
 
   @Get()
-  async getAll(): Promise<PostSchema[]> {
+  async getAll(): Promise<AllPostsResponseDto> {
     return this.postsService.getAll()
   }
 
