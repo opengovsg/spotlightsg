@@ -10,6 +10,7 @@ import {
   NotFoundException,
   BadRequestException,
   Delete,
+  ForbiddenException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { CommentsService } from './comments.service'
@@ -64,7 +65,7 @@ export class CommentsController {
       commentId,
       req.user!.id
     )
-    if (numDeleted === 0) throw new NotFoundException()
+    if (numDeleted === 0) throw new ForbiddenException()
     res.status(HttpStatus.NO_CONTENT).send()
   }
 }

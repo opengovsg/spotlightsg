@@ -11,6 +11,7 @@ import {
   Patch,
   BadRequestException,
   Delete,
+  ForbiddenException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
@@ -80,7 +81,7 @@ export class PostsController {
   ): Promise<void> {
     if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
     const numDeleted = await this.postsService.delete(postId, req.user!.id)
-    if (numDeleted === 0) throw new NotFoundException()
+    if (numDeleted === 0) throw new ForbiddenException()
     res.status(HttpStatus.NO_CONTENT).send()
   }
 }
