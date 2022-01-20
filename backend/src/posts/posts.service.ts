@@ -27,9 +27,8 @@ export class PostsService {
   }
 
   async getAll(): Promise<PostStrippedWithCommentsCountAndOriginalUser[]> {
-    // Need to cast because of additional attributes
     // TODO update AllPostsResponseDto with user email attributes
-    return this.postModel.findAll({
+    const models = await this.postModel.findAll({
       include: [
         {
           model: User,
@@ -46,9 +45,14 @@ export class PostsService {
         ],
       },
       group: ['Post.id', 'user.id'],
-    }) as Promise<unknown> as Promise<
-      PostStrippedWithCommentsCountAndOriginalUser[]
-    >
+    })
+
+    const posts = models.map((model) => ({
+      ...model.get({ plain: true }),
+      commentsCount: parseInt(String(model.get('commentsCount'))),
+    }))
+
+    return posts
   }
 
   async getAllAndMaskEmail(): Promise<
