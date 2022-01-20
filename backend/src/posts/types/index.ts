@@ -13,12 +13,15 @@ export type PostStrippedWithCommentsCountAndOriginalUser =
     user: User
   }
 
-export type PostStrippedWithCommentsCountAndUserEmailDomain =
+export type PostStrippedWithCommentsCountAndUserEmailDomainAndAccess =
   PostStrippedWithCommentsCount & {
     user: UserEmailDomain
+    canManage: boolean
   }
 
-export type PostStrippedWithUserEmailDomainAndComment = PostStripped & {
-  user: UserEmailDomain
-  comments: CommentWithUser[]
-}
+export type PostStrippedWithUserEmailDomainAndCommentAndAccess =
+  PostStripped & {
+    user: UserEmailDomain
+    comments: CommentWithUser[]
+    canManage: boolean
+  }
