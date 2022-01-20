@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { ChatIcon } from '@chakra-ui/icons'
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 
-import { prettifyEmail } from '~/helpers'
+import { prettifyEmailDomain } from '~/helpers'
 
 type PostCardProps = {
   route: string
@@ -39,7 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
       >
         <Box>
           <Text textStyle="subhead2" fontWeight="bold">
-            {prettifyEmail(email)}
+            {prettifyEmailDomain(email)}
           </Text>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
