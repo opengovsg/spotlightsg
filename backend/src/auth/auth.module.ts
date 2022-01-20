@@ -8,7 +8,7 @@ import { UsersModule } from 'users/users.module'
 import { LocalStrategy } from './local.strategy'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
-import { jwtConstants } from './constants'
+import { ConfigService } from 'config/config.service'
 
 @Module({
   imports: [
@@ -17,9 +17,13 @@ import { jwtConstants } from './constants'
     MailerModule,
     UsersModule,
     PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1y' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get('jwt.secret'),
+        signOptions: { expiresIn: '1y' },
+      }),
     }),
   ],
   controllers: [AuthController],
