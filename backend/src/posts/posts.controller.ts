@@ -8,13 +8,13 @@ import {
   Res,
   Param,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
 import { AllPostsResponseDto } from './dto/all-posts-response.dto'
+import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
 
 @Controller('posts')
 export class PostsController {
@@ -26,9 +26,10 @@ export class PostsController {
   }
 
   @Get(':id')
-  async getWithComments(@Param('id') postId: number): Promise<PostSchema> {
-    if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
-    const post = await this.postsService.getUsingPostId(postId)
+  async getWithComments(
+    @Param() param: IsNumberStringValidator
+  ): Promise<PostSchema> {
+    const post = await this.postsService.getUsingPostId(param.id)
     if (!post) throw new NotFoundException()
     return post
   }
