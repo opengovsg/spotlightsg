@@ -16,7 +16,6 @@ import { Request, Response } from 'express'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { EditCommentDto } from './dto/edit-comment.dto'
-import { Comment } from '../database/models'
 
 @Controller('comments')
 export class CommentsController {
@@ -39,18 +38,28 @@ export class CommentsController {
   @Patch(':id')
   async edit(
     @Req() req: Request,
+    @Res() res: Response,
     @Body() editCommentDto: EditCommentDto,
     @Param('id') commentId: number
-  ): Promise<Comment> {
+  ): Promise<void> {
     if (isNaN(commentId))
       throw new BadRequestException('Param is not an integer')
+    const existingComment =
+      await this.commentsService.getUsingCommentIdAndUserId(
+        commentId,
+        req.user!.id
+      )
+    if (!existingComment) throw new NotFoundException()
     const comment = await this.commentsService.edit(
       commentId,
       req.user!.id,
       editCommentDto.content
     )
-    if (!comment) throw new NotFoundException()
-    return comment
+    if (!comment) {
+      res.status(HttpStatus.NO_CONTENT).send()
+      return
+    }
+    res.status(HttpStatus.OK).json(comment)
   }
 
   @Delete(':id')

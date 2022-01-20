@@ -59,18 +59,27 @@ export class PostsController {
   @Patch(':id')
   async edit(
     @Req() req: Request,
+    @Res() res: Response,
     @Body() editPostDto: EditPostDto,
     @Param('id') postId: number
-  ): Promise<PostSchema> {
+  ): Promise<void> {
     if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
+    const existingPost = await this.postsService.getUsingPostIdAndUserId(
+      postId,
+      req.user!.id
+    )
+    if (!existingPost) throw new NotFoundException()
     const post = await this.postsService.edit(
       postId,
       req.user!.id,
       editPostDto.issue,
       editPostDto.actionsTaken
     )
-    if (!post) throw new NotFoundException()
-    return post
+    if (!post) {
+      res.status(HttpStatus.NO_CONTENT).send()
+      return
+    }
+    res.status(HttpStatus.OK).json(post)
   }
 
   @Delete(':id')

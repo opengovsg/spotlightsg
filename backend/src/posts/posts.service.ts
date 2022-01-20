@@ -135,11 +135,20 @@ export class PostsService {
     })
   }
 
+  async getUsingPostIdAndUserId(
+    postId: number,
+    userId: number
+  ): Promise<Post | null> {
+    return this.postModel.findOne({
+      where: { id: postId, userId },
+    })
+  }
+
   async edit(
     postId: number,
     userId: number,
-    issue: string,
-    actionsTaken: string
+    issue?: string,
+    actionsTaken?: string
   ): Promise<Post> {
     const [, post] = await this.postModel.update(
       {
@@ -148,7 +157,7 @@ export class PostsService {
       },
       { where: { id: postId, userId }, returning: true }
     )
-    return post[0]
+    return post ? post[0] : post
   }
 
   async delete(postId: number, userId: number): Promise<number> {
