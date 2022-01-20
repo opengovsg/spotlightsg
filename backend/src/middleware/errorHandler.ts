@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common'
 import { BaseExceptionFilter } from '@nestjs/core'
 import { Response } from 'express'
-import { Message } from './types'
 import _ from 'lodash'
 
 @Catch()
@@ -25,11 +24,13 @@ export class ErrorHandler extends BaseExceptionFilter {
     Logger.error(error)
     const response = host.switchToHttp().getResponse<Response>()
     const statusCode = this.determineStatusCode(error)
-    const messageObj: Message = _.pick(error, 'message') as Message
+    const responseFromClassValidator = _.get(error, 'response')
     response.status(statusCode).json({
       statusCode,
       errorName: _.get(error, 'name'),
-      message: messageObj.message,
+      message: responseFromClassValidator
+        ? _.get(responseFromClassValidator, 'message')
+        : _.get(error, 'message'),
     })
   }
 }
