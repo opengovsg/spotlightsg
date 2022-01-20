@@ -20,7 +20,7 @@ type PostModalProps = {
 
 const PostModal: React.FC<PostModalProps> = ({ id, isOpen, onClose }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+    <Modal isOpen={isOpen} onClose={onClose} size="5xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader></ModalHeader>

@@ -37,7 +37,3 @@ export class User extends Model {
   @UpdatedAt
   updatedAt!: Date
 }
-
-export type UserModified = {
-  emailDomain: string
-}

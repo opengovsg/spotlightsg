@@ -84,7 +84,7 @@ const Login: React.FC = () => {
             value={email}
             placeholder="e.g jane@data.gov.sg"
             type="email"
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => setEmail(event.target.value.toLowerCase())}
           />
         </label>
         <Box>

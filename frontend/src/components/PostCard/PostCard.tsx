@@ -9,9 +9,15 @@ type PostCardProps = {
   route: string
   previewText: string
   email: string
+  commentsCount: number
 }
 
-const PostCard: React.FC<PostCardProps> = ({ route, previewText, email }) => {
+const PostCard: React.FC<PostCardProps> = ({
+  route,
+  previewText,
+  email,
+  commentsCount,
+}) => {
   const history = useHistory()
   const onClick = () => {
     history.push(route)
@@ -40,7 +46,7 @@ const PostCard: React.FC<PostCardProps> = ({ route, previewText, email }) => {
           </Text>
         </Box>
         <HStack textStyle="subhead2">
-          <Text>5 comments</Text>
+          <Text>{commentsCount} comments</Text>
           <ChatIcon />
         </HStack>
       </Flex>

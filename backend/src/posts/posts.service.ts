@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import {
-  Post,
-  User,
-  Comment,
-  UserModified,
-  PostModified,
-  CommentModified,
-} from '../database/models'
+import { Post, User, Comment } from '../database/models'
 import _ from 'lodash'
-
+import { Sequelize } from 'sequelize-typescript'
+import { UserEmailDomain } from '../auth/types'
+import {
+  PostStrippedWithCommentsCountAndOriginalUser,
+  PostStrippedWithCommentsCountAndUserEmailDomain,
+  PostStrippedWithUserEmailDomainAndComment,
+} from './types'
+import { CommentWithUser } from 'comments/types'
 @Injectable()
 export class PostsService {
   constructor(
@@ -18,7 +18,7 @@ export class PostsService {
   ) {}
 
   // TODO: to shift method to utils module should there be other modules that require masking of emails
-  maskEmail(userField: User): UserModified {
+  maskEmail(userField: User): UserEmailDomain {
     const split = userField.email.split('@')
     const emailDomain = _.last(split)!
     return {
@@ -26,18 +26,34 @@ export class PostsService {
     }
   }
 
-  async getAll(): Promise<Post[]> {
+  async getAll(): Promise<PostStrippedWithCommentsCountAndOriginalUser[]> {
+    // Need to cast because of additional attributes
+    // TODO update AllPostsResponseDto with user email attributes
     return this.postModel.findAll({
       include: [
         {
           model: User,
           attributes: ['email'],
         },
+        {
+          model: Comment,
+          attributes: [],
+        },
       ],
-    })
+      attributes: {
+        include: [
+          [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentsCount'],
+        ],
+      },
+      group: ['Post.id', 'user.id'],
+    }) as Promise<unknown> as Promise<
+      PostStrippedWithCommentsCountAndOriginalUser[]
+    >
   }
 
-  async getAllAndMaskEmail(): Promise<PostModified[]> {
+  async getAllAndMaskEmail(): Promise<
+    PostStrippedWithCommentsCountAndUserEmailDomain[]
+  > {
     const allPosts = await this.getAll()
     return allPosts.map((post) => {
       return {
@@ -47,7 +63,8 @@ export class PostsService {
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
         user: this.maskEmail(post.user),
-      } as PostModified
+        commentsCount: post.commentsCount,
+      } as PostStrippedWithCommentsCountAndUserEmailDomain
     })
   }
 
@@ -74,7 +91,7 @@ export class PostsService {
 
   async getUsingPostIdAndMaskEmail(
     postId: number
-  ): Promise<PostModified | null> {
+  ): Promise<PostStrippedWithUserEmailDomainAndComment | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
       return {
@@ -91,9 +108,9 @@ export class PostsService {
             content: comment.content,
             createdAt: comment.createdAt,
             updatedAt: comment.updatedAt,
-          } as CommentModified
+          } as CommentWithUser
         }),
-      } as PostModified
+      } as PostStrippedWithUserEmailDomainAndComment
     }
     return post
   }
@@ -103,11 +120,10 @@ export class PostsService {
     issue: string,
     actionsTaken: string
   ): Promise<Post> {
-    const post = await this.postModel.create({
+    return this.postModel.create({
       userId,
       issue,
       actionsTaken,
     })
-    return post
   }
 }

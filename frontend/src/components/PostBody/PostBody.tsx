@@ -1,17 +1,13 @@
 import React from 'react'
 import { Box, Text } from '@chakra-ui/react'
 
-import { prettifyEmail } from '~/helpers'
-
 type PostBodyProps = {
-  email: string
   issue: string
   actionsTaken: string
 }
 
-const PostBody: React.FC<PostBodyProps> = ({ email, issue, actionsTaken }) => (
+const PostBody: React.FC<PostBodyProps> = ({ issue, actionsTaken }) => (
   <Box>
-    <Text fontWeight="bold">{prettifyEmail(email)}</Text>
     <Text textStyle="h4" color="primary.500" mt="30px">
       Issue
     </Text>

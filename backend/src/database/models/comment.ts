@@ -8,7 +8,7 @@ import {
   BelongsTo,
   ForeignKey,
 } from 'sequelize-typescript'
-import { Post, User, UserModified } from '.'
+import { Post, User } from '.'
 
 @Table({ tableName: 'comments' })
 export class Comment extends Model {
@@ -50,12 +50,4 @@ export class Comment extends Model {
 
   @UpdatedAt
   updatedAt!: Date
-}
-
-export type CommentModified = {
-  id: number
-  user: UserModified
-  content: string
-  createdAt: Date
-  updatedAt: Date
 }

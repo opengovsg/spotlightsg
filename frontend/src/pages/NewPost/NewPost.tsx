@@ -9,6 +9,7 @@ import {
   FormLabel,
   Text,
   Textarea,
+  useToast,
   VStack,
 } from '@chakra-ui/react'
 
@@ -22,6 +23,7 @@ type FormValues = {
 }
 
 const NewPost = (): JSX.Element => {
+  const toast = useToast()
   const history = useHistory()
   const formMethods = useForm<FormValues>()
   const { control, handleSubmit } = formMethods
@@ -29,8 +31,16 @@ const NewPost = (): JSX.Element => {
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true)
-    const post = await createPost(data)
-    history.push(`${HOMEPAGE_ROUTE}${POST_ROUTE}/${post.id}`)
+    try {
+      const post = await createPost(data)
+      history.push(`${HOMEPAGE_ROUTE}${POST_ROUTE}/${post.id}`)
+    } catch (error) {
+      setIsLoading(false)
+      toast({
+        title: 'Error creating post',
+        status: 'error',
+      })
+    }
   }
 
   return (
