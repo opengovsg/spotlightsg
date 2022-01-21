@@ -14,8 +14,8 @@ import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
 import {
-  PostStrippedWithCommentsCountAndUserEmailDomain,
-  PostStrippedWithUserEmailDomainAndComment,
+  PostStrippedWithCommentsCountAndUserEmailDomainAndAccess,
+  PostStrippedWithUserEmailDomainAndCommentAndAccess,
 } from './types'
 
 @Controller('posts')
@@ -23,15 +23,21 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAll(): Promise<PostStrippedWithCommentsCountAndUserEmailDomain[]> {
-    return this.postsService.getAllAndMaskEmail()
+  async getAll(
+    @Req() req: Request
+  ): Promise<PostStrippedWithCommentsCountAndUserEmailDomainAndAccess[]> {
+    return this.postsService.getAllAndMaskEmail(req.user!)
   }
 
   @Get(':id')
   async getWithComments(
+    @Req() req: Request,
     @Param() param: IsNumberStringValidator
-  ): Promise<PostStrippedWithUserEmailDomainAndComment> {
-    const post = await this.postsService.getUsingPostIdAndMaskEmail(param.id)
+  ): Promise<PostStrippedWithUserEmailDomainAndCommentAndAccess> {
+    const post = await this.postsService.getUsingPostIdAndMaskEmail(
+      param.id,
+      req.user!
+    )
     if (!post) throw new NotFoundException()
     return post
   }

@@ -80,7 +80,7 @@ const Landing = (): JSX.Element => {
               previewText={post.issue}
               email={post.user.emailDomain}
               commentsCount={post.commentsCount}
-              canManage={false}
+              canManage={post.canManage}
             />
           ))}
         </SimpleGrid>

@@ -19,6 +19,7 @@ export type Post = {
   user: {
     emailDomain: string
   }
+  canManage: boolean
 }
 
 type Comment = {

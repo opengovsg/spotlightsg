@@ -6,8 +6,8 @@ import { Sequelize } from 'sequelize-typescript'
 import { UserEmailDomain } from '../auth/types'
 import {
   PostStrippedWithCommentsCountAndOriginalUser,
-  PostStrippedWithCommentsCountAndUserEmailDomain,
-  PostStrippedWithUserEmailDomainAndComment,
+  PostStrippedWithCommentsCountAndUserEmailDomainAndAccess,
+  PostStrippedWithUserEmailDomainAndCommentAndAccess,
 } from './types'
 import { CommentWithUser } from 'comments/types'
 @Injectable()
@@ -32,7 +32,6 @@ export class PostsService {
       include: [
         {
           model: User,
-          attributes: ['email'],
         },
         {
           model: Comment,
@@ -55,9 +54,9 @@ export class PostsService {
     return posts
   }
 
-  async getAllAndMaskEmail(): Promise<
-    PostStrippedWithCommentsCountAndUserEmailDomain[]
-  > {
+  async getAllAndMaskEmail(
+    user: Express.User
+  ): Promise<PostStrippedWithCommentsCountAndUserEmailDomainAndAccess[]> {
     const allPosts = await this.getAll()
     return allPosts.map((post) => {
       return {
@@ -69,7 +68,8 @@ export class PostsService {
         updatedAt: post.updatedAt,
         user: this.maskEmail(post.user),
         commentsCount: post.commentsCount,
-      } as PostStrippedWithCommentsCountAndUserEmailDomain
+        canManage: user.id === post.user.id,
+      }
     })
   }
 
@@ -79,7 +79,6 @@ export class PostsService {
       include: [
         {
           model: User,
-          attributes: ['email'],
         },
         {
           model: Comment,
@@ -95,8 +94,9 @@ export class PostsService {
   }
 
   async getUsingPostIdAndMaskEmail(
-    postId: number
-  ): Promise<PostStrippedWithUserEmailDomainAndComment | null> {
+    postId: number,
+    user: Express.User
+  ): Promise<PostStrippedWithUserEmailDomainAndCommentAndAccess | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
       return {
@@ -116,7 +116,8 @@ export class PostsService {
             updatedAt: comment.updatedAt,
           } as CommentWithUser
         }),
-      } as PostStrippedWithUserEmailDomainAndComment
+        canManage: user.id === post.user.id,
+      }
     }
     return post
   }

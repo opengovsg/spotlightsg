@@ -76,7 +76,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
             </Box>
             <FollowButton isFollowing={false} postId={postWithComments.id} />
           </Flex>
-          {auth?.user.email === postWithComments.user.emailDomain && (
+          {postWithComments.canManage && (
             <>
               <HStack pt="20px">
                 <Button

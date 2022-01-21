@@ -11,8 +11,27 @@ import {
 } from 'sequelize-typescript'
 import { User, Comment, Follow } from '.'
 
+export type PostAttributes = {
+  id: number
+  userId: number
+  title: string
+  issue: string
+  actionsTaken: string
+  user: User
+  comments: Comment[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type PostCreationAttributes = {
+  userId: number
+  title: string
+  issue: string
+  actionsTaken: string
+}
+
 @Table({ tableName: 'posts' })
-export class Post extends Model {
+export class Post extends Model<PostAttributes, PostCreationAttributes> {
   @Column({
     primaryKey: true,
     type: DataType.INTEGER,
