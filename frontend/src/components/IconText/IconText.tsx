@@ -9,7 +9,7 @@ type IconTextProps = {
 
 const IconText: React.FC<IconTextProps> = ({ icon, text, tooltip }) => {
   return (
-    <Tooltip isDisabled={!!tooltip} label={tooltip} hasArrow placement="top">
+    <Tooltip label={tooltip} hasArrow placement="top">
       <HStack p="10px" spacing="10px">
         {icon}
         {text && <Text>{text}</Text>}
