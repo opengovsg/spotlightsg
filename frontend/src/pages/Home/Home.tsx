@@ -70,7 +70,7 @@ const Landing = (): JSX.Element => {
               key={post.id}
               route={`/home/posts/${post.id}`}
               previewText={post.issue}
-              email={post.user.email}
+              email={post.user.emailDomain}
               commentsCount={post.commentsCount}
             />
           ))}

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
-import { prettifyEmail } from '~/helpers'
+import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
@@ -60,12 +60,12 @@ const Post: React.FC<PostProps> = ({ id }) => {
       {postWithComments ? (
         <>
           <Text fontWeight="bold">
-            {prettifyEmail(postWithComments.user.email)}
+            {prettifyEmailDomain(postWithComments.user.emailDomain)}
           </Text>
           <Box pt="20px">
             <FollowButton isFollowing={false} />
           </Box>
-          {auth?.user.email === postWithComments.user.email && (
+          {auth?.user.email === postWithComments.user.emailDomain && (
             <>
               <HStack pt="20px">
                 <Button
@@ -113,7 +113,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
                       <Comment
                         key={comment.id}
                         content={comment.content}
-                        email={postWithComments.user.email}
+                        email={postWithComments.user.emailDomain}
                       />
                     ))
                   ) : (

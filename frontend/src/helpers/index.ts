@@ -11,7 +11,7 @@ export function filterPosts<T extends Post>(search: string, posts: T[]): T[] {
   )
 }
 
-export function prettifyEmail(email: string): string {
+export function prettifyEmailDomain(domain: string): string {
   const getPrettyDomain = (domain: string) => {
     switch (domain) {
       case 'open.gov.sg':
@@ -23,6 +23,5 @@ export function prettifyEmail(email: string): string {
         return domain
     }
   }
-  const domain = email.split('@')[1]
   return `someone from ${getPrettyDomain(domain)}`
 }

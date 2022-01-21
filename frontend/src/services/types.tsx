@@ -16,7 +16,7 @@ export type Post = {
   actionsTaken: string
   createdAt: string
   user: {
-    email: string
+    emailDomain: string
   }
 }
 

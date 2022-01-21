@@ -11,25 +11,27 @@ import {
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
-import { Post as PostSchema } from '../database/models'
 import { CreatePostDto } from './dto/create-post.dto'
-import { AllPostsResponseDto } from './dto/all-posts-response.dto'
 import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
+import {
+  PostStrippedWithCommentsCountAndUserEmailDomain,
+  PostStrippedWithUserEmailDomainAndComment,
+} from './types'
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAll(): Promise<AllPostsResponseDto> {
-    return this.postsService.getAll()
+  async getAll(): Promise<PostStrippedWithCommentsCountAndUserEmailDomain[]> {
+    return this.postsService.getAllAndMaskEmail()
   }
 
   @Get(':id')
   async getWithComments(
     @Param() param: IsNumberStringValidator
-  ): Promise<PostSchema> {
-    const post = await this.postsService.getUsingPostId(param.id)
+  ): Promise<PostStrippedWithUserEmailDomainAndComment> {
+    const post = await this.postsService.getUsingPostIdAndMaskEmail(param.id)
     if (!post) throw new NotFoundException()
     return post
   }
