@@ -62,6 +62,7 @@ export class PostsService {
     return allPosts.map((post) => {
       return {
         id: post.id,
+        title: post.title,
         issue: post.issue,
         actionsTaken: post.actionsTaken,
         createdAt: post.createdAt,
@@ -100,6 +101,7 @@ export class PostsService {
     if (post) {
       return {
         id: post.id,
+        title: post.title,
         issue: post.issue,
         actionsTaken: post.actionsTaken,
         createdAt: post.createdAt,
@@ -121,11 +123,13 @@ export class PostsService {
 
   async create(
     userId: number,
+    title: string,
     issue: string,
     actionsTaken: string
   ): Promise<Post> {
     return this.postModel.create({
       userId,
+      title,
       issue,
       actionsTaken,
     })

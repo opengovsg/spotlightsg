@@ -44,6 +44,7 @@ export class PostsController {
   ): Promise<void> {
     const post = await this.postsService.create(
       req.user!.id,
+      createPostDto.title,
       createPostDto.issue,
       createPostDto.actionsTaken
     )
