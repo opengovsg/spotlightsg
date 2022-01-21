@@ -147,11 +147,13 @@ export class PostsService {
   async edit(
     postId: number,
     userId: number,
+    title?: string,
     issue?: string,
     actionsTaken?: string
   ): Promise<Post> {
     const [, post] = await this.postModel.update(
       {
+        title,
         issue,
         actionsTaken,
       },

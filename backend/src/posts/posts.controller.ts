@@ -70,6 +70,7 @@ export class PostsController {
     const post = await this.postsService.edit(
       param.id,
       req.user!.id,
+      editPostDto.title,
       editPostDto.issue,
       editPostDto.actionsTaken
     )
