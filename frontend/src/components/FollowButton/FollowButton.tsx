@@ -4,6 +4,7 @@ import { Button } from '@chakra-ui/react'
 
 type FollowButtonProps = {
   isFollowing: boolean
+  postId: number
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({ isFollowing }) => {

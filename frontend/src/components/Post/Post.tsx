@@ -74,7 +74,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowing={false} />
+            <FollowButton isFollowing={false} postId={postWithComments.id} />
           </Flex>
           {auth?.user.email === postWithComments.user.emailDomain && (
             <>

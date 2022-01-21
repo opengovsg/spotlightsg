@@ -36,7 +36,7 @@ const NewPost = (): JSX.Element => {
     setIsLoading(true)
     try {
       const post = await createPost(data)
-      history.push(`${HOMEPAGE_ROUTE}${POST_ROUTE}/${post.id}`)
+      history.push(`${POST_ROUTE}/${post.id}`)
     } catch (error) {
       setIsLoading(false)
       toast({

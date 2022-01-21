@@ -5,11 +5,12 @@ import { Badge, Box, Flex, HStack, Text } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 
+import { POST_ROUTE } from '~constants/routes'
 import FollowButton from '~components/FollowButton'
 import IconText from '~components/IconText'
 
 type PostCardProps = {
-  route: string
+  id: number
   title: string
   previewText: string
   email: string
@@ -18,7 +19,7 @@ type PostCardProps = {
 }
 
 const PostCard: React.FC<PostCardProps> = ({
-  route,
+  id,
   title,
   previewText,
   email,
@@ -27,7 +28,7 @@ const PostCard: React.FC<PostCardProps> = ({
 }) => {
   const history = useHistory()
   const onClick = () => {
-    history.push(route)
+    history.push(`${POST_ROUTE}/${id}`)
   }
   return (
     <Box
@@ -59,7 +60,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowing={false} />
+            <FollowButton isFollowing={false} postId={id} />
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
