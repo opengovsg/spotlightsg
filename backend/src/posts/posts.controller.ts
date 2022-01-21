@@ -13,19 +13,14 @@ import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
-import {
-  PostStrippedWithCommentsCountAndUserEmailDomainAndAccess,
-  PostStrippedWithUserEmailDomainAndCommentAndAccess,
-} from './types'
+import { PostWithLongDetails, PostWithShortDetails } from './types'
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAll(
-    @Req() req: Request
-  ): Promise<PostStrippedWithCommentsCountAndUserEmailDomainAndAccess[]> {
+  async getAll(@Req() req: Request): Promise<PostWithShortDetails[]> {
     return this.postsService.getAllAndMaskEmail(req.user!)
   }
 
@@ -33,7 +28,7 @@ export class PostsController {
   async getWithComments(
     @Req() req: Request,
     @Param() param: IsNumberStringValidator
-  ): Promise<PostStrippedWithUserEmailDomainAndCommentAndAccess> {
+  ): Promise<PostWithLongDetails> {
     const post = await this.postsService.getUsingPostIdAndMaskEmail(
       param.id,
       req.user!

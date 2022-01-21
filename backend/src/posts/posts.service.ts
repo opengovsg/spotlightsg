@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment } from '../database/models'
+import { Post, User, Comment, PostAttributes } from '../database/models'
 import _ from 'lodash'
 import { Sequelize } from 'sequelize-typescript'
 import { UserEmailDomain } from '../auth/types'
-import {
-  PostStrippedWithCommentsCountAndOriginalUser,
-  PostStrippedWithCommentsCountAndUserEmailDomainAndAccess,
-  PostStrippedWithUserEmailDomainAndCommentAndAccess,
-} from './types'
+import { PostWithLongDetails, PostWithShortDetails } from './types'
 import { CommentWithUser } from 'comments/types'
 @Injectable()
 export class PostsService {
@@ -26,7 +22,9 @@ export class PostsService {
     }
   }
 
-  async getAll(): Promise<PostStrippedWithCommentsCountAndOriginalUser[]> {
+  async getAll(): Promise<
+    (PostAttributes & { user: User; commentsCount: number })[]
+  > {
     // TODO update AllPostsResponseDto with user email attributes
     const models = await this.postModel.findAll({
       include: [
@@ -49,14 +47,14 @@ export class PostsService {
     const posts = models.map((model) => ({
       ...model.get({ plain: true }),
       commentsCount: parseInt(String(model.get('commentsCount'))),
-    }))
+    })) as (PostAttributes & { user: User; commentsCount: number })[]
 
     return posts
   }
 
   async getAllAndMaskEmail(
     user: Express.User
-  ): Promise<PostStrippedWithCommentsCountAndUserEmailDomainAndAccess[]> {
+  ): Promise<PostWithShortDetails[]> {
     const allPosts = await this.getAll()
     return allPosts.map((post) => {
       return {
@@ -96,7 +94,7 @@ export class PostsService {
   async getUsingPostIdAndMaskEmail(
     postId: number,
     user: Express.User
-  ): Promise<PostStrippedWithUserEmailDomainAndCommentAndAccess | null> {
+  ): Promise<PostWithLongDetails | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
       return {
