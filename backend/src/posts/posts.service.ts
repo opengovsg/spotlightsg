@@ -32,7 +32,6 @@ export class PostsService {
       include: [
         {
           model: User,
-          attributes: ['email'],
         },
         {
           model: Comment,
@@ -69,7 +68,7 @@ export class PostsService {
         updatedAt: post.updatedAt,
         user: this.maskEmail(post.user),
         commentsCount: post.commentsCount,
-        canManage: user.email === post.user.email,
+        canManage: user.id === post.user.id,
       }
     })
   }
@@ -80,7 +79,6 @@ export class PostsService {
       include: [
         {
           model: User,
-          attributes: ['email'],
         },
         {
           model: Comment,
