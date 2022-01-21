@@ -20,6 +20,8 @@ export type Post = {
     emailDomain: string
   }
   canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
 
 type Comment = {

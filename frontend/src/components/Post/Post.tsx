@@ -74,7 +74,10 @@ const Post: React.FC<PostProps> = ({ id }) => {
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowing={false} postId={postWithComments.id} />
+            <FollowButton
+              isFollowing={postWithComments.isFollowing}
+              postId={postWithComments.id}
+            />
           </Flex>
           {postWithComments.canManage && (
             <>

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment, PostAttributes } from '../database/models'
+import { Post, User, Comment, PostAttributes, Follow } from '../database/models'
 import _ from 'lodash'
 import { Sequelize } from 'sequelize-typescript'
 import { UserEmailDomain } from '../auth/types'
@@ -23,7 +23,11 @@ export class PostsService {
   }
 
   async getAll(): Promise<
-    (PostAttributes & { user: User; commentsCount: number })[]
+    (PostAttributes & {
+      user: User
+      commentsCount: number
+      followsCount: number
+    })[]
   > {
     // TODO update AllPostsResponseDto with user email attributes
     const models = await this.postModel.findAll({
@@ -35,10 +39,15 @@ export class PostsService {
           model: Comment,
           attributes: [],
         },
+        {
+          model: Follow,
+          attributes: [],
+        },
       ],
       attributes: {
         include: [
           [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentsCount'],
+          [Sequelize.fn('COUNT', Sequelize.col('follows')), 'followsCount'],
         ],
       },
       group: ['Post.id', 'user.id'],
@@ -47,7 +56,12 @@ export class PostsService {
     const posts = models.map((model) => ({
       ...model.get({ plain: true }),
       commentsCount: parseInt(String(model.get('commentsCount'))),
-    })) as (PostAttributes & { user: User; commentsCount: number })[]
+      followsCount: parseInt(String(model.get('followsCount'))),
+    })) as (PostAttributes & {
+      user: User
+      commentsCount: number
+      followsCount: number
+    })[]
 
     return posts
   }
@@ -67,6 +81,8 @@ export class PostsService {
         user: this.maskEmail(post.user),
         commentsCount: post.commentsCount,
         canManage: user.id === post.user.id,
+        isFollowing: false, // TODO this is fake
+        followsCount: post.followsCount,
       }
     })
   }
@@ -77,6 +93,9 @@ export class PostsService {
       include: [
         {
           model: User,
+        },
+        {
+          model: Follow,
         },
         {
           model: Comment,
@@ -97,6 +116,7 @@ export class PostsService {
   ): Promise<PostWithLongDetails | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
+      console.log(post.follows)
       return {
         id: post.id,
         title: post.title,
@@ -115,6 +135,8 @@ export class PostsService {
           } as CommentWithUser
         }),
         canManage: user.id === post.user.id,
+        isFollowing: post.follows.some((follow) => follow.userId === user.id),
+        followsCount: post.follows.length,
       }
     }
     return post

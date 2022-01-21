@@ -8,10 +8,14 @@ export type PostWithShortDetails = PostStripped & {
   commentsCount: number
   user: UserEmailDomain
   canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
 
 export type PostWithLongDetails = PostStripped & {
   comments: CommentWithUser[]
   user: UserEmailDomain
   canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
