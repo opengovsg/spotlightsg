@@ -19,6 +19,7 @@ export interface ConfigSchema {
     database: string
   }
   health: { heapSizeThreshold: number; rssThreshold: number }
+  jwt: { secret: string }
 }
 
 /**
@@ -156,6 +157,14 @@ export const schema: Schema<ConfigSchema> = {
       format: 'int',
       // TODO: Set to a more reasonable value depending on the instance size used.
       default: 3000 * 1024 * 1024, // 3000MB
+    },
+  },
+  jwt: {
+    secret: {
+      doc: 'jwt secret used to generate login jwts',
+      env: 'SPOTLIGHTSG_APP_JWT_SECRET',
+      default: 'secretKey',
+      format: String,
     },
   },
 }
