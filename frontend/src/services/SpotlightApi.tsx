@@ -72,13 +72,13 @@ export function createComment(params: {
 export function followPost(params: { postId: number }): Promise<void> {
   const headers = getAuthorizationHeader()
   return baseConfig
-    .post<void>('follows', params, { headers })
+    .post<void>('follow', params, { headers })
     .then((res) => res.data)
 }
 
 export function unfollowPost(params: { postId: number }): Promise<void> {
   const headers = getAuthorizationHeader()
   return baseConfig
-    .delete<void>('follows', { headers, data: params })
+    .delete<void>('follow', { headers, data: params })
     .then((res) => res.data)
 }
