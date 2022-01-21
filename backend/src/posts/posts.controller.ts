@@ -66,7 +66,7 @@ export class PostsController {
       param.id,
       req.user!.id
     )
-    if (!existingPost) throw new NotFoundException()
+    if (!existingPost) throw new ForbiddenException()
     const post = await this.postsService.edit(
       param.id,
       req.user!.id,

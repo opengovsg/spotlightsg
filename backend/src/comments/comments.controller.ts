@@ -7,7 +7,6 @@ import {
   Res,
   Patch,
   Param,
-  NotFoundException,
   Delete,
   ForbiddenException,
 } from '@nestjs/common'
@@ -47,7 +46,7 @@ export class CommentsController {
         param.id,
         req.user!.id
       )
-    if (!existingComment) throw new NotFoundException()
+    if (!existingComment) throw new ForbiddenException()
     const comment = await this.commentsService.edit(
       param.id,
       req.user!.id,
