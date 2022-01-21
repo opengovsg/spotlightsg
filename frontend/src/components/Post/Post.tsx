@@ -3,6 +3,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
+  Flex,
   HStack,
   Spinner,
   Text,
@@ -59,12 +60,22 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box position="relative">
       {postWithComments ? (
         <>
-          <Text fontWeight="bold">
-            {prettifyEmailDomain(postWithComments.user.emailDomain)}
-          </Text>
-          <Box pt="20px">
+          <Flex justify="space-between">
+            <Box>
+              <Text textStyle="h3">{postWithComments.title}</Text>
+              <Text textStyle="body2" color="neutral.700">
+                submitted by{' '}
+                <Text as="span" fontWeight="bold">
+                  someone
+                </Text>{' '}
+                from{' '}
+                <Text as="span" fontWeight="bold">
+                  {prettifyEmailDomain(postWithComments.user.emailDomain)}
+                </Text>
+              </Text>
+            </Box>
             <FollowButton isFollowing={false} />
-          </Box>
+          </Flex>
           {auth?.user.email === postWithComments.user.emailDomain && (
             <>
               <HStack pt="20px">

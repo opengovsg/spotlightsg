@@ -1,10 +1,11 @@
 import React from 'react'
 import { BiCommentDetail, BiEditAlt, BiUser } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom'
-import { Badge, Box, Button, Flex, HStack, Text } from '@chakra-ui/react'
+import { Badge, Box, Flex, HStack, Text } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 
+import FollowButton from '~components/FollowButton'
 import IconText from '~components/IconText'
 
 type PostCardProps = {
@@ -58,9 +59,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>
               </Text>
             </Box>
-            <Button colorScheme="primary" size="sm">
-              Follow
-            </Button>
+            <FollowButton isFollowing={false} />
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}

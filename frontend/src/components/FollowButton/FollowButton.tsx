@@ -7,8 +7,17 @@ type FollowButtonProps = {
 }
 
 const FollowButton: React.FC<FollowButtonProps> = ({ isFollowing }) => {
+  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation() // stop postcard from clicking
+  }
+
   return (
-    <Button leftIcon={<BellIcon />} size="sm">
+    <Button
+      leftIcon={<BellIcon />}
+      size="sm"
+      colorScheme="primary"
+      onClick={onClick}
+    >
       {isFollowing ? 'Unfollow' : 'Follow'}
     </Button>
   )
