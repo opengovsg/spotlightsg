@@ -9,6 +9,7 @@ import IconText from '~components/IconText'
 
 type PostCardProps = {
   route: string
+  title: string
   previewText: string
   email: string
   commentsCount: number
@@ -17,6 +18,7 @@ type PostCardProps = {
 
 const PostCard: React.FC<PostCardProps> = ({
   route,
+  title,
   previewText,
   email,
   commentsCount,
@@ -44,7 +46,7 @@ const PostCard: React.FC<PostCardProps> = ({
         <Box>
           <Flex justify="space-between">
             <Box>
-              <Text textStyle="h3">Title goes here</Text>
+              <Text textStyle="h3">{title}</Text>
               <Text textStyle="body2" color="neutral.700">
                 submitted by{' '}
                 <Text as="span" fontWeight="bold">

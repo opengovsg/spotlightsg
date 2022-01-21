@@ -76,6 +76,7 @@ const Landing = (): JSX.Element => {
             <PostCard
               key={post.id}
               route={`/home/posts/${post.id}`}
+              title={post.title}
               previewText={post.issue}
               email={post.user.emailDomain}
               commentsCount={post.commentsCount}
