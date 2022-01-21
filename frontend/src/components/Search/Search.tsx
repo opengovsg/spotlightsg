@@ -18,7 +18,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
         children={<SearchIcon color="gray.300" />}
       />
       <Input
-        placeholder="Search for problems"
+        placeholder="Search for existing problems..."
         value={search}
         onChange={(event) => {
           const val = event.target.value

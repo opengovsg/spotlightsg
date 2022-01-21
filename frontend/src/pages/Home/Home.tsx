@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
-import { Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
 import { filterPosts } from '~/helpers'
 
@@ -50,9 +50,15 @@ const Landing = (): JSX.Element => {
       <PostModal isOpen={isPostOpen} onClose={onClosePost} id={params.postId} />
       <VStack p="50px" align="stretch">
         <Flex justify="space-between" align="flex-start">
-          <Text textStyle="display1" color="primary.400">
-            Have a problem?
-          </Text>
+          <Box>
+            <Text textStyle="display1" color="primary.400">
+              Have a problem?
+            </Text>
+            <Text textStyle="h4">
+              Search for existing problems faced by others or post a new problem
+              to seek for solutions
+            </Text>
+          </Box>
           <Button
             as={Link}
             to={NEW_POST_ROUTE}
@@ -62,9 +68,9 @@ const Landing = (): JSX.Element => {
             Submit your problem
           </Button>
         </Flex>
-        <VStack align="start" pt="50px">
+        <Box pt="40px">
           <Search onSearch={onSearch} />
-        </VStack>
+        </Box>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (
             <PostCard
