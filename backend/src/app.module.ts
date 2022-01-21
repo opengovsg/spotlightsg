@@ -3,10 +3,11 @@ import { HelmetMiddleware } from 'middlewares/helmet.middleware'
 import { SessionMiddleware } from 'middlewares/session.middleware'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { JwtAuthGuard } from 'auth/jwt-auth.guard'
-import { APP_GUARD } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
 import { join } from 'path'
 import { ApiModule } from './api.module'
+import { ErrorHandler } from 'middleware/errorHandler'
 
 @Module({
   imports: [
@@ -33,6 +34,10 @@ import { ApiModule } from './api.module'
       useClass: JwtAuthGuard,
     },
     JwtStrategy,
+    {
+      provide: APP_FILTER,
+      useClass: ErrorHandler,
+    },
   ],
 })
 export class AppModule implements NestModule {

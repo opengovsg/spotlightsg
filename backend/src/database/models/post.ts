@@ -9,7 +9,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript'
-import { User, Comment } from '.'
+import { User, Comment, Follow } from '.'
 
 @Table({ tableName: 'posts' })
 export class Post extends Model {
@@ -31,6 +31,12 @@ export class Post extends Model {
     type: DataType.TEXT,
     allowNull: false,
   })
+  title!: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
   issue!: string
 
   @Column({
@@ -44,6 +50,9 @@ export class Post extends Model {
 
   @HasMany(() => Comment)
   comments!: Comment[]
+
+  @HasMany(() => Follow)
+  follows!: Follow[]
 
   @CreatedAt
   createdAt!: Date

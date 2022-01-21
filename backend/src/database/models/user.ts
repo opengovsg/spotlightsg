@@ -7,7 +7,7 @@ import {
   UpdatedAt,
   HasMany,
 } from 'sequelize-typescript'
-import { Post, Comment } from '.'
+import { Post, Comment, Follow } from '.'
 
 @Table({ tableName: 'users' })
 export class User extends Model {
@@ -30,6 +30,9 @@ export class User extends Model {
 
   @HasMany(() => Comment)
   comments!: Comment[]
+
+  @HasMany(() => Follow)
+  follows!: Follow[]
 
   @CreatedAt
   createdAt!: Date

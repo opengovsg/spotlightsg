@@ -5,7 +5,6 @@ import {
   Get,
   Body,
   HttpStatus,
-  Logger,
   Res,
   Param,
   NotFoundException,
@@ -13,7 +12,7 @@ import {
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
-import _ from 'lodash'
+import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
 import {
   PostStrippedWithCommentsCountAndUserEmailDomain,
   PostStrippedWithUserEmailDomainAndComment,
@@ -30,9 +29,9 @@ export class PostsController {
 
   @Get(':id')
   async getWithComments(
-    @Param('id') postId: number
+    @Param() param: IsNumberStringValidator
   ): Promise<PostStrippedWithUserEmailDomainAndComment> {
-    const post = await this.postsService.getUsingPostIdAndMaskEmail(postId)
+    const post = await this.postsService.getUsingPostIdAndMaskEmail(param.id)
     if (!post) throw new NotFoundException()
     return post
   }
@@ -43,21 +42,12 @@ export class PostsController {
     @Res() res: Response,
     @Body() createPostDto: CreatePostDto
   ): Promise<void> {
-    try {
-      const post = await this.postsService.create(
-        req.user!.id,
-        createPostDto.issue,
-        createPostDto.actionsTaken
-      )
-      res.status(HttpStatus.CREATED).json(post)
-    } catch (error: unknown) {
-      Logger.error(error)
-      if (_.get(error, 'name') === 'SequelizeForeignKeyConstraintError') {
-        res.status(HttpStatus.BAD_REQUEST)
-      } else {
-        res.status(HttpStatus.INTERNAL_SERVER_ERROR)
-      }
-      res.json(_.pick(error, 'message'))
-    }
+    const post = await this.postsService.create(
+      req.user!.id,
+      createPostDto.title,
+      createPostDto.issue,
+      createPostDto.actionsTaken
+    )
+    res.status(HttpStatus.CREATED).json(post)
   }
 }
