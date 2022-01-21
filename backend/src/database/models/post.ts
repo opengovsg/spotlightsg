@@ -31,6 +31,12 @@ export class Post extends Model {
     type: DataType.TEXT,
     allowNull: false,
   })
+  title!: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
   issue!: string
 
   @Column({
