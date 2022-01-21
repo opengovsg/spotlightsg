@@ -12,8 +12,9 @@ import {
 
 import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
+import OgpFooter from '~components/OgpFooter'
 
-import aa from '../../img/lighthouse.png'
+import lighthouse from '../../img/lighthouse.svg'
 
 const Landing = (): JSX.Element => {
   return (
@@ -43,9 +44,10 @@ const Landing = (): JSX.Element => {
           </Button>
         </VStack>
         <Box p="56px">
-          <Image src={aa} width="400px" />
+          <Image src={lighthouse} width="400px" />
         </Box>
       </SimpleGrid>
+      <OgpFooter />
     </>
   )
 }

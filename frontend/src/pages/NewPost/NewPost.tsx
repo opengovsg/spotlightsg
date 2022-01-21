@@ -16,6 +16,7 @@ import {
 import { HOMEPAGE_ROUTE, POST_ROUTE } from '~constants/routes'
 import { createPost } from '~services/SpotlightApi'
 import AppHeader from '~components/AppHeader'
+import OgpFooter from '~components/OgpFooter'
 
 type FormValues = {
   issue: string
@@ -120,6 +121,7 @@ const NewPost = (): JSX.Element => {
           </FormProvider>
         </VStack>
       </Container>
+      <OgpFooter />
     </>
   )
 }

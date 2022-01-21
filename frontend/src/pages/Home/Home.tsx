@@ -9,6 +9,7 @@ import { HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
 import { PostWithCommentsCount } from '~services/types'
 import AppHeader from '~components/AppHeader'
+import OgpFooter from '~components/OgpFooter'
 import PostCard from '~components/PostCard'
 import PostModal from '~components/PostModal'
 import Search from '~components/Search'
@@ -76,6 +77,7 @@ const Landing = (): JSX.Element => {
           ))}
         </SimpleGrid>
       </VStack>
+      <OgpFooter />
     </>
   )
 }

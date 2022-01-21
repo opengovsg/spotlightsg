@@ -18,7 +18,7 @@ import {
   veryfyOtpByEmail as verifyOtpByEmail,
 } from '~/services/SpotlightApi'
 
-import security from '../../img/security.png'
+import security from '../../img/security.svg'
 
 // Login has 2 phases
 const PHASES = {
