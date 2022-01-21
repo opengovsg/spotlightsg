@@ -1,14 +1,8 @@
 import { UserEmailDomain } from 'auth/types'
 import { CommentWithUser } from 'comments/types'
-import { User } from 'database/models'
+import { User, Post } from 'database/models'
 
-export type PostStripped = {
-  id: number
-  issue: string
-  actionsTaken: string
-  createdAt: Date
-  updatedAt: Date
-}
+export type PostStripped = Omit<Post, 'userId' | 'comments'>
 
 export type PostStrippedWithCommentsCount = PostStripped & {
   commentsCount: number
