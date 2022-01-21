@@ -12,6 +12,7 @@ import { APP_GUARD, RouterModule } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
 import { PostsModule } from 'posts/posts.module'
 import { CommentsModule } from 'comments/comments.module'
+import { FollowModule } from 'follow/follow.module'
 
 const apiModules = [
   OtpModule,
@@ -21,6 +22,7 @@ const apiModules = [
   HealthModule,
   PostsModule,
   CommentsModule,
+  FollowModule,
 ]
 
 @Module({

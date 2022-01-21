@@ -21,6 +21,8 @@ export class ErrorHandler extends BaseExceptionFilter {
   determineStatusCode(error: unknown): number {
     if (error instanceof HttpException) return error.getStatus()
     switch (_.get(error, 'name')) {
+      case 'SequelizeUniqueConstraintError':
+        return HttpStatus.BAD_REQUEST
       case 'SequelizeForeignKeyConstraintError':
         return HttpStatus.NOT_FOUND
       default:
