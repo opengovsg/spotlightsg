@@ -118,7 +118,7 @@ export class PostsService {
             updatedAt: comment.updatedAt,
           } as CommentWithUser
         }),
-        canManage: user.email === post.user.email,
+        canManage: user.id === post.user.id,
       }
     }
     return post
