@@ -9,7 +9,6 @@ import {
   Param,
   NotFoundException,
   Patch,
-  BadRequestException,
   Delete,
   ForbiddenException,
 } from '@nestjs/common'
@@ -61,16 +60,15 @@ export class PostsController {
     @Req() req: Request,
     @Res() res: Response,
     @Body() editPostDto: EditPostDto,
-    @Param('id') postId: number
+    @Param() param: IsNumberStringValidator
   ): Promise<void> {
-    if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
     const existingPost = await this.postsService.getUsingPostIdAndUserId(
-      postId,
+      param.id,
       req.user!.id
     )
     if (!existingPost) throw new NotFoundException()
     const post = await this.postsService.edit(
-      postId,
+      param.id,
       req.user!.id,
       editPostDto.issue,
       editPostDto.actionsTaken
@@ -86,10 +84,9 @@ export class PostsController {
   async delete(
     @Req() req: Request,
     @Res() res: Response,
-    @Param('id') postId: number
+    @Param() param: IsNumberStringValidator
   ): Promise<void> {
-    if (isNaN(postId)) throw new BadRequestException('Param is not an integer')
-    const numDeleted = await this.postsService.delete(postId, req.user!.id)
+    const numDeleted = await this.postsService.delete(param.id, req.user!.id)
     if (numDeleted === 0) throw new ForbiddenException()
     res.status(HttpStatus.NO_CONTENT).send()
   }

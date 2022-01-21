@@ -8,11 +8,11 @@ import {
   Patch,
   Param,
   NotFoundException,
-  BadRequestException,
   Delete,
   ForbiddenException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
+import { IsNumberStringValidator } from 'helper/isNumberStringValidator'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
 import { EditCommentDto } from './dto/edit-comment.dto'
@@ -40,18 +40,16 @@ export class CommentsController {
     @Req() req: Request,
     @Res() res: Response,
     @Body() editCommentDto: EditCommentDto,
-    @Param('id') commentId: number
+    @Param() param: IsNumberStringValidator
   ): Promise<void> {
-    if (isNaN(commentId))
-      throw new BadRequestException('Param is not an integer')
     const existingComment =
       await this.commentsService.getUsingCommentIdAndUserId(
-        commentId,
+        param.id,
         req.user!.id
       )
     if (!existingComment) throw new NotFoundException()
     const comment = await this.commentsService.edit(
-      commentId,
+      param.id,
       req.user!.id,
       editCommentDto.content
     )
@@ -66,14 +64,9 @@ export class CommentsController {
   async delete(
     @Req() req: Request,
     @Res() res: Response,
-    @Param('id') commentId: number
+    @Param() param: IsNumberStringValidator
   ): Promise<void> {
-    if (isNaN(commentId))
-      throw new BadRequestException('Param is not an integer')
-    const numDeleted = await this.commentsService.delete(
-      commentId,
-      req.user!.id
-    )
+    const numDeleted = await this.commentsService.delete(param.id, req.user!.id)
     if (numDeleted === 0) throw new ForbiddenException()
     res.status(HttpStatus.NO_CONTENT).send()
   }
