@@ -20,4 +20,27 @@ export class CommentsService {
       content,
     })
   }
+
+  async getUsingCommentIdAndUserId(
+    commentId: number,
+    userId: number
+  ): Promise<Comment | null> {
+    return this.commentModel.findOne({ where: { id: commentId, userId } })
+  }
+
+  async edit(
+    commentId: number,
+    userId: number,
+    content?: string
+  ): Promise<Comment> {
+    const [, comment] = await this.commentModel.update(
+      { content },
+      { where: { id: commentId, userId }, returning: true }
+    )
+    return comment ? comment[0] : comment
+  }
+
+  async delete(commentId: number, userId: number): Promise<number> {
+    return this.commentModel.destroy({ where: { id: commentId, userId } })
+  }
 }

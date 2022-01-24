@@ -8,10 +8,14 @@ import {
   Res,
   Param,
   NotFoundException,
+  Patch,
+  Delete,
+  ForbiddenException,
 } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
+import { EditPostDto } from './dto/edit-post.dto'
 import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
 import { PostWithLongDetails, PostWithShortDetails } from './types'
 
@@ -50,5 +54,47 @@ export class PostsController {
       createPostDto.actionsTaken
     )
     res.status(HttpStatus.CREATED).json(post)
+  }
+
+  @Patch(':id')
+  async edit(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() editPostDto: EditPostDto,
+    @Param() param: IsNumberStringValidator
+  ): Promise<void> {
+    const existingPost = await this.postsService.getUsingPostIdAndUserId(
+      param.id,
+      req.user!.id
+    )
+    /**
+     * TODO: differentiate error codes
+     * If post id does not exist, return 404,
+     * if post id exists but is not from the current user, return 403
+     */
+    if (!existingPost) throw new ForbiddenException()
+    const post = await this.postsService.edit(
+      param.id,
+      req.user!.id,
+      editPostDto.title,
+      editPostDto.issue,
+      editPostDto.actionsTaken
+    )
+    if (!post) {
+      res.status(HttpStatus.NO_CONTENT).send()
+      return
+    }
+    res.status(HttpStatus.OK).json(post)
+  }
+
+  @Delete(':id')
+  async delete(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param() param: IsNumberStringValidator
+  ): Promise<void> {
+    const numDeleted = await this.postsService.delete(param.id, req.user!.id)
+    if (numDeleted === 0) throw new ForbiddenException()
+    res.status(HttpStatus.NO_CONTENT).send()
   }
 }

@@ -1,7 +1,20 @@
-import { Controller, Req, Post, Body, HttpStatus, Res } from '@nestjs/common'
+import {
+  Controller,
+  Req,
+  Post,
+  Body,
+  HttpStatus,
+  Res,
+  Patch,
+  Param,
+  Delete,
+  ForbiddenException,
+} from '@nestjs/common'
 import { Request, Response } from 'express'
+import { IsNumberStringValidator } from 'helper/isNumberStringValidator'
 import { CommentsService } from './comments.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
+import { EditCommentDto } from './dto/edit-comment.dto'
 
 @Controller('comments')
 export class CommentsController {
@@ -19,5 +32,46 @@ export class CommentsController {
       createCommentDto.content
     )
     res.status(HttpStatus.CREATED).json(comment)
+  }
+
+  @Patch(':id')
+  async edit(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() editCommentDto: EditCommentDto,
+    @Param() param: IsNumberStringValidator
+  ): Promise<void> {
+    const existingComment =
+      await this.commentsService.getUsingCommentIdAndUserId(
+        param.id,
+        req.user!.id
+      )
+    /**
+     * TODO: differentiate error codes
+     * If post id does not exist, return 404,
+     * if post id exists but is not from the current user, return 403
+     */
+    if (!existingComment) throw new ForbiddenException()
+    const comment = await this.commentsService.edit(
+      param.id,
+      req.user!.id,
+      editCommentDto.content
+    )
+    if (!comment) {
+      res.status(HttpStatus.NO_CONTENT).send()
+      return
+    }
+    res.status(HttpStatus.OK).json(comment)
+  }
+
+  @Delete(':id')
+  async delete(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Param() param: IsNumberStringValidator
+  ): Promise<void> {
+    const numDeleted = await this.commentsService.delete(param.id, req.user!.id)
+    if (numDeleted === 0) throw new ForbiddenException()
+    res.status(HttpStatus.NO_CONTENT).send()
   }
 }

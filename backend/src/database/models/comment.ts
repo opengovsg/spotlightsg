@@ -26,7 +26,9 @@ export class Comment extends Model {
   })
   postId!: number
 
-  @BelongsTo(() => Post)
+  @BelongsTo(() => Post, {
+    onDelete: 'cascade',
+  })
   post!: Post
 
   @ForeignKey(() => User)
