@@ -14,6 +14,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   postId,
 }) => {
   const toast = useToast()
+  // Follow/Unfollow will toggle when user clicks the follow button
+  // but the actual follow data is not updated
   const [isFollowing, setIsFollowing] = useState(isFollowingInitial)
 
   const onClick = async (
