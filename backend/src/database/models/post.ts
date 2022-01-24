@@ -17,8 +17,6 @@ export type PostAttributes = {
   title: string
   issue: string
   actionsTaken: string
-  user: User
-  comments: Comment[]
   createdAt: Date
   updatedAt: Date
 }

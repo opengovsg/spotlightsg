@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment } from '../database/models'
+import { Post, User, Comment, PostAttributes, Follow } from '../database/models'
 import _ from 'lodash'
-import { Sequelize } from 'sequelize-typescript'
 import { UserEmailDomain } from '../auth/types'
-import {
-  PostStrippedWithCommentsCountAndOriginalUser,
-  PostStrippedWithCommentsCountAndUserEmailDomainAndAccess,
-  PostStrippedWithUserEmailDomainAndCommentAndAccess,
-} from './types'
+import { PostWithLongDetails, PostWithShortDetails } from './types'
 import { CommentWithUser } from 'comments/types'
 @Injectable()
 export class PostsService {
@@ -26,8 +21,14 @@ export class PostsService {
     }
   }
 
-  async getAll(): Promise<PostStrippedWithCommentsCountAndOriginalUser[]> {
-    // TODO update AllPostsResponseDto with user email attributes
+  async getAll(user: Express.User): Promise<
+    (PostAttributes & {
+      user: User
+      commentsCount: number
+      followsCount: number
+      isFollowing: boolean
+    })[]
+  > {
     const models = await this.postModel.findAll({
       include: [
         {
@@ -35,29 +36,34 @@ export class PostsService {
         },
         {
           model: Comment,
-          attributes: [],
+          attributes: ['id'],
+        },
+        {
+          model: Follow,
+          attributes: ['userId'],
         },
       ],
-      attributes: {
-        include: [
-          [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentsCount'],
-        ],
-      },
-      group: ['Post.id', 'user.id'],
     })
 
     const posts = models.map((model) => ({
       ...model.get({ plain: true }),
-      commentsCount: parseInt(String(model.get('commentsCount'))),
-    }))
+      commentsCount: model.comments.length,
+      followsCount: model.follows.length,
+      isFollowing: model.follows.some((follow) => follow.userId === user.id),
+    })) as (PostAttributes & {
+      user: User
+      commentsCount: number
+      followsCount: number
+      isFollowing: boolean
+    })[]
 
     return posts
   }
 
   async getAllAndMaskEmail(
     user: Express.User
-  ): Promise<PostStrippedWithCommentsCountAndUserEmailDomainAndAccess[]> {
-    const allPosts = await this.getAll()
+  ): Promise<PostWithShortDetails[]> {
+    const allPosts = await this.getAll(user)
     return allPosts.map((post) => {
       return {
         id: post.id,
@@ -69,6 +75,8 @@ export class PostsService {
         user: this.maskEmail(post.user),
         commentsCount: post.commentsCount,
         canManage: user.id === post.user.id,
+        isFollowing: post.isFollowing,
+        followsCount: post.followsCount,
       }
     })
   }
@@ -79,6 +87,10 @@ export class PostsService {
       include: [
         {
           model: User,
+        },
+        {
+          model: Follow,
+          attributes: ['userId'],
         },
         {
           model: Comment,
@@ -96,7 +108,7 @@ export class PostsService {
   async getUsingPostIdAndMaskEmail(
     postId: number,
     user: Express.User
-  ): Promise<PostStrippedWithUserEmailDomainAndCommentAndAccess | null> {
+  ): Promise<PostWithLongDetails | null> {
     const post = await this.getUsingPostId(postId)
     if (post) {
       return {
@@ -117,6 +129,8 @@ export class PostsService {
           } as CommentWithUser
         }),
         canManage: user.id === post.user.id,
+        isFollowing: post.follows.some((follow) => follow.userId === user.id),
+        followsCount: post.follows.length,
       }
     }
     return post

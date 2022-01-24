@@ -1,27 +1,21 @@
 import { UserEmailDomain } from 'auth/types'
 import { CommentWithUser } from 'comments/types'
-import { User, PostAttributes } from 'database/models'
+import { PostAttributes } from 'database/models'
 
-export type PostStripped = Omit<PostAttributes, 'userId' | 'comments' | 'user'>
+export type PostStripped = Omit<PostAttributes, 'userId'>
 
-export type PostStrippedWithCommentsCount = PostStripped & {
+export type PostWithShortDetails = PostStripped & {
   commentsCount: number
+  user: UserEmailDomain
+  canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
 
-export type PostStrippedWithCommentsCountAndOriginalUser =
-  PostStrippedWithCommentsCount & {
-    user: User
-  }
-
-export type PostStrippedWithCommentsCountAndUserEmailDomainAndAccess =
-  PostStrippedWithCommentsCount & {
-    user: UserEmailDomain
-    canManage: boolean
-  }
-
-export type PostStrippedWithUserEmailDomainAndCommentAndAccess =
-  PostStripped & {
-    user: UserEmailDomain
-    comments: CommentWithUser[]
-    canManage: boolean
-  }
+export type PostWithLongDetails = PostStripped & {
+  comments: CommentWithUser[]
+  user: UserEmailDomain
+  canManage: boolean
+  isFollowing: boolean
+  followsCount: number
+}

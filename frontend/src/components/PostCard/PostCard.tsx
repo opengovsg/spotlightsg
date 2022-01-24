@@ -16,6 +16,8 @@ type PostCardProps = {
   email: string
   commentsCount: number
   canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -25,6 +27,8 @@ const PostCard: React.FC<PostCardProps> = ({
   email,
   commentsCount,
   canManage,
+  isFollowing,
+  followsCount,
 }) => {
   const history = useHistory()
   const onClick = () => {
@@ -60,7 +64,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowing={false} postId={id} />
+            <FollowButton isFollowingInitial={isFollowing} postId={id} />
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
@@ -73,7 +77,11 @@ const PostCard: React.FC<PostCardProps> = ({
           </HStack>
           <HStack textStyle="subhead2" spacing="8px">
             {canManage && <IconText icon={<BiEditAlt />} />}
-            <IconText icon={<BiUser />} text="0" tooltip="0 followers" />
+            <IconText
+              icon={<BiUser />}
+              text={followsCount.toString()}
+              tooltip={`${followsCount.toString()} followers`}
+            />
             <IconText
               icon={<BiCommentDetail />}
               text={commentsCount.toString()}

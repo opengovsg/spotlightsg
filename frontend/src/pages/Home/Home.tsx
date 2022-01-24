@@ -81,6 +81,8 @@ const Landing = (): JSX.Element => {
               email={post.user.emailDomain}
               commentsCount={post.commentsCount}
               canManage={post.canManage}
+              isFollowing={post.isFollowing}
+              followsCount={post.followsCount}
             />
           ))}
         </SimpleGrid>
