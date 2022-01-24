@@ -7,7 +7,7 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core'
 import { JwtStrategy } from 'auth/jwt.strategy'
 import { join } from 'path'
 import { ApiModule } from './api.module'
-import { ErrorHandler } from 'middleware/errorHandler'
+import { ErrorHandler } from 'appFilter/errorHandler'
 
 @Module({
   imports: [

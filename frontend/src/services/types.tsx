@@ -12,12 +12,16 @@ export type VerifyOtpByEmailResponse = {
 
 export type Post = {
   id: number
+  title: string
   issue: string
   actionsTaken: string
   createdAt: string
   user: {
     emailDomain: string
   }
+  canManage: boolean
+  isFollowing: boolean
+  followsCount: number
 }
 
 type Comment = {

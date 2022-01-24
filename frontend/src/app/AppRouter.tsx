@@ -28,7 +28,7 @@ export const AppRouter = (): JSX.Element => {
       <PrivateRoute exact path={HOMEPAGE_ROUTE}>
         <Home />
       </PrivateRoute>
-      <PrivateRoute path={`${HOMEPAGE_ROUTE}${POST_ROUTE}/:postId`}>
+      <PrivateRoute path={`${POST_ROUTE}/:postId`}>
         <Home />
       </PrivateRoute>
       <PrivateRoute exact path={NEW_POST_ROUTE}>

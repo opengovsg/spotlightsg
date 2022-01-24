@@ -15,27 +15,28 @@ import {
 import { Request, Response } from 'express'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
-import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
-import {
-  PostStrippedWithCommentsCountAndUserEmailDomain,
-  PostStrippedWithUserEmailDomainAndComment,
-} from './types'
 import { EditPostDto } from './dto/edit-post.dto'
+import { IsNumberStringValidator } from '../helper/isNumberStringValidator'
+import { PostWithLongDetails, PostWithShortDetails } from './types'
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAll(): Promise<PostStrippedWithCommentsCountAndUserEmailDomain[]> {
-    return this.postsService.getAllAndMaskEmail()
+  async getAll(@Req() req: Request): Promise<PostWithShortDetails[]> {
+    return this.postsService.getAllAndMaskEmail(req.user!)
   }
 
   @Get(':id')
   async getWithComments(
+    @Req() req: Request,
     @Param() param: IsNumberStringValidator
-  ): Promise<PostStrippedWithUserEmailDomainAndComment> {
-    const post = await this.postsService.getUsingPostIdAndMaskEmail(param.id)
+  ): Promise<PostWithLongDetails> {
+    const post = await this.postsService.getUsingPostIdAndMaskEmail(
+      param.id,
+      req.user!
+    )
     if (!post) throw new NotFoundException()
     return post
   }

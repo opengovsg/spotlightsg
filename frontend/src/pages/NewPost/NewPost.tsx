@@ -7,6 +7,7 @@ import {
   Button,
   Container,
   FormLabel,
+  Input,
   Text,
   Textarea,
   useToast,
@@ -19,6 +20,7 @@ import AppHeader from '~components/AppHeader'
 import OgpFooter from '~components/OgpFooter'
 
 type FormValues = {
+  title: string
   issue: string
   actionsTaken: string
 }
@@ -34,7 +36,7 @@ const NewPost = (): JSX.Element => {
     setIsLoading(true)
     try {
       const post = await createPost(data)
-      history.push(`${HOMEPAGE_ROUTE}${POST_ROUTE}/${post.id}`)
+      history.push(`${POST_ROUTE}/${post.id}`)
     } catch (error) {
       setIsLoading(false)
       toast({
@@ -55,11 +57,9 @@ const NewPost = (): JSX.Element => {
               colorScheme="primary"
               as={Link}
               to={HOMEPAGE_ROUTE}
+              leftIcon={<ArrowBackIcon />}
             >
-              <Text textStyle="caption2">
-                <ArrowBackIcon />
-                Back to main page
-              </Text>
+              <Text textStyle="subhead1">Back to main page</Text>
             </Button>
           </Box>
           <Text textStyle="display2" color="primary.500">
@@ -67,7 +67,18 @@ const NewPost = (): JSX.Element => {
           </Text>
           <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <VStack align="stretch" spacing="10px" mt="20px">
+              <VStack align="stretch" spacing="32px" mt="20px">
+                <Controller
+                  name="title"
+                  control={control}
+                  defaultValue=""
+                  render={({ field: { value, onChange } }) => (
+                    <FormLabel m="0">
+                      Title
+                      <Input value={value} onChange={onChange} required />
+                    </FormLabel>
+                  )}
+                />
                 <Controller
                   name="issue"
                   control={control}

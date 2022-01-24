@@ -3,6 +3,7 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
+  Flex,
   HStack,
   Spinner,
   Text,
@@ -10,7 +11,6 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-import { useAuth } from '~/auth'
 import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
@@ -27,7 +27,6 @@ type PostProps = {
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
-  const { auth } = useAuth()
   const {
     isOpen: deleteIsOpen,
     onClose: deleteOnClose,
@@ -59,13 +58,26 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box position="relative">
       {postWithComments ? (
         <>
-          <Text fontWeight="bold">
-            {prettifyEmailDomain(postWithComments.user.emailDomain)}
-          </Text>
-          <Box pt="20px">
-            <FollowButton isFollowing={false} />
-          </Box>
-          {auth?.user.email === postWithComments.user.emailDomain && (
+          <Flex justify="space-between">
+            <Box>
+              <Text textStyle="h3">{postWithComments.title}</Text>
+              <Text textStyle="body2" color="neutral.700">
+                submitted by{' '}
+                <Text as="span" fontWeight="bold">
+                  someone
+                </Text>{' '}
+                from{' '}
+                <Text as="span" fontWeight="bold">
+                  {prettifyEmailDomain(postWithComments.user.emailDomain)}
+                </Text>
+              </Text>
+            </Box>
+            <FollowButton
+              isFollowingInitial={postWithComments.isFollowing}
+              postId={postWithComments.id}
+            />
+          </Flex>
+          {postWithComments.canManage && (
             <>
               <HStack pt="20px">
                 <Button

@@ -12,16 +12,13 @@ export function filterPosts<T extends Post>(search: string, posts: T[]): T[] {
 }
 
 export function prettifyEmailDomain(domain: string): string {
-  const getPrettyDomain = (domain: string) => {
-    switch (domain) {
-      case 'open.gov.sg':
-        return 'OGP'
-      case 'pa.gov.sg':
-        return "People's Association"
-      // TODO add more
-      default:
-        return domain
-    }
+  switch (domain) {
+    case 'open.gov.sg':
+      return 'OGP'
+    case 'pa.gov.sg':
+      return "People's Association"
+    // TODO add more
+    default:
+      return domain
   }
-  return `someone from ${getPrettyDomain(domain)}`
 }
