@@ -11,7 +11,6 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-import { useAuth } from '~/auth'
 import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
@@ -28,7 +27,6 @@ type PostProps = {
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
-  const { auth } = useAuth()
   const {
     isOpen: deleteIsOpen,
     onClose: deleteOnClose,
@@ -75,7 +73,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
               </Text>
             </Box>
             <FollowButton
-              isFollowing={postWithComments.isFollowing}
+              isFollowingInitial={postWithComments.isFollowing}
               postId={postWithComments.id}
             />
           </Flex>

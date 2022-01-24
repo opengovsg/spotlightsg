@@ -64,7 +64,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowing={isFollowing} postId={id} />
+            <FollowButton isFollowingInitial={isFollowing} postId={id} />
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
