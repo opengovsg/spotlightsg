@@ -46,6 +46,11 @@ export class CommentsController {
         param.id,
         req.user!.id
       )
+    /**
+     * TODO: differentiate error codes
+     * If post id does not exist, return 404,
+     * if post id exists but is not from the current user, return 403
+     */
     if (!existingComment) throw new ForbiddenException()
     const comment = await this.commentsService.edit(
       param.id,
