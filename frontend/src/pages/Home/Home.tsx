@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
 import { Box, Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
@@ -40,9 +40,12 @@ const Landing = (): JSX.Element => {
     history.push(HOMEPAGE_ROUTE)
   }
 
-  const onSearch = (search: string) => {
-    setDisplayedPosts(filterPosts(search, posts))
-  }
+  const onSearch = useCallback(
+    (search: string) => {
+      setDisplayedPosts(filterPosts(search, posts))
+    },
+    [posts],
+  )
 
   return (
     <>
