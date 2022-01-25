@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, HStack, Text } from '@chakra-ui/react'
+import { Badge, Button, HStack, Text } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
 
@@ -23,9 +23,14 @@ const AppHeader: React.FC = () => {
       justify="space-between"
       align="center"
     >
-      <Text as={Link} to={ROOT_ROUTE} textStyle="h2" color="primary.700">
-        SpotlightSG
-      </Text>
+      <HStack as={Link} to={ROOT_ROUTE}>
+        <Text textStyle="h2" color="primary.700">
+          SpotlightSG
+        </Text>
+        <Badge background="primary.700" color="neutral.100">
+          Beta
+        </Badge>
+      </HStack>
       <HStack align="center" spacing="16px" paddingRight="16px">
         <Text textStyle="subhead1" color="neutral.700">
           {auth?.user.email}
