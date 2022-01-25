@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TriangleUpIcon } from '@chakra-ui/icons'
-import { Button, Text, VStack } from '@chakra-ui/react'
+import { Button, Text, Tooltip, VStack } from '@chakra-ui/react'
 
 type VoteButtonProps = {
   isVotedInitial: boolean
@@ -21,20 +21,26 @@ const VoteButton: React.FC<VoteButtonProps> = ({
   const voteCount =
     voteCountInitial + (isVoted ? 1 : 0) - (isVotedInitial ? 1 : 0)
   return (
-    <Button
-      borderRadius="8px"
-      background="primary.100"
-      py="5px"
-      px="20px"
-      onClick={onClick}
+    <Tooltip
+      label="Upvote if you’re facing the same challenge"
+      hasArrow
+      placement="top"
     >
-      <VStack>
-        <TriangleUpIcon color={isVoted ? 'primary.700' : 'gray.300'} />
-        <Text fontWeight="bold" color="primary.700">
-          {voteCount}
-        </Text>
-      </VStack>
-    </Button>
+      <Button
+        borderRadius="8px"
+        background="primary.100"
+        py="5px"
+        px="20px"
+        onClick={onClick}
+      >
+        <VStack>
+          <TriangleUpIcon color={isVoted ? 'primary.700' : 'gray.300'} />
+          <Text fontWeight="bold" color="primary.700">
+            {voteCount}
+          </Text>
+        </VStack>
+      </Button>
+    </Tooltip>
   )
 }
 

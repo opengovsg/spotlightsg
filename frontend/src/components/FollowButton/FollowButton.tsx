@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, useToast } from '@chakra-ui/react'
+import { Button, Tooltip, useToast } from '@chakra-ui/react'
 
 import { followPost, unfollowPost } from '~services/SpotlightApi'
 
@@ -43,9 +43,20 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   }
 
   return (
-    <Button size="sm" colorScheme="primary" variant="outline" onClick={onClick}>
-      {isFollowing ? 'Unfollow' : 'Follow'}
-    </Button>
+    <Tooltip
+      label="Follow and receive updates through email"
+      hasArrow
+      placement="top"
+    >
+      <Button
+        size="sm"
+        colorScheme="primary"
+        variant="outline"
+        onClick={onClick}
+      >
+        {isFollowing ? 'Unfollow' : 'Follow'}
+      </Button>
+    </Tooltip>
   )
 }
 
