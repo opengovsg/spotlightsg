@@ -27,7 +27,7 @@ export class Comment extends Model {
   postId!: number
 
   @BelongsTo(() => Post, {
-    onDelete: 'cascade',
+    onDelete: 'CASCADE',
   })
   post!: Post
 
