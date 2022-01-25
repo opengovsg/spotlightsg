@@ -12,7 +12,11 @@ export function prettifyEmailDomain(domain: string): string {
   }
 }
 
-export function filterPosts<T extends Post>(search: string, posts: T[]): T[] {
+export function filterPosts<T extends Post>(
+  posts: T[],
+  search: string,
+  emailDomain?: string,
+): T[] {
   console.log('filter')
   // split search into words and filter by non-empty string
   const words = search
@@ -27,9 +31,11 @@ export function filterPosts<T extends Post>(search: string, posts: T[]): T[] {
       post.user.emailDomain,
       prettifyEmailDomain(post.user.emailDomain),
     ].map((s) => s.toLowerCase())
-  return posts.filter((post) =>
-    words.every((word) =>
-      getSearchableFields(post).some((text) => text.includes(word)),
-    ),
+  return posts.filter(
+    (post) =>
+      (!emailDomain || post.user.emailDomain === emailDomain) &&
+      words.every((word) =>
+        getSearchableFields(post).some((text) => text.includes(word)),
+      ),
   )
 }

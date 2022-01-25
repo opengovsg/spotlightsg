@@ -1,9 +1,18 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
-import { Box, Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  Select,
+  SimpleGrid,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
+import _ from 'lodash'
 
-import { filterPosts } from '~/helpers'
+import { filterPosts, prettifyEmailDomain } from '~/helpers'
 
 import { HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
@@ -40,12 +49,20 @@ const Landing = (): JSX.Element => {
     history.push(HOMEPAGE_ROUTE)
   }
 
-  const onSearch = useCallback(
-    (search: string) => {
-      setDisplayedPosts(filterPosts(search, posts))
-    },
+  const [search, setSearch] = useState('')
+  const [org, setOrg] = useState<string>()
+  const organisations = useMemo(
+    () =>
+      _.uniq(posts.map((post) => post.user.emailDomain)).map((emailDomain) => ({
+        value: emailDomain,
+        text: prettifyEmailDomain(emailDomain),
+      })),
     [posts],
   )
+
+  useEffect(() => {
+    setDisplayedPosts(filterPosts(posts, search, org))
+  }, [search, org, posts])
 
   return (
     <>
@@ -72,7 +89,25 @@ const Landing = (): JSX.Element => {
           </Button>
         </Flex>
         <Box pt="40px">
-          <Search onSearch={onSearch} />
+          <Flex gap="10px">
+            <Box flexGrow={1}>
+              <Search onSearch={setSearch} />
+            </Box>
+            <Box>
+              <Select
+                background="white"
+                value={org}
+                onChange={(e) => setOrg(e.target.value)}
+                placeholder="Filter by Agency"
+              >
+                {organisations.map(({ value, text }) => (
+                  <option value={value} key={value}>
+                    {text}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+          </Flex>
         </Box>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (

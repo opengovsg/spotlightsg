@@ -51,7 +51,7 @@ const PostCard: React.FC<PostCardProps> = ({
         height="100%"
       >
         <Box>
-          <Flex justify="space-between">
+          <Flex justify="space-between" align="start">
             <Box>
               <Text textStyle="h3">{title}</Text>
               <Text textStyle="body2" color="neutral.700">

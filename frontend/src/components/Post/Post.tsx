@@ -1,40 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  HStack,
-  Spacer,
-  Spinner,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Divider, Spinner, Text } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
-import Comment from '~components/Comment'
-import DeletePostAlert from '~components/DeletePostAlert'
+import CommentsSection from '~components/CommentsSection'
 import EditPostBody from '~components/EditPostBody'
-import FollowButton from '~components/FollowButton'
-import NewComment from '~components/NewComment'
 import PostBody from '~components/PostBody'
-import VoteButton from '~components/VoteButton'
 
 type PostProps = {
   id: number | undefined
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
-  const {
-    isOpen: deleteIsOpen,
-    onClose: deleteOnClose,
-    onOpen: deleteOnOpen,
-  } = useDisclosure()
   const [isEditing, setIsEditing] = useState(false)
 
   // hack: change this variable to trigger a refetch
@@ -61,93 +40,44 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box position="relative">
       {postWithComments ? (
         <>
-          <Flex justify="space-between">
-            <Box>
-              <Text textStyle="body2" color="neutral.700">
-                <Text as="span" fontWeight="bold">
-                  someone
-                </Text>{' '}
-                from{' '}
-                <Text as="span" fontWeight="bold">
-                  {prettifyEmailDomain(postWithComments.user.emailDomain)}
-                </Text>
-              </Text>
-              <Text textStyle="h2" color="primary.600">
-                {postWithComments.title}
-              </Text>
-            </Box>
-            <VoteButton isVotedInitial={false} voteCountInitial={0} />
-          </Flex>
+          <Text textStyle="body2" color="neutral.700">
+            <Text as="span" fontWeight="bold">
+              someone
+            </Text>{' '}
+            from{' '}
+            <Text as="span" fontWeight="bold">
+              {prettifyEmailDomain(postWithComments.user.emailDomain)}
+            </Text>
+          </Text>
           {isEditing ? (
             <EditPostBody
+              postId={postWithComments.id}
+              defaultTitle={postWithComments.title}
               defaultIssue={postWithComments.issue}
               defaultActionsTaken={postWithComments.actionsTaken}
               onCancel={() => setIsEditing(false)}
+              onSubmit={() => {
+                setIsEditing(false)
+                setToRefetch(toRefetch + 1)
+              }}
             />
           ) : (
             <>
               <PostBody
+                postId={postWithComments.id}
+                title={postWithComments.title}
                 issue={postWithComments.issue}
                 actionsTaken={postWithComments.actionsTaken}
+                canManage={postWithComments.canManage}
+                isFollowing={postWithComments.isFollowing}
+                onEditClick={() => setIsEditing(true)}
               />
-              <HStack spacing="10px">
-                <Spacer />
-                {postWithComments.canManage && (
-                  <Button
-                    leftIcon={<EditIcon />}
-                    size="sm"
-                    onClick={() => setIsEditing(true)}
-                    disabled={isEditing}
-                    variant="outline"
-                  >
-                    Edit
-                  </Button>
-                )}
-                {postWithComments.canManage && (
-                  <Button
-                    leftIcon={<DeleteIcon />}
-                    size="sm"
-                    onClick={deleteOnOpen}
-                    variant="outline"
-                  >
-                    <DeletePostAlert
-                      onClose={deleteOnClose}
-                      isOpen={deleteIsOpen}
-                      onDelete={() => console.log('delete post button clicked')}
-                    />
-                    Delete
-                  </Button>
-                )}
-                <FollowButton
-                  isFollowingInitial={postWithComments.isFollowing}
-                  postId={postWithComments.id}
-                />
-              </HStack>
               <Divider my="30px" />
-              <Box mt="30px">
-                <Text textStyle="h4" color="primary.600">
-                  Comments
-                </Text>
-                <VStack spacing="10px" align="stretch">
-                  {comments.length ? (
-                    comments.map((comment) => (
-                      <Comment
-                        key={comment.id}
-                        content={comment.content}
-                        email={postWithComments.user.emailDomain}
-                      />
-                    ))
-                  ) : (
-                    <Text>No Comments Found</Text>
-                  )}
-                </VStack>
-                <Box mt="20px">
-                  <NewComment
-                    postId={id}
-                    commentAddedCallback={() => setToRefetch(toRefetch + 1)}
-                  />
-                </Box>
-              </Box>
+              <CommentsSection
+                postId={postWithComments.id}
+                comments={comments}
+                onRefresh={() => setToRefetch(toRefetch + 1)}
+              />
             </>
           )}
         </>

@@ -50,12 +50,34 @@ export function getPostWithComments({
 }
 
 export function createPost(params: {
+  title: string
   issue: string
   actionsTaken: string
 }): Promise<CreatePostResponse> {
   const headers = getAuthorizationHeader()
   return baseConfig
     .post<CreatePostResponse>('posts', params, { headers })
+    .then((res) => res.data)
+}
+
+export function editPost(params: {
+  id: number
+  body: {
+    title: string
+    issue: string
+    actionsTaken: string
+  }
+}): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .patch<void>(`posts/${params.id}`, params.body, { headers })
+    .then((res) => res.data)
+}
+
+export function deletePost(params: { id: number }): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .delete<void>(`posts/${params.id}`, { headers })
     .then((res) => res.data)
 }
 

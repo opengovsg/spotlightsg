@@ -23,13 +23,24 @@ const AppHeader: React.FC = () => {
       justify="space-between"
       align="center"
     >
-      <HStack as={Link} to={ROOT_ROUTE}>
-        <Text textStyle="h2" color="primary.700">
-          SpotlightSG
+      <HStack spacing="50px">
+        <HStack as={Link} to={ROOT_ROUTE}>
+          <Text textStyle="h2" color="primary.700">
+            SpotlightSG
+          </Text>
+          <Badge background="primary.700" color="neutral.100">
+            Beta
+          </Badge>
+        </HStack>
+        <Text
+          textStyle="h4"
+          color="primary.700"
+          as="a"
+          href="https://go.gov.sg/spotlightsg-feedback"
+          target="_blank"
+        >
+          Feedback
         </Text>
-        <Badge background="primary.700" color="neutral.100">
-          Beta
-        </Badge>
       </HStack>
       <HStack align="center" spacing="16px" paddingRight="16px">
         <Text textStyle="subhead1" color="neutral.700">
