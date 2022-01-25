@@ -59,7 +59,7 @@ const PostBody: React.FC<PostBodyProps> = ({
 
   return (
     <VStack spacing="10px" align="stretch">
-      <Flex justify="space-between">
+      <Flex justify="space-between" align="start">
         <Box>
           <Text textStyle="h2" color="primary.600">
             {title}
