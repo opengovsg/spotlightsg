@@ -36,7 +36,7 @@ const AppHeader: React.FC = () => {
           textStyle="h4"
           color="primary.700"
           as="a"
-          href="https://go.gov.sg/spotlight-feedback"
+          href="https://go.gov.sg/spotlightsg-feedback"
           target="_blank"
         >
           Feedback
