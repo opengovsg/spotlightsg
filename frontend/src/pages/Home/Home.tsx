@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Flex,
-  HStack,
   Select,
   SimpleGrid,
   Text,
@@ -51,7 +50,7 @@ const Landing = (): JSX.Element => {
   }
 
   const [search, setSearch] = useState('')
-  const [org, setOrg] = useState('all')
+  const [org, setOrg] = useState<string>()
   const organisations = useMemo(
     () =>
       _.uniq(posts.map((post) => post.user.emailDomain)).map((emailDomain) => ({
@@ -62,9 +61,7 @@ const Landing = (): JSX.Element => {
   )
 
   useEffect(() => {
-    setDisplayedPosts(
-      filterPosts(posts, search, org === 'all' ? undefined : org),
-    )
+    setDisplayedPosts(filterPosts(posts, search, org))
   }, [search, org, posts])
 
   return (
@@ -92,24 +89,25 @@ const Landing = (): JSX.Element => {
           </Button>
         </Flex>
         <Box pt="40px">
-          <Search onSearch={setSearch} />
-          <HStack pt="10px">
-            <label>
-              Organisation
+          <Flex gap="10px">
+            <Box flexGrow={1}>
+              <Search onSearch={setSearch} />
+            </Box>
+            <Box>
               <Select
                 background="white"
                 value={org}
                 onChange={(e) => setOrg(e.target.value)}
+                placeholder="Filter by Agency"
               >
-                <option value="all">All</option>
                 {organisations.map(({ value, text }) => (
                   <option value={value} key={value}>
                     {text}
                   </option>
                 ))}
               </Select>
-            </label>
-          </HStack>
+            </Box>
+          </Flex>
         </Box>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (
