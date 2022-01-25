@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
   HStack,
   Spacer,
   Spinner,
@@ -21,7 +20,6 @@ import DeletePostAlert from '~components/DeletePostAlert'
 import EditPostBody from '~components/EditPostBody'
 import FollowButton from '~components/FollowButton'
 import PostBody from '~components/PostBody'
-import VoteButton from '~components/VoteButton'
 
 type PostProps = {
   id: number | undefined
@@ -59,29 +57,26 @@ const Post: React.FC<PostProps> = ({ id }) => {
     <Box position="relative">
       {postWithComments ? (
         <>
-          <Flex justify="space-between">
-            <Box>
-              <Text textStyle="body2" color="neutral.700">
-                <Text as="span" fontWeight="bold">
-                  someone
-                </Text>{' '}
-                from{' '}
-                <Text as="span" fontWeight="bold">
-                  {prettifyEmailDomain(postWithComments.user.emailDomain)}
-                </Text>
-              </Text>
-              <Text textStyle="h2" color="primary.600">
-                {postWithComments.title}
-              </Text>
-            </Box>
-            <VoteButton isVotedInitial={false} voteCountInitial={0} />
-          </Flex>
+          <Text textStyle="body2" color="neutral.700">
+            <Text as="span" fontWeight="bold">
+              someone
+            </Text>{' '}
+            from{' '}
+            <Text as="span" fontWeight="bold">
+              {prettifyEmailDomain(postWithComments.user.emailDomain)}
+            </Text>
+          </Text>
           {isEditing ? (
             <EditPostBody
+              postId={postWithComments.id}
               defaultTitle={postWithComments.title}
               defaultIssue={postWithComments.issue}
               defaultActionsTaken={postWithComments.actionsTaken}
               onCancel={() => setIsEditing(false)}
+              onSubmit={() => {
+                setIsEditing(false)
+                setToRefetch(toRefetch + 1)
+              }}
             />
           ) : (
             <>
