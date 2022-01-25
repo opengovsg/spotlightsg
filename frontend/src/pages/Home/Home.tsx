@@ -1,9 +1,19 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
-import { Box, Button, Flex, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Select,
+  SimpleGrid,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
+import _ from 'lodash'
 
-import { filterPosts } from '~/helpers'
+import { filterPosts, prettifyEmailDomain } from '~/helpers'
 
 import { HOMEPAGE_ROUTE, NEW_POST_ROUTE } from '~constants/routes'
 import { getAllPosts } from '~services/SpotlightApi'
@@ -40,12 +50,22 @@ const Landing = (): JSX.Element => {
     history.push(HOMEPAGE_ROUTE)
   }
 
-  const onSearch = useCallback(
-    (search: string) => {
-      setDisplayedPosts(filterPosts(search, posts))
-    },
+  const [search, setSearch] = useState('')
+  const [org, setOrg] = useState('all')
+  const organisations = useMemo(
+    () =>
+      _.uniq(posts.map((post) => post.user.emailDomain)).map((emailDomain) => ({
+        value: emailDomain,
+        text: prettifyEmailDomain(emailDomain),
+      })),
     [posts],
   )
+
+  useEffect(() => {
+    setDisplayedPosts(
+      filterPosts(posts, search, org === 'all' ? undefined : org),
+    )
+  }, [search, org, posts])
 
   return (
     <>
@@ -72,7 +92,24 @@ const Landing = (): JSX.Element => {
           </Button>
         </Flex>
         <Box pt="40px">
-          <Search onSearch={onSearch} />
+          <Search onSearch={setSearch} />
+          <HStack pt="10px">
+            <label>
+              Organisation
+              <Select
+                background="white"
+                value={org}
+                onChange={(e) => setOrg(e.target.value)}
+              >
+                <option value="all">All</option>
+                {organisations.map(({ value, text }) => (
+                  <option value={value} key={value}>
+                    {text}
+                  </option>
+                ))}
+              </Select>
+            </label>
+          </HStack>
         </Box>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (
