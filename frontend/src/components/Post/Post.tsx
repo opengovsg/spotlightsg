@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Button,
-  Divider,
-  HStack,
-  Spacer,
-  Spinner,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Box, Divider, Spinner, Text } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
 import CommentsSection from '~components/CommentsSection'
-import DeletePostAlert from '~components/DeletePostAlert'
 import EditPostBody from '~components/EditPostBody'
-import FollowButton from '~components/FollowButton'
 import PostBody from '~components/PostBody'
 
 type PostProps = {
@@ -26,11 +14,6 @@ type PostProps = {
 }
 
 const Post: React.FC<PostProps> = ({ id }) => {
-  const {
-    isOpen: deleteIsOpen,
-    onClose: deleteOnClose,
-    onOpen: deleteOnOpen,
-  } = useDisclosure()
   const [isEditing, setIsEditing] = useState(false)
 
   // hack: change this variable to trigger a refetch
@@ -81,43 +64,14 @@ const Post: React.FC<PostProps> = ({ id }) => {
           ) : (
             <>
               <PostBody
+                postId={postWithComments.id}
                 title={postWithComments.title}
                 issue={postWithComments.issue}
                 actionsTaken={postWithComments.actionsTaken}
+                canManage={postWithComments.canManage}
+                isFollowing={postWithComments.isFollowing}
+                onEditClick={() => setIsEditing(true)}
               />
-              <HStack spacing="10px">
-                <Spacer />
-                {postWithComments.canManage && (
-                  <Button
-                    leftIcon={<EditIcon />}
-                    size="sm"
-                    onClick={() => setIsEditing(true)}
-                    disabled={isEditing}
-                    variant="outline"
-                  >
-                    Edit
-                  </Button>
-                )}
-                {postWithComments.canManage && (
-                  <Button
-                    leftIcon={<DeleteIcon />}
-                    size="sm"
-                    onClick={deleteOnOpen}
-                    variant="outline"
-                  >
-                    <DeletePostAlert
-                      onClose={deleteOnClose}
-                      isOpen={deleteIsOpen}
-                      onDelete={() => console.log('delete post button clicked')}
-                    />
-                    Delete
-                  </Button>
-                )}
-                <FollowButton
-                  isFollowingInitial={postWithComments.isFollowing}
-                  postId={postWithComments.id}
-                />
-              </HStack>
               <Divider my="30px" />
               <CommentsSection
                 postId={postWithComments.id}

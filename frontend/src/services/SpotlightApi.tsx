@@ -74,6 +74,13 @@ export function editPost(params: {
     .then((res) => res.data)
 }
 
+export function deletePost(params: { id: number }): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .delete<void>(`posts/${params.id}`, { headers })
+    .then((res) => res.data)
+}
+
 export function createComment(params: {
   postId: number
   content: string
