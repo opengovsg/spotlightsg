@@ -3,6 +3,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { Box, Button, HStack, Text, Textarea, VStack } from '@chakra-ui/react'
 
 type EditPostBodyProps = {
+  defaultTitle: string
   defaultIssue: string
   defaultActionsTaken: string
   onCancel: () => void

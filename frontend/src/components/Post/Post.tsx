@@ -10,18 +10,16 @@ import {
   Spinner,
   Text,
   useDisclosure,
-  VStack,
 } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 
 import { getPostWithComments } from '~services/SpotlightApi'
 import { GetPostWithCommentResponse } from '~services/types'
-import Comment from '~components/Comment'
+import CommentsSection from '~components/CommentsSection'
 import DeletePostAlert from '~components/DeletePostAlert'
 import EditPostBody from '~components/EditPostBody'
 import FollowButton from '~components/FollowButton'
-import NewComment from '~components/NewComment'
 import PostBody from '~components/PostBody'
 import VoteButton from '~components/VoteButton'
 
@@ -80,6 +78,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
           </Flex>
           {isEditing ? (
             <EditPostBody
+              defaultTitle={postWithComments.title}
               defaultIssue={postWithComments.issue}
               defaultActionsTaken={postWithComments.actionsTaken}
               onCancel={() => setIsEditing(false)}
@@ -87,6 +86,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
           ) : (
             <>
               <PostBody
+                title={postWithComments.title}
                 issue={postWithComments.issue}
                 actionsTaken={postWithComments.actionsTaken}
               />
@@ -124,30 +124,11 @@ const Post: React.FC<PostProps> = ({ id }) => {
                 />
               </HStack>
               <Divider my="30px" />
-              <Box mt="30px">
-                <Text textStyle="h4" color="primary.600">
-                  Comments
-                </Text>
-                <VStack spacing="10px" align="stretch">
-                  {comments.length ? (
-                    comments.map((comment) => (
-                      <Comment
-                        key={comment.id}
-                        content={comment.content}
-                        email={postWithComments.user.emailDomain}
-                      />
-                    ))
-                  ) : (
-                    <Text>No Comments Found</Text>
-                  )}
-                </VStack>
-                <Box mt="20px">
-                  <NewComment
-                    postId={id}
-                    commentAddedCallback={() => setToRefetch(toRefetch + 1)}
-                  />
-                </Box>
-              </Box>
+              <CommentsSection
+                postId={postWithComments.id}
+                comments={comments}
+                onRefresh={() => setToRefetch(toRefetch + 1)}
+              />
             </>
           )}
         </>

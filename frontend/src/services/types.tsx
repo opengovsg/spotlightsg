@@ -10,23 +10,26 @@ export type VerifyOtpByEmailResponse = {
   token: string
 }
 
+type UserAnon = {
+  emailDomain: string
+}
+
 export type Post = {
   id: number
   title: string
   issue: string
   actionsTaken: string
   createdAt: string
-  user: {
-    emailDomain: string
-  }
+  user: UserAnon
   canManage: boolean
   isFollowing: boolean
   followsCount: number
 }
 
-type Comment = {
+export type Comment = {
   id: number
   content: string
+  user: UserAnon
 }
 
 export type PostWithCommentsCount = Post & { commentsCount: number }

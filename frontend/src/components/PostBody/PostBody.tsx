@@ -2,6 +2,7 @@ import React from 'react'
 import { Box, Text, VStack } from '@chakra-ui/react'
 
 type PostBodyProps = {
+  title: string
   issue: string
   actionsTaken: string
 }
