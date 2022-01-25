@@ -118,6 +118,10 @@ export class PostsService {
             },
           ],
         },
+        {
+          model: Upvote,
+          attributes: ['postId'],
+        },
       ],
     })
   }
