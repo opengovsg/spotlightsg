@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { BellIcon } from '@chakra-ui/icons'
 import { Button, useToast } from '@chakra-ui/react'
 
 import { followPost, unfollowPost } from '~services/SpotlightApi'
@@ -44,12 +43,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   }
 
   return (
-    <Button
-      leftIcon={<BellIcon />}
-      size="sm"
-      colorScheme="primary"
-      onClick={onClick}
-    >
+    <Button size="sm" colorScheme="primary" variant="outline" onClick={onClick}>
       {isFollowing ? 'Unfollow' : 'Follow'}
     </Button>
   )

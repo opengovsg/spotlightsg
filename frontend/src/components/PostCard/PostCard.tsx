@@ -8,6 +8,7 @@ import { prettifyEmailDomain } from '~/helpers'
 import { POST_ROUTE } from '~constants/routes'
 import FollowButton from '~components/FollowButton'
 import IconText from '~components/IconText'
+import VoteButton from '~components/VoteButton'
 
 type PostCardProps = {
   id: number
@@ -64,7 +65,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>
               </Text>
             </Box>
-            <FollowButton isFollowingInitial={isFollowing} postId={id} />
+            <VoteButton isVotedInitial={false} voteCountInitial={0} />
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}
@@ -87,6 +88,7 @@ const PostCard: React.FC<PostCardProps> = ({
               text={commentsCount.toString()}
               tooltip={`${commentsCount.toString()} comments`}
             />
+            <FollowButton isFollowingInitial={isFollowing} postId={id} />
           </HStack>
         </Flex>
       </Flex>
