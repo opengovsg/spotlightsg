@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { TriangleUpIcon } from '@chakra-ui/icons'
 import { Button, Text, VStack } from '@chakra-ui/react'
-import _ from 'lodash'
 
 type VoteButtonProps = {
   isVotedInitial: boolean

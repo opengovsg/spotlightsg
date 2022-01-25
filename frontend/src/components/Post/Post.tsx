@@ -3,8 +3,10 @@ import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
+  Divider,
   Flex,
   HStack,
+  Spacer,
   Spinner,
   Text,
   useDisclosure,
@@ -21,6 +23,7 @@ import EditPostBody from '~components/EditPostBody'
 import FollowButton from '~components/FollowButton'
 import NewComment from '~components/NewComment'
 import PostBody from '~components/PostBody'
+import VoteButton from '~components/VoteButton'
 
 type PostProps = {
   id: number | undefined
@@ -60,9 +63,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
         <>
           <Flex justify="space-between">
             <Box>
-              <Text textStyle="h3">{postWithComments.title}</Text>
               <Text textStyle="body2" color="neutral.700">
-                submitted by{' '}
                 <Text as="span" fontWeight="bold">
                   someone
                 </Text>{' '}
@@ -71,38 +72,12 @@ const Post: React.FC<PostProps> = ({ id }) => {
                   {prettifyEmailDomain(postWithComments.user.emailDomain)}
                 </Text>
               </Text>
+              <Text textStyle="h2" color="primary.600">
+                {postWithComments.title}
+              </Text>
             </Box>
-            <FollowButton
-              isFollowingInitial={postWithComments.isFollowing}
-              postId={postWithComments.id}
-            />
+            <VoteButton isVotedInitial={false} voteCountInitial={0} />
           </Flex>
-          {postWithComments.canManage && (
-            <>
-              <HStack pt="20px">
-                <Button
-                  leftIcon={<EditIcon />}
-                  size="sm"
-                  onClick={() => setIsEditing(true)}
-                  disabled={isEditing}
-                >
-                  Edit
-                </Button>
-                <Button
-                  leftIcon={<DeleteIcon />}
-                  size="sm"
-                  onClick={deleteOnOpen}
-                >
-                  Delete
-                </Button>
-              </HStack>
-              <DeletePostAlert
-                onClose={deleteOnClose}
-                isOpen={deleteIsOpen}
-                onDelete={() => console.log('delete post button clicked')}
-              />
-            </>
-          )}
           {isEditing ? (
             <EditPostBody
               defaultIssue={postWithComments.issue}
@@ -115,8 +90,42 @@ const Post: React.FC<PostProps> = ({ id }) => {
                 issue={postWithComments.issue}
                 actionsTaken={postWithComments.actionsTaken}
               />
+              <HStack spacing="10px">
+                <Spacer />
+                {postWithComments.canManage && (
+                  <Button
+                    leftIcon={<EditIcon />}
+                    size="sm"
+                    onClick={() => setIsEditing(true)}
+                    disabled={isEditing}
+                    variant="outline"
+                  >
+                    Edit
+                  </Button>
+                )}
+                {postWithComments.canManage && (
+                  <Button
+                    leftIcon={<DeleteIcon />}
+                    size="sm"
+                    onClick={deleteOnOpen}
+                    variant="outline"
+                  >
+                    <DeletePostAlert
+                      onClose={deleteOnClose}
+                      isOpen={deleteIsOpen}
+                      onDelete={() => console.log('delete post button clicked')}
+                    />
+                    Delete
+                  </Button>
+                )}
+                <FollowButton
+                  isFollowingInitial={postWithComments.isFollowing}
+                  postId={postWithComments.id}
+                />
+              </HStack>
+              <Divider my="30px" />
               <Box mt="30px">
-                <Text textStyle="h4" color="primary.500">
+                <Text textStyle="h4" color="primary.600">
                   Comments
                 </Text>
                 <VStack spacing="10px" align="stretch">
@@ -132,10 +141,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
                     <Text>No Comments Found</Text>
                   )}
                 </VStack>
-                <Box mt="30px">
-                  <Text textStyle="h4" color="primary.500">
-                    Add your reply
-                  </Text>
+                <Box mt="20px">
                   <NewComment
                     postId={id}
                     commentAddedCallback={() => setToRefetch(toRefetch + 1)}

@@ -34,10 +34,17 @@ const NewComment: React.FC<NewCommentProps> = ({
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          placeholder="Type your reply here..."
+          required
         />
-        <Box>
-          <Button type="submit" isLoading={isLoading}>
-            Reply
+        <Box textAlign="end">
+          <Button
+            type="submit"
+            variant="link"
+            isLoading={isLoading}
+            colorScheme="primary"
+          >
+            Add Comment
           </Button>
         </Box>
       </VStack>

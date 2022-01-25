@@ -11,7 +11,15 @@ type CommentProps = {
 const Comment: React.FC<CommentProps> = ({ email, content }) => {
   return (
     <Box borderWidth="1px" borderRadius="md" p="10px" background="white">
-      <Text fontWeight="bold">Someone from {prettifyEmailDomain(email)}</Text>
+      <Text textStyle="body2" color="neutral.700">
+        <Text as="span" fontWeight="bold">
+          someone
+        </Text>{' '}
+        from{' '}
+        <Text as="span" fontWeight="bold">
+          {prettifyEmailDomain(email)}
+        </Text>
+      </Text>
       <Box whiteSpace="pre-line" mt="5px">
         {content}
       </Box>
