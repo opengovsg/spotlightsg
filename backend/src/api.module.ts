@@ -13,6 +13,7 @@ import { JwtStrategy } from 'auth/jwt.strategy'
 import { PostsModule } from 'posts/posts.module'
 import { CommentsModule } from 'comments/comments.module'
 import { FollowModule } from 'follow/follow.module'
+import { UpvoteModule } from 'upvotes/upvotes.module'
 
 const apiModules = [
   OtpModule,
@@ -23,6 +24,7 @@ const apiModules = [
   PostsModule,
   CommentsModule,
   FollowModule,
+  UpvoteModule,
 ]
 
 @Module({

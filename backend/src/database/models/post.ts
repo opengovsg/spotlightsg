@@ -9,7 +9,7 @@ import {
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript'
-import { User, Comment, Follow } from '.'
+import { User, Comment, Follow, Upvote } from '.'
 
 export type PostAttributes = {
   id: number
@@ -74,6 +74,9 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> {
     onDelete: 'CASCADE',
   })
   follows!: Follow[]
+
+  @HasMany(() => Upvote)
+  upvotes!: Upvote[]
 
   @CreatedAt
   createdAt!: Date
