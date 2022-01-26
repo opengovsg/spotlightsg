@@ -30,6 +30,7 @@ export type Comment = {
   id: number
   content: string
   user: UserAnon
+  createdAt: string
 }
 
 export type PostWithCommentsCount = Post & { commentsCount: number }

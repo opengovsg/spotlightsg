@@ -29,6 +29,7 @@ const CommentsSection: React.FC<CommentsSectionProps> = ({
               key={comment.id}
               content={comment.content}
               email={comment.user.emailDomain}
+              createdAt={comment.createdAt}
             />
           ))
         ) : (
