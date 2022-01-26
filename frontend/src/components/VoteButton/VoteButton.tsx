@@ -29,6 +29,12 @@ const VoteButton: React.FC<VoteButtonProps> = ({
       <Button
         borderRadius="8px"
         background="primary.100"
+        _hover={{
+          background: 'primary.200',
+        }}
+        _active={{
+          background: 'primary.200',
+        }}
         py="5px"
         px="20px"
         onClick={onClick}
