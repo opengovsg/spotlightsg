@@ -73,8 +73,8 @@ const PostCard: React.FC<PostCardProps> = ({
         </Box>
         <Flex justify="space-between">
           <HStack textStyle="subhead2">
-            <Badge>tag1</Badge>
-            <Badge>tag2</Badge>
+            {/* <Badge>tag1</Badge>
+            <Badge>tag2</Badge> */}
           </HStack>
           <HStack textStyle="subhead2" spacing="8px">
             {canManage && <IconText icon={<BiEditAlt />} />}
