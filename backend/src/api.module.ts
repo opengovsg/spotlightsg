@@ -38,7 +38,7 @@ const apiModules = [
         username: config.get('db.username'),
         password: config.get('db.password'),
         database: config.get('db.database'),
-        // autoLoadModels: true, // TO-DO: remove in production
+        autoLoadModels: true, // TO-DO: remove in production
         synchronize: false, // TO-DO: remove in production
       }),
     }),

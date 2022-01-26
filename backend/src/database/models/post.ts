@@ -65,10 +65,14 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> {
   @BelongsTo(() => User)
   user!: User
 
-  @HasMany(() => Comment)
+  @HasMany(() => Comment, {
+    onDelete: 'CASCADE',
+  })
   comments!: Comment[]
 
-  @HasMany(() => Follow)
+  @HasMany(() => Follow, {
+    onDelete: 'CASCADE',
+  })
   follows!: Follow[]
 
   @CreatedAt
