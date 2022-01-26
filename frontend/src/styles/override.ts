@@ -366,11 +366,6 @@ const components: DeepPartial<ThemeComponents> = {
       },
     },
   },
-  Link: {
-    baseStyle: {
-      textDecoration: 'underline',
-    },
-  },
   Switch: {
     baseStyle: (props: StyleFunctionProps) => ({
       track: {
