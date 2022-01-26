@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { UserEmailDomain } from '../auth/types'
 import { PostWithLongDetails, PostWithShortDetails } from './types'
 import { CommentWithUser } from 'comments/types'
+
 @Injectable()
 export class PostsService {
   constructor(
