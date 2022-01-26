@@ -17,7 +17,7 @@ import {
 import { HOMEPAGE_ROUTE, POST_ROUTE } from '~constants/routes'
 import { createPost } from '~services/SpotlightApi'
 import AppHeader from '~components/AppHeader'
-import OgpFooter from '~components/OgpFooter'
+import OgpFooter from '~components/Footer'
 
 type FormValues = {
   title: string

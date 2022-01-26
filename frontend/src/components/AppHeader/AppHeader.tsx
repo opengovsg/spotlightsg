@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Badge, Button, HStack, Text } from '@chakra-ui/react'
+import { Button, HStack, Tag, Text } from '@chakra-ui/react'
 
 import { useAuth } from '~/auth'
 
@@ -28,9 +28,9 @@ const AppHeader: React.FC = () => {
           <Text textStyle="h2" color="primary.700">
             SpotlightSG
           </Text>
-          <Badge background="primary.700" color="neutral.100">
+          <Tag background="primary.700" color="neutral.100">
             Beta
-          </Badge>
+          </Tag>
         </HStack>
         <Text
           textStyle="h4"

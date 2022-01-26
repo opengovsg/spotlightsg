@@ -20,17 +20,6 @@ const colors = {
     800: '#222757',
     900: '#1B1E44',
   },
-  secondary: {
-    100: '#FEF5F5',
-    200: '#F7CACA',
-    300: '#F2A7A7',
-    400: '#ED8585',
-    500: '#EB6363',
-    600: '#BF5151',
-    700: '#994141',
-    800: '#6F2F2F',
-    900: '#451D1D',
-  },
   success: {
     100: '#F0F8F3',
     200: '#E2F1E8',
@@ -211,7 +200,7 @@ const styles = {
       width: 'fit-content',
     },
     body: {
-      background: 'primary.100',
+      background: 'neutral.100',
     },
     th: {
       textAlign: 'start',

@@ -4,7 +4,7 @@ import { Button, Center, SimpleGrid, Text, VStack } from '@chakra-ui/react'
 
 import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
-import OgpFooter from '~components/OgpFooter'
+import OgpFooter from '~components/Footer'
 
 import lighthouse from '../../img/lighthouse.svg'
 import search from '../../img/search.svg'
