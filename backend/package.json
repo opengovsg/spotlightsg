@@ -5,7 +5,7 @@
   "author": "Open Government Products, GovTech Singapore (https://open.gov.sg)",
   "license": "MIT",
   "scripts": {
-    "prestart": "npm run build && sequelize-cli db:migrate",
+    "prestart": "sequelize-cli db:migrate",
     "prestart:dev": "npm run build && sequelize-cli db:migrate",
     "lint": "eslint --ext ts,tsx,js,jsx .",
     "lint:fix": "eslint --fix --ext ts,tsx,js,jsx .",
