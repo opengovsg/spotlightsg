@@ -39,7 +39,7 @@ const apiModules = [
         password: config.get('db.password'),
         database: config.get('db.database'),
         // autoLoadModels: true, // TO-DO: remove in production
-        // synchronize: true, // TO-DO: remove in production
+        synchronize: false, // TO-DO: remove in production
       }),
     }),
     RouterModule.register([

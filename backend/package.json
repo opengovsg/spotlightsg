@@ -7,6 +7,7 @@
   "scripts": {
     "prestart": "sequelize-cli db:migrate",
     "prestart:dev": "npm run build && sequelize-cli db:migrate",
+    "migrate": "sequelize-cli db:migrate",
     "lint": "eslint --ext ts,tsx,js,jsx .",
     "lint:fix": "eslint --fix --ext ts,tsx,js,jsx .",
     "pre-commit": "lint-staged",
