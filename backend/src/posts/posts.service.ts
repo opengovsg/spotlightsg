@@ -36,6 +36,7 @@ export class PostsService {
       followsCount: number
       isFollowing: boolean
       upvoteCount: number
+      hasBeenUpvoted: boolean
     })[]
   > {
     const models = await this.postModel.findAll({
@@ -63,14 +64,17 @@ export class PostsService {
       commentsCount: model.comments.length,
       followsCount: model.follows.length,
       isFollowing: model.follows.some((follow) => follow.userId === user.id),
-      upvoteCount: model.upvotes.filter((upvote) => upvote.postId === model.id)
-        .length,
+      upvoteCount: model.upvotes.length,
+      hasBeenUpvoted: model.follows.some(
+        (upvotes) => upvotes.userId === user.id
+      ),
     })) as (PostAttributes & {
       user: User
       commentsCount: number
       followsCount: number
       isFollowing: boolean
       upvoteCount: number
+      hasBeenUpvoted: boolean
     })[]
 
     return posts
@@ -94,6 +98,7 @@ export class PostsService {
         isFollowing: post.isFollowing,
         followsCount: post.followsCount,
         upvoteCount: post.upvoteCount,
+        hasBeenUpvoted: post.hasBeenUpvoted,
       }
     })
   }
@@ -152,8 +157,10 @@ export class PostsService {
         canManage: user.id === post.user.id,
         isFollowing: post.follows.some((follow) => follow.userId === user.id),
         followsCount: post.follows.length,
-        upvoteCount: post.upvotes.filter((upvote) => upvote.postId === post.id)
-          .length,
+        upvoteCount: post.upvotes.length,
+        hasBeenUpvoted: post.follows.some(
+          (upvote) => upvote.userId === user.id
+        ),
       }
     }
     return post

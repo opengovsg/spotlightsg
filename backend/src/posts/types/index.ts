@@ -11,6 +11,7 @@ export type PostWithShortDetails = PostStripped & {
   isFollowing: boolean
   followsCount: number
   upvoteCount: number
+  hasBeenUpvoted: boolean
 }
 
 export type PostWithLongDetails = PostStripped & {
@@ -20,4 +21,5 @@ export type PostWithLongDetails = PostStripped & {
   isFollowing: boolean
   followsCount: number
   upvoteCount: number
+  hasBeenUpvoted: boolean
 }
