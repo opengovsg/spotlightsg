@@ -39,7 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
     <Box
       borderWidth="1px"
       borderRadius="lg"
-      p="10px"
+      p="24px"
       background="white"
       onClick={onClick}
       cursor="pointer"
