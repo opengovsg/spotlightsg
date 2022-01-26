@@ -2,6 +2,7 @@ import React from 'react'
 import { BiCommentDetail, BiEditAlt, BiUser } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom'
 import { Box, Flex, HStack, Text } from '@chakra-ui/react'
+import moment from 'moment'
 
 import { prettifyEmailDomain } from '~/helpers'
 
@@ -12,6 +13,7 @@ import VoteButton from '~components/VoteButton'
 
 type PostCardProps = {
   id: number
+  createdAt: string
   title: string
   previewText: string
   email: string
@@ -23,6 +25,7 @@ type PostCardProps = {
 
 const PostCard: React.FC<PostCardProps> = ({
   id,
+  createdAt,
   title,
   previewText,
   email,
@@ -62,7 +65,8 @@ const PostCard: React.FC<PostCardProps> = ({
                 from{' '}
                 <Text as="span" fontWeight="bold">
                   {prettifyEmailDomain(email)}
-                </Text>
+                </Text>{' '}
+                {moment(createdAt).fromNow()}
               </Text>
             </Box>
             <VoteButton isVotedInitial={false} voteCountInitial={0} />

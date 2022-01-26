@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Divider, Spinner, Text } from '@chakra-ui/react'
+import moment from 'moment'
 
 import { prettifyEmailDomain } from '~/helpers'
 
@@ -47,7 +48,8 @@ const Post: React.FC<PostProps> = ({ id }) => {
             from{' '}
             <Text as="span" fontWeight="bold">
               {prettifyEmailDomain(postWithComments.user.emailDomain)}
-            </Text>
+            </Text>{' '}
+            {moment(postWithComments.createdAt).fromNow()}
           </Text>
           {isEditing ? (
             <EditPostBody

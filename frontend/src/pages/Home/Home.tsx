@@ -106,6 +106,7 @@ const Landing = (): JSX.Element => {
           {displayedPosts.map((post) => (
             <PostCard
               id={post.id}
+              createdAt={post.createdAt}
               key={post.id}
               title={post.title}
               previewText={post.issue}
