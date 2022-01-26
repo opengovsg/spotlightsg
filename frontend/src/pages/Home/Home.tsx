@@ -1,15 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { AddIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Button,
-  Flex,
-  Select,
-  SimpleGrid,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Flex, Select, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 import _ from 'lodash'
 
 import { filterPosts, prettifyEmailDomain } from '~/helpers'

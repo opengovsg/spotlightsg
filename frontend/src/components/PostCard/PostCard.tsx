@@ -1,7 +1,7 @@
 import React from 'react'
 import { BiCommentDetail, BiEditAlt, BiUser } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom'
-import { Badge, Box, Flex, HStack, Text } from '@chakra-ui/react'
+import { Box, Flex, HStack, Text } from '@chakra-ui/react'
 
 import { prettifyEmailDomain } from '~/helpers'
 

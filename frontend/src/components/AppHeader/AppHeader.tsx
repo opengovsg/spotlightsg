@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, HStack, Tag, Text } from '@chakra-ui/react'
+import { HStack, Tag, Text } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { useAuth } from '~/auth'
 

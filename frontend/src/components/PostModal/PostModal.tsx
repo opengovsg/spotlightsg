@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,6 +8,7 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import Post from '~components/Post'
 

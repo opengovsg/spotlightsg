@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Flex,
   HStack,
   Spacer,
@@ -12,6 +11,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { HOMEPAGE_ROUTE } from '~constants/routes'
 import { deletePost } from '~services/SpotlightApi'

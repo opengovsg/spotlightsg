@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { TriangleUpIcon } from '@chakra-ui/icons'
-import { Button, Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 type VoteButtonProps = {
   isVotedInitial: boolean
@@ -22,7 +23,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
     voteCountInitial + (isVoted ? 1 : 0) - (isVotedInitial ? 1 : 0)
   return (
     <Tooltip
-      label="Upvote if you’re facing the same challenge"
+      label="Upvote if you're facing the same challenge"
       hasArrow
       placement="top"
     >
@@ -38,6 +39,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
         py="5px"
         px="20px"
         onClick={onClick}
+        variant="clear"
       >
         <VStack>
           <TriangleUpIcon color={isVoted ? 'primary.700' : 'gray.300'} />

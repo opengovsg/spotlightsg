@@ -1,14 +1,7 @@
 import React from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Text,
-  Textarea,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, HStack, Input, Text, Textarea, VStack } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { editPost } from '~services/SpotlightApi'
 
@@ -98,7 +91,9 @@ const EditPostBody: React.FC<EditPostBodyProps> = ({
               )}
             />
             <HStack>
-              <Button onClick={onCancel}>Cancel</Button>
+              <Button onClick={onCancel} variant="outline">
+                Cancel
+              </Button>
               <Button type="submit" colorScheme="primary">
                 Save
               </Button>

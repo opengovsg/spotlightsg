@@ -7,8 +7,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button,
 } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 type DeletePostAlertProps = {
   isOpen: boolean
@@ -38,10 +38,10 @@ const DeletePostAlert: React.FC<DeletePostAlertProps> = ({
           Are you sure you want to delete the post permanently?
         </AlertDialogBody>
         <AlertDialogFooter>
-          <Button ref={cancelRef} onClick={onClose}>
+          <Button ref={cancelRef} onClick={onClose} variant="outline">
             No
           </Button>
-          <Button colorScheme="red" ml={3} onClick={onDelete}>
+          <Button colorScheme="danger" ml={3} onClick={onDelete}>
             Yes
           </Button>
         </AlertDialogFooter>

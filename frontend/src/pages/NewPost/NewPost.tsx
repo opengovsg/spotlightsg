@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Container,
   FormLabel,
   Input,
@@ -13,6 +12,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { HOMEPAGE_ROUTE, POST_ROUTE } from '~constants/routes'
 import { createPost } from '~services/SpotlightApi'

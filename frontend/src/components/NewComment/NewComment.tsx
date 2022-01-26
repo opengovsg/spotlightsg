@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Box, Button, Textarea, VStack } from '@chakra-ui/react'
+import { Box, Textarea, VStack } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { createComment } from '~services/SpotlightApi'
 

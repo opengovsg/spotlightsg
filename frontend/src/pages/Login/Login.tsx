@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Button,
   Center,
   Image,
   Input,
@@ -11,6 +10,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { useAuth } from '~/auth'
 import {

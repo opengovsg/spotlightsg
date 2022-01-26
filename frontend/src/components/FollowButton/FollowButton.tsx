@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Tooltip, useToast } from '@chakra-ui/react'
+import { Tooltip, useToast } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { followPost, unfollowPost } from '~services/SpotlightApi'
 

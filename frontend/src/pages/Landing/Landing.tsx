@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Center, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Center, SimpleGrid, Text, VStack } from '@chakra-ui/react'
+import { Button } from '@opengovsg/design-system-react'
 
 import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
