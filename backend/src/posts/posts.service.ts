@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { Post, User, Comment, PostAttributes, Follow } from '../database/models'
+import {
+  Post,
+  User,
+  Comment,
+  PostAttributes,
+  Follow,
+  Upvote,
+} from '../database/models'
 import _ from 'lodash'
 import { UserEmailDomain } from '../auth/types'
 import { PostWithLongDetails, PostWithShortDetails } from './types'
@@ -28,6 +35,8 @@ export class PostsService {
       commentsCount: number
       followsCount: number
       isFollowing: boolean
+      upvoteCount: number
+      hasBeenUpvoted: boolean
     })[]
   > {
     const models = await this.postModel.findAll({
@@ -43,6 +52,10 @@ export class PostsService {
           model: Follow,
           attributes: ['userId'],
         },
+        {
+          model: Upvote,
+          attributes: ['postId'],
+        },
       ],
     })
 
@@ -51,11 +64,17 @@ export class PostsService {
       commentsCount: model.comments.length,
       followsCount: model.follows.length,
       isFollowing: model.follows.some((follow) => follow.userId === user.id),
+      upvoteCount: model.upvotes.length,
+      hasBeenUpvoted: model.follows.some(
+        (upvotes) => upvotes.userId === user.id
+      ),
     })) as (PostAttributes & {
       user: User
       commentsCount: number
       followsCount: number
       isFollowing: boolean
+      upvoteCount: number
+      hasBeenUpvoted: boolean
     })[]
 
     return posts
@@ -78,6 +97,8 @@ export class PostsService {
         canManage: user.id === post.user.id,
         isFollowing: post.isFollowing,
         followsCount: post.followsCount,
+        upvoteCount: post.upvoteCount,
+        hasBeenUpvoted: post.hasBeenUpvoted,
       }
     })
   }
@@ -101,6 +122,10 @@ export class PostsService {
               attributes: ['email'],
             },
           ],
+        },
+        {
+          model: Upvote,
+          attributes: ['postId'],
         },
       ],
     })
@@ -132,6 +157,10 @@ export class PostsService {
         canManage: user.id === post.user.id,
         isFollowing: post.follows.some((follow) => follow.userId === user.id),
         followsCount: post.follows.length,
+        upvoteCount: post.upvotes.length,
+        hasBeenUpvoted: post.follows.some(
+          (upvote) => upvote.userId === user.id
+        ),
       }
     }
     return post
