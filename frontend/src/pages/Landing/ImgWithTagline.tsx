@@ -12,7 +12,12 @@ const ImgWithTagline: React.FC<ImgWithTaglineProps> = ({
   children,
 }) => {
   return (
-    <SimpleGrid columns={2} p="56px" gap="56px">
+    <SimpleGrid
+      columns={2}
+      p="56px"
+      gap="56px"
+      background={reverse ? 'white' : 'primary.100'}
+    >
       {reverse ? (
         <>
           <Center>

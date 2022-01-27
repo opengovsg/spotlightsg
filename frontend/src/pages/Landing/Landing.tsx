@@ -16,8 +16,8 @@ import ImgWithTagline from './ImgWithTagline'
 
 const getTagline = ({ title, text }: { title: string; text: string }) => (
   <Center h="100%">
-    <VStack>
-      <Text textStyle="h3" color="primary.500">
+    <VStack align="start">
+      <Text textStyle="display1" color="primary.500">
         {title}
       </Text>
       <Text>{text}</Text>
@@ -31,7 +31,7 @@ const Landing = (): JSX.Element => {
       <AppHeader />
       <ImgWithTagline imgSrc={mainimg}>
         <VStack align="start">
-          <Text textStyle="display2" color="primary.400">
+          <Text textStyle="display1" color="primary.500">
             Shining spotlight on problems faced by public officers
           </Text>
           <SimpleGrid
@@ -50,14 +50,14 @@ const Landing = (): JSX.Element => {
             <Text textStyle="h2">Replies From Other Public Officers</Text>
           </SimpleGrid>
           <Button as={Link} to={LOGIN_ROUTE} colorScheme="primary">
-            Find help for your problems
+            Start posting a problem
           </Button>
         </VStack>
       </ImgWithTagline>
       <ImgWithTagline imgSrc={search} reverse>
         {getTagline({
           title: 'View challenges that public officers face at work',
-          text: 'Post the technical challenges your face at work anonymously on Spotlight.',
+          text: 'Post the technical challenges your face at work anonymously on Spotlight and see what others have also posted',
         })}
       </ImgWithTagline>
       <ImgWithTagline imgSrc={upvote}>
