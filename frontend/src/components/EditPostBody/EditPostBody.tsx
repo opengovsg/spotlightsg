@@ -90,7 +90,7 @@ const EditPostBody: React.FC<EditPostBodyProps> = ({
                 </>
               )}
             />
-            <HStack>
+            <HStack justifyContent="flex-end">
               <Button onClick={onCancel} variant="outline">
                 Cancel
               </Button>

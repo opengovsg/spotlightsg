@@ -7,7 +7,7 @@ import { LOGIN_ROUTE } from '~constants/routes'
 import AppHeader from '~components/AppHeader'
 import OgpFooter from '~components/Footer'
 
-import lighthouse from '../../img/lighthouse.svg'
+import mainimg from '../../img/landing-main.svg'
 import search from '../../img/search.svg'
 import upvote from '../../img/upvote.svg'
 import workchat from '../../img/workchat.svg'
@@ -29,10 +29,10 @@ const Landing = (): JSX.Element => {
   return (
     <>
       <AppHeader />
-      <ImgWithTagline imgSrc={lighthouse}>
+      <ImgWithTagline imgSrc={mainimg}>
         <VStack align="start">
           <Text textStyle="display2" color="primary.400">
-            Shining a spotlight on problems faced by public officers
+            Shining spotlight on problems faced by public officers
           </Text>
           <SimpleGrid
             py="30px"

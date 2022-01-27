@@ -65,11 +65,11 @@ const Landing = (): JSX.Element => {
         <Flex justify="space-between" align="flex-start">
           <Box>
             <Text textStyle="display1" color="primary.400">
-              Have a problem?
+              Put problems in the spotlight.
             </Text>
             <Text textStyle="h4">
-              Search for existing problems faced by others or post a new problem
-              to seek for solutions
+              Browse tech problems other officers are facing or post a new one
+              to bring attention to it.
             </Text>
           </Box>
           <Button
@@ -78,7 +78,7 @@ const Landing = (): JSX.Element => {
             colorScheme="primary"
             leftIcon={<AddIcon />}
           >
-            Submit your problem
+            Post new problem
           </Button>
         </Flex>
         <Box pt="40px">

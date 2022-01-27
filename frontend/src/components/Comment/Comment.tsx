@@ -15,7 +15,7 @@ const Comment: React.FC<CommentProps> = ({ email, content, createdAt }) => {
     <Box borderWidth="1px" borderRadius="md" p="10px" background="white">
       <Text textStyle="body2" color="neutral.700">
         <Text as="span" fontWeight="bold">
-          someone
+          officer
         </Text>{' '}
         from{' '}
         <Text as="span" fontWeight="bold">

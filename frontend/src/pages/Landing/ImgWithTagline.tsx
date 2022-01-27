@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Image, SimpleGrid } from '@chakra-ui/react'
+import { Box, Center, Image, SimpleGrid } from '@chakra-ui/react'
 
 type ImgWithTaglineProps = {
   imgSrc: string
@@ -15,13 +15,21 @@ const ImgWithTagline: React.FC<ImgWithTaglineProps> = ({
     <SimpleGrid columns={2} p="56px" gap="56px">
       {reverse ? (
         <>
-          <Image src={imgSrc} />
-          <Box>{children}</Box>
+          <Center>
+            <Image src={imgSrc} />
+          </Center>
+          <Center>
+            <Box>{children}</Box>
+          </Center>
         </>
       ) : (
         <>
-          <Box>{children}</Box>
-          <Image src={imgSrc} />
+          <Center>
+            <Box>{children}</Box>
+          </Center>
+          <Center>
+            <Image src={imgSrc} />
+          </Center>
         </>
       )}
     </SimpleGrid>

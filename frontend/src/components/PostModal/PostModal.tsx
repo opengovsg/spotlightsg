@@ -29,7 +29,7 @@ const PostModal: React.FC<PostModalProps> = ({ id, isOpen, onClose }) => {
           <Post id={id ? parseInt(id) : undefined} />
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter justifyContent="flex-end">
           <Button colorScheme="primary" mr={3} onClick={onClose}>
             Close
           </Button>

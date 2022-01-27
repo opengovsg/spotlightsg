@@ -36,12 +36,10 @@ const VoteButton: React.FC<VoteButtonProps> = ({
         _active={{
           background: 'primary.200',
         }}
-        py="5px"
-        px="20px"
         onClick={onClick}
         variant="clear"
       >
-        <VStack>
+        <VStack spacing="0">
           <TriangleUpIcon color={isVoted ? 'primary.700' : 'gray.300'} />
           <Text fontWeight="bold" color="primary.700">
             {voteCount}

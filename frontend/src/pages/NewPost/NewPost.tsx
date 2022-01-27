@@ -63,7 +63,7 @@ const NewPost = (): JSX.Element => {
             </Button>
           </Box>
           <Text textStyle="display2" color="primary.500">
-            Describe your problem
+            Post a problem
           </Text>
           <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>

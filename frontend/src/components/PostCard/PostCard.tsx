@@ -55,12 +55,12 @@ const PostCard: React.FC<PostCardProps> = ({
       >
         <Box>
           <Flex justify="space-between" align="start">
-            <Box>
+            <Box mb="10px">
               <Text textStyle="h3">{title}</Text>
               <Text textStyle="body2" color="neutral.700">
                 submitted by{' '}
                 <Text as="span" fontWeight="bold">
-                  someone
+                  officer
                 </Text>{' '}
                 from{' '}
                 <Text as="span" fontWeight="bold">
@@ -69,7 +69,9 @@ const PostCard: React.FC<PostCardProps> = ({
                 {moment(createdAt).fromNow()}
               </Text>
             </Box>
-            <VoteButton isVotedInitial={false} voteCountInitial={0} />
+            <Box mb="10px">
+              <VoteButton isVotedInitial={false} voteCountInitial={0} />
+            </Box>
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
             {previewText}

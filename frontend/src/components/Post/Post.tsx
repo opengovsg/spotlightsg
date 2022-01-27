@@ -43,7 +43,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
         <>
           <Text textStyle="body2" color="neutral.700">
             <Text as="span" fontWeight="bold">
-              someone
+              officer
             </Text>{' '}
             from{' '}
             <Text as="span" fontWeight="bold">
