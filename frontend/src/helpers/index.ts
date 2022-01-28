@@ -17,7 +17,6 @@ export function filterPosts<T extends Post>(
   search: string,
   emailDomain?: string,
 ): T[] {
-  console.log('filter')
   // split search into words and filter by non-empty string
   const words = search
     .split(/\s/)
