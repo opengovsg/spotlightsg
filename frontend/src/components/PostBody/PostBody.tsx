@@ -15,27 +15,27 @@ import { Button } from '@opengovsg/design-system-react'
 
 import { HOMEPAGE_ROUTE } from '~constants/routes'
 import { deletePost } from '~services/SpotlightApi'
+import { Post } from '~services/types'
 import DeletePostAlert from '~components/DeletePostAlert'
 import FollowButton from '~components/FollowButton'
 import VoteButton from '~components/VoteButton'
 
 type PostBodyProps = {
-  postId: number
-  title: string
-  issue: string
-  actionsTaken: string
-  canManage: boolean
-  isFollowing: boolean
+  post: Post
   onEditClick: () => void
 }
 
 const PostBody: React.FC<PostBodyProps> = ({
-  postId,
-  title,
-  issue,
-  actionsTaken,
-  canManage,
-  isFollowing,
+  post: {
+    id,
+    title,
+    issue,
+    actionsTaken,
+    canManage,
+    isFollowing,
+    upvoteCount,
+    hasBeenUpvoted,
+  },
   onEditClick,
 }) => {
   const toast = useToast()
@@ -49,7 +49,7 @@ const PostBody: React.FC<PostBodyProps> = ({
 
   const onDelete = async () => {
     try {
-      await deletePost({ id: postId })
+      await deletePost({ id })
       toast({ title: `Post ${title} deleted`, status: 'info' })
       history.push(HOMEPAGE_ROUTE)
     } catch (error) {
@@ -65,7 +65,11 @@ const PostBody: React.FC<PostBodyProps> = ({
             {title}
           </Text>
         </Box>
-        <VoteButton isVotedInitial={false} voteCountInitial={0} />
+        <VoteButton
+          postId={id}
+          isVotedInitial={hasBeenUpvoted}
+          voteCountInitial={upvoteCount}
+        />
       </Flex>
       <Box>
         <Text textStyle="h4" color="primary.600">
@@ -106,7 +110,7 @@ const PostBody: React.FC<PostBodyProps> = ({
             Delete
           </Button>
         )}
-        <FollowButton isFollowingInitial={isFollowing} postId={postId} />
+        <FollowButton isFollowingInitial={isFollowing} postId={id} />
       </HStack>
     </VStack>
   )

@@ -66,12 +66,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
           ) : (
             <>
               <PostBody
-                postId={postWithComments.id}
-                title={postWithComments.title}
-                issue={postWithComments.issue}
-                actionsTaken={postWithComments.actionsTaken}
-                canManage={postWithComments.canManage}
-                isFollowing={postWithComments.isFollowing}
+                post={postWithComments}
                 onEditClick={() => setIsEditing(true)}
               />
               <Divider my="30px" />

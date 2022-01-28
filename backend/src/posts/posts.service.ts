@@ -54,7 +54,7 @@ export class PostsService {
         },
         {
           model: Upvote,
-          attributes: ['postId'],
+          attributes: ['userId'],
         },
       ],
     })
@@ -65,7 +65,7 @@ export class PostsService {
       followsCount: model.follows.length,
       isFollowing: model.follows.some((follow) => follow.userId === user.id),
       upvoteCount: model.upvotes.length,
-      hasBeenUpvoted: model.follows.some(
+      hasBeenUpvoted: model.upvotes.some(
         (upvotes) => upvotes.userId === user.id
       ),
     })) as (PostAttributes & {
@@ -125,7 +125,7 @@ export class PostsService {
         },
         {
           model: Upvote,
-          attributes: ['postId'],
+          attributes: ['userId'],
         },
       ],
     })
@@ -158,7 +158,7 @@ export class PostsService {
         isFollowing: post.follows.some((follow) => follow.userId === user.id),
         followsCount: post.follows.length,
         upvoteCount: post.upvotes.length,
-        hasBeenUpvoted: post.follows.some(
+        hasBeenUpvoted: post.upvotes.some(
           (upvote) => upvote.userId === user.id
         ),
       }

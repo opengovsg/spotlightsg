@@ -7,32 +7,29 @@ import moment from 'moment'
 import { prettifyEmailDomain } from '~/helpers'
 
 import { POST_ROUTE } from '~constants/routes'
+import { PostWithCommentsCount } from '~services/types'
 import FollowButton from '~components/FollowButton'
 import IconText from '~components/IconText'
 import VoteButton from '~components/VoteButton'
 
 type PostCardProps = {
-  id: number
-  createdAt: string
-  title: string
-  previewText: string
-  email: string
-  commentsCount: number
-  canManage: boolean
-  isFollowing: boolean
-  followsCount: number
+  post: PostWithCommentsCount
 }
 
 const PostCard: React.FC<PostCardProps> = ({
-  id,
-  createdAt,
-  title,
-  previewText,
-  email,
-  commentsCount,
-  canManage,
-  isFollowing,
-  followsCount,
+  post: {
+    id,
+    createdAt,
+    title,
+    issue,
+    user: { emailDomain },
+    commentsCount,
+    canManage,
+    isFollowing,
+    followsCount,
+    upvoteCount,
+    hasBeenUpvoted,
+  },
 }) => {
   const history = useHistory()
   const onClick = () => {
@@ -64,17 +61,21 @@ const PostCard: React.FC<PostCardProps> = ({
                 </Text>{' '}
                 from{' '}
                 <Text as="span" fontWeight="bold">
-                  {prettifyEmailDomain(email)}
+                  {prettifyEmailDomain(emailDomain)}
                 </Text>{' '}
                 {moment(createdAt).fromNow()}
               </Text>
             </Box>
             <Box mb="10px">
-              <VoteButton isVotedInitial={false} voteCountInitial={0} />
+              <VoteButton
+                postId={id}
+                isVotedInitial={hasBeenUpvoted}
+                voteCountInitial={upvoteCount}
+              />
             </Box>
           </Flex>
           <Text textStyle="subhead2" noOfLines={3}>
-            {previewText}
+            {issue}
           </Text>
         </Box>
         <Flex justify="space-between">

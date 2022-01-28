@@ -1,22 +1,45 @@
 import React, { useState } from 'react'
 import { TriangleUpIcon } from '@chakra-ui/icons'
-import { Text, Tooltip, VStack } from '@chakra-ui/react'
+import { Text, Tooltip, useToast, VStack } from '@chakra-ui/react'
 import { Button } from '@opengovsg/design-system-react'
 
+import { unupvotePost, upvotePost } from '~services/SpotlightApi'
+
 type VoteButtonProps = {
+  postId: number
   isVotedInitial: boolean
   voteCountInitial: number
 }
 
 const VoteButton: React.FC<VoteButtonProps> = ({
+  postId,
   isVotedInitial,
   voteCountInitial,
 }) => {
+  const toast = useToast()
   const [isVoted, setIsVoted] = useState(isVotedInitial)
 
-  const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     e.stopPropagation()
-    setIsVoted(!isVoted)
+    try {
+      if (isVoted) {
+        await unupvotePost({ postId })
+      } else {
+        await upvotePost({ postId })
+      }
+    } catch (error) {
+      const status = (error as any)?.response?.status
+      if (status !== 400 && status !== 404) {
+        toast({
+          title: (error as any)?.response?.data?.message,
+          status: 'error',
+        })
+      }
+    } finally {
+      setIsVoted(!isVoted)
+    }
   }
 
   const voteCount =

@@ -104,3 +104,17 @@ export function unfollowPost(params: { postId: number }): Promise<void> {
     .delete<void>('follow', { headers, data: params })
     .then((res) => res.data)
 }
+
+export function upvotePost(params: { postId: number }): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .post<void>('upvote', params, { headers })
+    .then((res) => res.data)
+}
+
+export function unupvotePost(params: { postId: number }): Promise<void> {
+  const headers = getAuthorizationHeader()
+  return baseConfig
+    .delete<void>('upvote', { headers, data: params })
+    .then((res) => res.data)
+}

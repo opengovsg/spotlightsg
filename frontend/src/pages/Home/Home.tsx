@@ -104,18 +104,7 @@ const Landing = (): JSX.Element => {
         </Box>
         <SimpleGrid columns={2} spacing="30px" pt="50px">
           {displayedPosts.map((post) => (
-            <PostCard
-              id={post.id}
-              createdAt={post.createdAt}
-              key={post.id}
-              title={post.title}
-              previewText={post.issue}
-              email={post.user.emailDomain}
-              commentsCount={post.commentsCount}
-              canManage={post.canManage}
-              isFollowing={post.isFollowing}
-              followsCount={post.followsCount}
-            />
+            <PostCard key={post.id} post={post} />
           ))}
         </SimpleGrid>
       </VStack>

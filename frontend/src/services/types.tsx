@@ -24,6 +24,8 @@ export type Post = {
   canManage: boolean
   isFollowing: boolean
   followsCount: number
+  upvoteCount: number
+  hasBeenUpvoted: boolean
 }
 
 export type Comment = {
