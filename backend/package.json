@@ -34,7 +34,7 @@
     "@nestjs/terminus": "^8.0.4",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
-    "aws-sdk": "^2.1058.0",
+    "aws-sdk": "^2.1089.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "convict": "^6.2.1",
